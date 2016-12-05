@@ -31,3 +31,5 @@ Your task is to:
      - Build and link the main program
      - Create an installer so the program can be installed properly (GNU standards)
      - Compile a parallel version with OpenMP
+
+We will also implement a test.
