@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Advanced concepts"
-teaching: 35
+teaching: 20
 exercises: 0
 questions:
   - "A question that this episode will answer?"

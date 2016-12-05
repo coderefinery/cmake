@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Basics"
-teaching: 45
+teaching: 20
 exercises: 0
 questions:
   - "A question that this episode will answer?"
