@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Versioning and reproducibility"
+title: "Exercise: Printing version info to output with CMake"
 teaching: 0
 exercises: 20
 questions:

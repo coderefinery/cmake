@@ -635,6 +635,7 @@ add_dependencies(mylib_static generate_file)
 ## Probing compilation
 
 ```cmake
+# provides check_fortran_source_compiles
 include(CheckFortranSourceCompiles)
 
 # read source file into variable _source
@@ -648,10 +649,10 @@ check_fortran_source_compiles(
 
 # based on result decide what to do
 if(COMPILER_SUPPORTS_ADVANCED_FEATURE)
-    message("-- Compiler supports advanced feature")
+    message(STATUS "Compiler supports advanced feature")
     add_definitions(-DUSE_ADVANCED_FEATURE)
 else()
-    message("-- WARNING: Compiler does not support advanced feature")
+    message(STATUS "WARNING: Compiler does not support advanced feature")
 endif()
 ```
 

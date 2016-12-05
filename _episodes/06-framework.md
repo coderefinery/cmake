@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Create a CMake framework for an example project"
+title: "Exercise: Create a CMake framework for an example project"
 teaching: 0
 exercises: 20
 questions:
