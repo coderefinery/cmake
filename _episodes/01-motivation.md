@@ -6,6 +6,7 @@ exercises: 0
 questions:
   - "I am already using Makefiles, do I need CMake?"
   - "Why CMake and not Autotools?"
+  - "I am a Python developer, why should I care?"
 objectives:
   - "Building software involves many layers of tools. The objective is to be able to place CMake in this stack."
 keypoints:
@@ -91,3 +92,10 @@ Popular:
 
 General:
 - Not bound to the generation of Makefiles
+
+---
+
+## Note to Python developers
+
+One day you might need to implement low-level operations to your Python library
+in Fortran or C or C++ and then CMake can come in handy.
