@@ -1,125 +1,106 @@
 ---
 layout: episode
 title: "Hello-world example"
-teaching: 20
+teaching: 10
 exercises: 0
 questions:
-  - "A question that this episode will answer?"
-  - "Another question?"
+  - "How are CMake projects configured and built?"
+  - "What is an out of source compilation?"
 objectives:
-  - "This is one objective of this episode."
-  - "This is another objective of this episode."
-  - "Yet another objective."
-  - "And not to forget this objective."
+  - "Learn how to configure and build CMake projects."
 keypoints:
-  - "This is an important key point."
-  - "Another important key point."
-  - "One more key point."
+  - "We always compile out of source."
+  - "The name and path of the build directory can be changed."
+  - "When configuring we point CMake at the location of the CMakeLists.txt file."
 ---
 
 ## Hello-world example
 
-- We have a `hello.F90` program and wish to compile it to `hello.x`
-- We create a file called `CMakeLists.txt` which contains
+We start with a Fortran program:
 
-```cmake
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+```fortran
+program hello
 
-project(HelloWorld)
+    implicit none
 
-enable_language(Fortran)
+    print *, 'hello!'
 
-add_executable(hello.x hello.F90)
+end program
 ```
 
----
+Create a fresh directory and save the Fortran code to a file called
+`hello.f90`.
 
-- We configure the project
+We wish to compile this code to `hello.x`.
+
+For this we create a file called `CMakeLists.txt` which contains:
+
+```cmake
+# stop if cmake version is below 2.8
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+
+# project name
+project(hello)
+
+# we enable Fortran support
+enable_language(Fortran)
+
+# we define the executable and its dependencies
+add_executable(hello.x hello.f90)
+```
+
+Now we create a build directory (out of source compilation), change to it,
+and configure the project:
 
 ```shell
 $ mkdir build
 $ cd build/
 $ cmake ..
 
--- The Fortran compiler identification is GNU
--- Check for working Fortran compiler: /usr/bin/f95
--- Check for working Fortran compiler: /usr/bin/f95  -- works
+-- The C compiler identification is GNU 6.2.1
+-- The CXX compiler identification is GNU 6.2.1
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- The Fortran compiler identification is GNU 6.2.1
+-- Check for working Fortran compiler: /usr/bin/gfortran
+-- Check for working Fortran compiler: /usr/bin/gfortran  -- works
 -- Detecting Fortran compiler ABI info
 -- Detecting Fortran compiler ABI info - done
--- Checking whether /usr/bin/f95 supports Fortran 90
--- Checking whether /usr/bin/f95 supports Fortran 90 -- yes
+-- Checking whether /usr/bin/gfortran supports Fortran 90
+-- Checking whether /usr/bin/gfortran supports Fortran 90 -- yes
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/user/example/build
 ```
 
-- We compile the code
+Now we are ready to compile the code:
 
 ```shell
 $ make
 
 Scanning dependencies of target hello.x
-[100%] Building Fortran object CMakeFiles/hello.x.dir/hello.F90.o
-Linking Fortran executable hello.x
+[ 50%] Building Fortran object CMakeFiles/hello.x.dir/hello.f90.o
+[100%] Linking Fortran executable hello.x
 [100%] Built target hello.x
 ```
 
-- We are done
-- In the following we will learn what happened here behind the scenes
+Done. In the following we will learn what happened here behind the scenes.
 
 ---
 
-## Building a Fortran project
+## Name and location of the build directory
 
-- We have a simple Fortran project consisting of 3 files (`main.F90`, `foo.F90`, and `bar.F90`):
-
-```fortran
-program main
-
-   use foo, only: print_foo
-   use bar, only: print_bar
-
-   implicit none
-
-   call print_foo()
-   call print_bar()
-
-end program
-```
-
----
-
-## Building a Fortran project
-
-- We can build them with the following simple `CMakeLists.txt`:
-
-```cmake
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-
-project(MyProject)
-
-enable_language(Fortran)
-
-# this is where we will place the Fortran module files
-set(CMAKE_Fortran_MODULE_DIRECTORY ${PROJECT_BINARY_DIR}/modules)
-
-# the executable is built from 3 source files
-add_executable(
-    myproject.x
-    main.F90
-    foo.F90
-    bar.F90
-    )
-```
-
-- We can list the source files in any order
-- We do not have to worry about module dependencies
-
----
-
-## Building a Fortran project
-
-- We build the project
+We have configured and compiled the code like this:
 
 ```shell
 $ mkdir build
@@ -128,41 +109,18 @@ $ cmake ..
 $ make
 ```
 
-- There is nothing special about `build/` - we can do this instead:
+But there is nothing special about `build/` - we could have done this instead:
 
 ```shell
+$ mkdir -p /tmp/debug
 $ cd /tmp/debug
 $ cmake /path/to/source
 $ make
 ```
 
 - CMake looks for `CMakeLists.txt` and processes this file
-- CMake puts everything into `${PROJECT_BINARY_DIR}`, does not pollute `${PROJECT_SOURCE_DIR}`
-- We can build different binaries with the same source!
-
----
-
-## Multi-language projects
-
-- It is easy to support other languages (C, CXX):
-
-```cmake
-project(language-mix)
-
-enable_language(Fortran CXX)
-
-# tell CMake where to find header files
-include_directories(${PROJECT_SOURCE_DIR}/include)
-
-add_executable(
-    mix.x
-    mix/main.F90
-    mix/sub.cpp
-    mix/baz.c
-    )
-
-set_property(TARGET mix.x PROPERTY LINKER_LANGUAGE Fortran)
-```
-
-- That was easy
-- But how can we select the compiler?
+- CMake puts everything into `${PROJECT_BINARY_DIR}` and does not pollute `${PROJECT_SOURCE_DIR}`
+- We can build different binaries with the same source:
+  - Sequential and parallel builds
+  - Debug build or optimized build
+  - Production and debugging compilations
