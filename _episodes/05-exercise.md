@@ -219,13 +219,84 @@ Linking Fortran executable myproject.x
 - Useful for maintenance of larger projects
 - Simplifies and speeds up (re)compilation because we limit possible dependencies
 
-
-
-
-
+---
 
 ## Archaeology: Recover previous configuration settings
 
 - Configuration settings are saved in `${PROJECT_BINARY_DIR}/CMakeCache.txt`
 
 ---
+
+## Configuring files
+
+- We can configure files
+
+```cmake
+configure_file(
+    ${PROJECT_SOURCE_DIR}/infile
+    ${PROJECT_BINARY_DIR}/outfile
+    @ONLY
+    )
+```
+
+- CMake takes `${PROJECT_SOURCE_DIR}/infile`:
+
+```shell
+My system is @CMAKE_SYSTEM_NAME@ and my
+processor is @CMAKE_HOST_SYSTEM_PROCESSOR@.
+```
+
+- And generates `${PROJECT_BINARY_DIR}/outfile`:
+
+```shell
+My system is Linux and my
+processor is x86_64.
+```
+
+---
+
+## Presenting options to the user
+
+```cmake
+# default is OFF
+option(ENABLE_MPI "Enable MPI parallelization" OFF)
+
+if(ENABLE_MPI)
+    message("MPI is enabled")
+else()
+    message("MPI is disabled")
+endif()
+```
+
+- We can select options on the command line:
+
+```shell
+$ cd build
+$ cmake -DENABLE_MPI=ON ..
+$ make
+```
+
+- These options become automatically available in GUI/ccmake
+
+---
+
+## Good way to set defaults
+
+```cmake
+set(MAX_BUFFER "1024" CACHE STRING "Max buffer size")
+
+# this is passed on to the code we compile
+add_definitions(-DMAX_BUFFER=${MAX_BUFFER})
+
+message(STATUS "Set max buffer to ${MAX_BUFFER}")
+```
+
+- We can override them from the command line
+
+```shell
+$ cmake ..
+-- Set max buffer to 1024
+
+$ cmake -DMAX_BUFFER=2048 ..
+-- Set max buffer to 2048
+```

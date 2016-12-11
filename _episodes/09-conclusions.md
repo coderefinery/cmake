@@ -1,11 +1,12 @@
 ---
 layout: episode
-title: "Conclusions"
+title: "Conclusions and outlook"
 teaching: 5
 exercises: 0
 questions:
   - "What can we take home?"
   - "Any critical views?"
+  - "What have we skipped?"
 ---
 
 ## Conclusions
