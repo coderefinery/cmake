@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Language constructs"
-teaching: 20
+teaching: 10
 exercises: 0
 questions:
   - "A question that this episode will answer?"

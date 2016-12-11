@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Advanced concepts"
-teaching: 20
+teaching: 0
 exercises: 0
 questions:
   - "A question that this episode will answer?"
@@ -904,23 +904,6 @@ add_dependencies(pfunit git_update)
 
 ---
 
-template: inverse
-
-# Black-belt stuff
-
----
-
-## Cross-compilation
-
-- Software is built for a different system than the one which does the build
-- CMake cannot autodetect the target system
-- Usually the executables do not run on the build host
-- The build process has to use a different set of include files and libraries for building, i.e. not the native ones
-- CMake variables need to be preset in a toolchain file
-- http://www.cmake.org/Wiki/CMake_Cross_Compiling
-
----
-
 ## CMake modes
 
 - Normal mode
@@ -934,18 +917,3 @@ template: inverse
     - Used to execute a CMake script which is not a `CMakeLists.txt`
 
 - Interactive mode: `cmake -i`
-
----
-
-## Conclusions
-
-- Powerful cross-platform build systems generator
-- Very good reference-style documentation
-- For larger projects you probably want to write a lightweight scaffold around CMake
-- Examples discussed in this talk can be found in: https://github.com/bast/cmake-example
-
-### Critique
-
-- Absolute paths (you cannot move a configured project to a different path)
-- Very few good .and. free CMake tutorials
-- "Mastering CMake" book is not freely available as online version

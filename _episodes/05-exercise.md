@@ -1,8 +1,8 @@
 ---
 layout: episode
-title: "Organizing larger projects"
-teaching: 20
-exercises: 0
+title: "Exercise: Create a CMake framework for an example project"
+teaching: 0
+exercises: 40
 questions:
   - "A question that this episode will answer?"
   - "Another question?"
@@ -15,6 +15,46 @@ keypoints:
   - "This is an important key point."
   - "Another important key point."
   - "One more key point."
+---
+
+In this exercise we will CMake-ify a project.
+This is interesting for people who use Makefiles
+or Autotools.
+
+You can use the exercise time to practice CMake on your own
+project(s) but we also provide a mockup project:
+https://github.com/juselius/vat-69.git
+
+Your task is to:
+ - Create a build system using CMake:
+     - Build a shared library
+     - Build and link the main program
+     - Create an installer so the program can be installed properly (GNU standards)
+     - Compile a parallel version with OpenMP
+
+We will also implement a test.
+
+
+Create a small CMake-built project (C or C++ or Fortran)
+
+Define the project version as a CMake variable.  In this project try to get the
+configure-time Git hash and the project version into the output of the code.
+
+
+---
+
+## Building a Fortran project
+
+- We can list the source files in any order
+- We do not have to worry about module dependencies
+
+---
+
+## Multi-language projects
+
+- It is easy to support other languages (C, CXX):
+- But how can we select the compiler?
+
 ---
 
 ## Organizing larger projects: includes
@@ -178,3 +218,14 @@ Linking Fortran executable myproject.x
 
 - Useful for maintenance of larger projects
 - Simplifies and speeds up (re)compilation because we limit possible dependencies
+
+
+
+
+
+
+## Archaeology: Recover previous configuration settings
+
+- Configuration settings are saved in `${PROJECT_BINARY_DIR}/CMakeCache.txt`
+
+---

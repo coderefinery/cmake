@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Motivation"
-teaching: 10
+teaching: 5
 exercises: 0
 questions:
   - "I am already using Makefiles, do I need CMake?"
