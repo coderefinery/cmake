@@ -1,32 +1,26 @@
 ---
 layout: episode
 title: "Compilers and compiler flags"
-teaching: 20
+teaching: 10
 exercises: 0
 questions:
-  - "A question that this episode will answer?"
-  - "Another question?"
+  - "How can we select the compiler?"
+  - "How can we change compiler flags?"
 objectives:
-  - "This is one objective of this episode."
-  - "This is another objective of this episode."
-  - "Yet another objective."
-  - "And not to forget this objective."
-keypoints:
-  - "This is an important key point."
-  - "Another important key point."
-  - "One more key point."
+  - "Learn how to display and change compilers and compiler flags."
 ---
 
-## How to set the compiler
+## How to specify the compiler
 
-- We set the compilers like this:
+We can speciy the compilers like this:
 
 ```shell
+$ cd build
 $ FC=gfortran CC=gcc CXX=g++ cmake ..
 $ make
 ```
 
-- Or via export:
+Or by exporting the corresponding environment variables:
 
 ```shell
 $ export FC=gfortran
@@ -58,8 +52,9 @@ endif()
 ...
 ```
 
-- Similarly you can set `CMAKE_C_FLAGS` and `CMAKE_CXX_FLAGS`
-- This is how we set CPP definitions:
+Similarly you can set `CMAKE_C_FLAGS` and `CMAKE_CXX_FLAGS`.
+
+This is how we set preprocessor definitions:
 
 ```cmake
 add_definitions(-DVAR_SOMETHING -DENABLE_DEBUG -DTHIS_DIMENSION=137)
@@ -69,7 +64,13 @@ add_definitions(-DVAR_SOMETHING -DENABLE_DEBUG -DTHIS_DIMENSION=137)
 
 ## Controlling the build type
 
-- We can select the build type on the command line:
+CMake distinguishes the following build types `${CMAKE_BUILD_TYPE}`:
+- Debug
+- Release
+- RelWithDebInfo
+- MinSizeRel
+
+We can select the build type on the command line:
 
 ```shell
 $ cd build
@@ -77,7 +78,7 @@ $ cmake -DCMAKE_BUILD_TYPE=Debug ..
 $ make
 ```
 
-- It is often useful to set
+It is often useful to set:
 
 ```cmake
 # we default to Release build type
@@ -90,11 +91,12 @@ endif()
 
 ## See actual compiler flags and link line
 
-- The default compilation output is nice and compact
-- But sometimes we want to see the current compiler flags and the gory compiler output
+The default compilation output is nice and compact.
+But sometimes we want to see the current compiler flags and the gory compiler output:
 
 ```shell
+$ make clean
 $ make VERBOSE=1
 ```
 
-- The link line is saved in `CMakeFiles/<target>.dir/link.txt`
+The link line is saved in `CMakeFiles/<target>.dir/link.txt`.
