@@ -16,20 +16,19 @@ keypoints:
 
 ## Hello-world example
 
-We start with a Fortran program:
+We start with a C++ program:
 
-```fortran
-program hello
+```cpp
+#include <iostream>
 
-    implicit none
-
-    print *, 'hello!'
-
-end program
+int main()
+{
+    std::cout << "Hello World!" << std::endl;
+}
 ```
 
 Create a fresh directory and save the Fortran code to a file called
-`hello.f90`.
+`hello.cpp`.
 
 We wish to compile this code to `hello.x`.
 
@@ -43,10 +42,10 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 project(hello)
 
 # we enable Fortran support
-enable_language(Fortran)
+enable_language(CXX)
 
 # we define the executable and its dependencies
-add_executable(hello.x hello.f90)
+add_executable(hello.x hello.cpp)
 ```
 
 Now we create a build directory (out of source compilation), change to it,
@@ -71,13 +70,6 @@ $ cmake ..
 -- Detecting CXX compiler ABI info - done
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- The Fortran compiler identification is GNU 6.2.1
--- Check for working Fortran compiler: /usr/bin/gfortran
--- Check for working Fortran compiler: /usr/bin/gfortran  -- works
--- Detecting Fortran compiler ABI info
--- Detecting Fortran compiler ABI info - done
--- Checking whether /usr/bin/gfortran supports Fortran 90
--- Checking whether /usr/bin/gfortran supports Fortran 90 -- yes
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /home/user/example/build
@@ -89,8 +81,8 @@ Now we are ready to compile the code:
 $ make
 
 Scanning dependencies of target hello.x
-[ 50%] Building Fortran object CMakeFiles/hello.x.dir/hello.f90.o
-[100%] Linking Fortran executable hello.x
+[ 50%] Building CXX object CMakeFiles/hello.x.dir/hello.cpp.o
+[100%] Linking CXX executable hello.x
 [100%] Built target hello.x
 ```
 
