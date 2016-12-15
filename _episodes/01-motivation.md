@@ -17,8 +17,8 @@ keypoints:
 
 ## Why are many projects using Makefiles?
 
-- Why not just writing a script that will compile and link everything?
-- Discuss with the group
+Why not just writing a script that will compile and link everything?
+Discuss with the group.
 
 ---
 
@@ -32,11 +32,11 @@ Motivation for using Makefiles:
 Advantages:
 - Simple and many people are comfortable with it
 - Portable across Unix, Linux, and Mac OS X
-- Old and very well tested
+- Has been around for a very long time and is very well tested
 
 Disadvantages:
 - Relatively low-level
-- Portability is a problem (impossible to port to Windows)
+- Portability is a problem (Windows; not sure about Windows 10)
 - Typically needs to be configured (you either have to offer a configure script or offer several Makefiles)
 - Difficult to handle multi-language projects
 - Difficult to manage projects that depend on many libraries
