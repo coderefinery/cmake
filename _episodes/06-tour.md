@@ -64,3 +64,39 @@ else()
     message(STATUS "WARNING: Compiler does not support advanced feature")
 endif()
 ```
+
+---
+
+## Source code generation
+
+- Example: we want to use Python to autogenerate C++ code
+
+```cmake
+# find python
+find_package(PythonInterp)
+if(NOT PYTHONINTERP_FOUND)
+    message(FATAL_ERROR "ERROR: Python interpreter not found.")
+endif()
+
+# generate the file
+add_custom_target(
+    generate_file
+    COMMAND ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/src/generate.py >
+                                     ${PROJECT_BINARY_DIR}/mylib_generated.cpp
+    )
+
+# mark the file as generated
+set_source_files_properties(
+    ${PROJECT_BINARY_DIR}/mylib_generated.cpp
+    PROPERTIES GENERATED 1)
+
+# build library
+add_library(
+    mylib_static
+    STATIC
+    src/mylib.cpp
+    ${PROJECT_BINARY_DIR}/mylib_generated.cpp
+    )
+
+add_dependencies(mylib_static generate_file)
+```
