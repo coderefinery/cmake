@@ -23,6 +23,7 @@ $ make
 Or by exporting the corresponding environment variables:
 
 ```shell
+$ cd build
 $ export FC=gfortran
 $ export CC=gcc
 $ export CXX=g++

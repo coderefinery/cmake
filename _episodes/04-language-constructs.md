@@ -56,7 +56,7 @@ set(FRUITS ${FRUITS} grapes)
 
 ## Branching
 
-Note the possibly unusual parentheses in `else()` and `endif()`:
+Note the unusual parentheses in `else()` and `endif()`:
 
 ```cmake
 if(CURRENT_WEATHER STREQUAL "sunny day")

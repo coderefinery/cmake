@@ -14,7 +14,8 @@ objectives:
 A CMake Generator is responsible for writing the input files for a native build
 system.
 
-The list of CMake generators is long - Unix Makefiles is only one of them.
+The list of CMake generators is long and Unix Makefiles is only one of them.
+
 CMake makes it possible to use the native build environment.
 
 Command-line build tool generators:
