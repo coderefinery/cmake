@@ -226,26 +226,241 @@ $ make
 
 ## Build the unit tests and link against [Google Test](https://github.com/google/googletest).
 
+Save this to `cmake/tests.cmake`:
 
+```cmake
+include(ExternalProject)
+
+ExternalProject_Add(
+    gtest
+    PREFIX "${PROJECT_BINARY_DIR}/gtest"
+    GIT_REPOSITORY https://github.com/google/googletest.git
+    GIT_TAG master
+    INSTALL_COMMAND true  # currently no install command
+    )
+
+include_directories(${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include)
+include_directories(${PROJECT_SOURCE_DIR}/src)
+
+link_directories(${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/)
+
+add_executable(
+    unit_tests
+    test/main.cpp
+    test/fizz_buzz.cpp
+    )
+
+target_link_libraries(
+    unit_tests
+    libgtest.a
+    fizz_buzz
+    pthread
+    )
+
+add_dependencies(unit_tests gtest)
+
+include(CTest)
+enable_testing()
+
+add_test(unit ${PROJECT_BINARY_DIR}/unit_tests)
+```
+
+And we do not forget to reference it in the main `CMakeLists.txt`:
+
+```cmake
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+
+project(fizz-buzz)
+
+enable_language(CXX)
+enable_language(Fortran)
+
+# tell CMake where to find *.cmake module files
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
+
+include(arch)
+
+add_subdirectory(src)
+
+include(tests)
+```
+
+We will enhance this a bit: We add an option and an if check to be able to toggle
+compilation of unit tests on or off:
+
+```cmake
+option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
+message(STATUS "Enable testing: ${ENABLE_UNIT_TESTS}")
+
+if(ENABLE_UNIT_TESTS)
+    include(ExternalProject)
+
+    ExternalProject_Add(
+        gtest
+        PREFIX "${PROJECT_BINARY_DIR}/gtest"
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG master
+        INSTALL_COMMAND true  # currently no install command
+        )
+
+    include_directories(${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include)
+    include_directories(${PROJECT_SOURCE_DIR}/src)
+
+    link_directories(${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/)
+
+    add_executable(
+        unit_tests
+        test/main.cpp
+        test/fizz_buzz.cpp
+        )
+
+    target_link_libraries(
+        unit_tests
+        libgtest.a
+        fizz_buzz
+        pthread
+        )
+
+    add_dependencies(unit_tests gtest)
+
+    include(CTest)
+    enable_testing()
+
+    add_test(unit ${PROJECT_BINARY_DIR}/unit_tests)
+endif()
+```
+
+Now try:
+
+```shell
+$ make
+$ make test
+$ ./unit_tests
+```
 
 ---
 
 ## Define a version number inside CMake and print it to the output of the executable.
 
+Create a file `cmake/config.h.in`:
+
+```shell
+#define VERSION_MAJOR @VERSION_MAJOR@
+#define VERSION_MINOR @VERSION_MINOR@
+#define VERSION_PATCH @VERSION_PATCH@
+```
+
+Create a file `cmake/version.cmake`:
+
+```cmake
+set(VERSION_MAJOR 1)
+set(VERSION_MINOR 0)
+set(VERSION_PATCH 0)
+
+configure_file(
+    ${PROJECT_SOURCE_DIR}/cmake/config.h.in
+    ${PROJECT_BINARY_DIR}/generated/config.h
+    @ONLY
+    )
+```
+
+Also include it in the main `CMakeLists.txt`.
+
+We also need to add `include_directories(${PROJECT_BINARY_DIR}/generated)` to `src/CMakeLists.txt`.
+
+Include `config.h` in `src/main.cpp` and try to print the code version.
 
 ---
 
 ## Print the Git hash to the output of the executable.
 
+For this we enhance `cmake/config.h.in`:
+
+```shell
+#define VERSION_MAJOR @VERSION_MAJOR@
+#define VERSION_MINOR @VERSION_MINOR@
+#define VERSION_PATCH @VERSION_PATCH@
+#define GIT_HASH "@GIT_HASH@"
+```
+
+As well as `cmake/version.cmake`:
+
+```cmake
+set(VERSION_MAJOR 1)
+set(VERSION_MINOR 0)
+set(VERSION_PATCH 0)
+
+set(GIT_HASH "unknown")
+
+find_package(Git)
+if(GIT_FOUND)
+    execute_process(
+        COMMAND ${GIT_EXECUTABLE} --no-pager show -s --pretty=format:%h -n 1
+        OUTPUT_VARIABLE GIT_HASH
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        ERROR_QUIET
+        )
+endif()
+
+configure_file(
+    ${PROJECT_SOURCE_DIR}/cmake/config.h.in
+    ${PROJECT_BINARY_DIR}/generated/config.h
+    @ONLY
+    )
+```
+
+Try to now print the configure-time Git hash in `src/main.cpp`.
 
 ---
 
 ## Create an installer so the program can be installed properly (GNU standards).
 
+Append the following to `src/CMakeLists.txt`:
+
+```cmake
+install(
+    TARGETS fb.x
+    RUNTIME DESTINATION bin
+    )
+
+install(
+    TARGETS fizz_buzz
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+    )
+```
+
+Then try the following:
+
+```shell
+$ mkdir build
+$ cd build
+$ cmake -DCMAKE_INSTALL_PREFIX=/tmp/cmake-example
+$ make
+$ make test
+$ make install
+```
 
 ---
 
 ## Create a DEB or RPM package (if relevant for your distribution).
 
+Include a `cmake/packager.cmake`:
 
+```cmake
+set(CPACK_PACKAGE_CONTACT "Slim Shady")
 
+include(CPack)
+```
+
+Then run:
+
+```cmake
+$ cpack -G DEB
+```
+
+or:
+
+```cmake
+$ cpack -G RPM
+```
