@@ -1,27 +1,19 @@
 ---
 layout: episode
 title: "A tour of more advanced concepts"
-teaching: 0
+teaching: 5
 exercises: 0
 questions:
-  - "A question that this episode will answer?"
-  - "Another question?"
+  - "What else is possible?"
 objectives:
-  - "This is one objective of this episode."
-  - "This is another objective of this episode."
-  - "Yet another objective."
-  - "And not to forget this objective."
-keypoints:
-  - "This is an important key point."
-  - "Another important key point."
-  - "One more key point."
+  - "Provide a resource for more advanced concepts."
 ---
 
 ## Detecting CUDA
 
 ```cmake
 # uses FindCUDA.cmake
-find_package(CUDA) # uses FindCUDA.cmake
+find_package(CUDA)
 
 if(CUDA_FOUND)
     set(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-gencode arch=compute_20,code=sm_20)
