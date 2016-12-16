@@ -27,14 +27,17 @@ Discuss with the group.
 Makefiles express targets and their dependencies and are a popular way to compile software.
 
 Motivation for using Makefiles:
+
 - Express dependencies and let Make rebuild those targets and dependencies which are out of date
 
 Advantages:
+
 - Simple and many people are comfortable with it
 - Portable across Unix, Linux, and Mac OS X
 - Has been around for a very long time and is very well tested
 
 Disadvantages:
+
 - Relatively low-level
 - Portability is a problem (Windows; not sure about Windows 10)
 - Typically needs to be configured (you either have to offer a configure script or offer several Makefiles)
@@ -65,32 +68,39 @@ Disadvantages:
 ## Why CMake?
 
 Separation of source and build path:
+
 - Out-of-source compilation (possibility to compile several builds with the same source)
 
 Portability:
+
 - Really cross-platform (Linux, Mac, Windows, AIX, iOS, Android)
 - CMake defines portable variables about the system
 - Cross-platform system- and library-discovery
 
 Language support:
+
 - Excellent support for Fortran, C, C++, and Java, as well as mixed-language projects
 - CMake understands Fortran 90 dependencies very well; no need to program a dependency scanner
 - Excellent support for multi-component and multi-library projects
 
 Supports modular code development:
+
 - Makes it possible and relatively easy to download, configure, build, install, and link external modules
 
 Provides tools:
+
 - Generates user interface (command-line or text-UI or GUI)
 - Full-fledged testing and packaging framework with CTest and CPack
 - CTest uses a Makefile (possible to run tests with -jN)
 - Personal opinion: easier than Autotools
 
 Popular:
+
 - We are in a good company: CMake is used by many prominent projects:
   MySQL, Boost, VTK, Blender, KDE, LyX, Mendeley, MikTeX, Compiz, Google Test, ParaView, Second Life, Avogadro, and many more ...
 
 General:
+
 - Not bound to the generation of Makefiles
 
 ---
