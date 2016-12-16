@@ -280,6 +280,8 @@ enable_testing()
 add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
 ```
 
+Also include this file in the main `CMakeLists.txt`:
+
 ```cmake
 # ... rest of CMakeLists.txt
 
@@ -287,7 +289,7 @@ include(arch)
 
 add_subdirectory(src)
 
-include(tests)
+include(tests)  # we added this line
 ```
 
 Now try:
