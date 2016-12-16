@@ -79,6 +79,11 @@ You can also browse them [on the web](https://github.com/bast/fizz-buzz).
 - Create an installer so the program can be installed properly (GNU standards).
 - Create a DEB or RPM package (if relevant for your distribution).
 
+
+### Solution
+
+You can find a solution on the [solution branch](https://github.com/bast/fizz-buzz/tree/solution).
+
 ---
 
 ## Building the sources
@@ -93,14 +98,49 @@ project(fizz-buzz)
 enable_language(CXX)
 enable_language(Fortran)
 
+# specify where to place binaries and libraries
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
+    ${CMAKE_BINARY_DIR}/bin
+    )
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
+    ${CMAKE_BINARY_DIR}/lib
+    )
+
 add_subdirectory(src)
 ```
 
 We also create a file `src/CMakeLists.txt` containing:
 
 ```cmake
+add_executable(
+    fb.x
+    main.cpp
+    fizz_buzz.f90
+    fizz_buzz.h
+    divisible.f90
+    )
+```
+
+```shell
+$ mkdir build
+$ cd build
+$ cmake ..
+$ make
+
+Scanning dependencies of target fb.x
+[ 25%] Building Fortran object src/CMakeFiles/fb.x.dir/divisible.f90.o
+[ 50%] Building Fortran object src/CMakeFiles/fb.x.dir/fizz_buzz.f90.o
+[ 75%] Building CXX object src/CMakeFiles/fb.x.dir/main.cpp.o
+[100%] Linking CXX executable ../bin/fb.x
+[100%] Built target fb.x
+```
+
+Let us rewrite the `src/CMakeLists.txt` a bit to isolate the library, we also ask for a shared library:
+
+```cmake
 add_library(
     fizz_buzz
+    SHARED
     fizz_buzz.f90
     fizz_buzz.h
     divisible.f90
@@ -117,35 +157,6 @@ target_link_libraries(
     )
 ```
 
-```shell
-$ mkdir build
-$ cd build
-$ cmake ..
-$ make
-
-Scanning dependencies of target fizz_buzz
-[ 20%] Building Fortran object src/CMakeFiles/fizz_buzz.dir/divisible.f90.o
-[ 40%] Building Fortran object src/CMakeFiles/fizz_buzz.dir/fizz_buzz.f90.o
-[ 60%] Linking Fortran static library libfizz_buzz.a
-[ 60%] Built target fizz_buzz
-Scanning dependencies of target fb.x
-[ 80%] Building CXX object src/CMakeFiles/fb.x.dir/main.cpp.o
-[100%] Linking CXX executable fb.x
-[100%] Built target fb.x
-```
-
-Let us change one thing to get a shared library: In `src/CMakeLists.txt` lest us modify:
-
-```cmake
-add_library(
-    fizz_buzz
-    SHARED  # we add this line
-    fizz_buzz.f90
-    fizz_buzz.h
-    divisible.f90
-    )
-```
-
 And recompile:
 
 ```shell
@@ -153,14 +164,20 @@ $ make
 
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/bast/tmp/fizz/build
+-- Build files have been written to: /home/bast/tmp/fizz-buzz/build
+Scanning dependencies of target fizz_buzz
 [ 20%] Building Fortran object src/CMakeFiles/fizz_buzz.dir/divisible.f90.o
 [ 40%] Building Fortran object src/CMakeFiles/fizz_buzz.dir/fizz_buzz.f90.o
-[ 60%] Linking Fortran shared library libfizz_buzz.so
+[ 60%] Linking Fortran shared library ../lib/libfizz_buzz.so
 [ 60%] Built target fizz_buzz
-[ 80%] Linking CXX executable fb.x
+Scanning dependencies of target fb.x
+[ 80%] Building CXX object src/CMakeFiles/fb.x.dir/main.cpp.o
+[100%] Linking CXX executable ../bin/fb.x
 [100%] Built target fb.x
 ```
+
+We have now managed to compile a binary to `build/bin/fb.x` and a shared
+library to `build/lib/libfizz_buzz.so`.
 
 ---
 
@@ -198,22 +215,20 @@ endif()
 Now we need to include this in the main `CMakeLists.txt`:
 
 ```cmake
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-
-project(fizz-buzz)
-
-enable_language(CXX)
-enable_language(Fortran)
+# ... rest of CMakeLists.txt
 
 # tell CMake where to find *.cmake module files
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH
+    ${CMAKE_MODULE_PATH}
+    ${PROJECT_SOURCE_DIR}/cmake
+    )
 
 include(arch)
 
 add_subdirectory(src)
 ```
 
-Then try it out. On my system I get:
+Then try it out. On Mac, the warning should be gone. On my system I get:
 
 ```shell
 $ make
@@ -262,31 +277,11 @@ add_dependencies(unit_tests gtest)
 include(CTest)
 enable_testing()
 
-add_test(unit ${PROJECT_BINARY_DIR}/unit_tests)
+add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
 ```
 
-And we do not forget to reference it in the main `CMakeLists.txt`:
-
-```cmake
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
-
-project(fizz-buzz)
-
-enable_language(CXX)
-enable_language(Fortran)
-
-# tell CMake where to find *.cmake module files
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
-
-include(arch)
-
-add_subdirectory(src)
-
-include(tests)
-```
-
-We will enhance this a bit: We add an option and an if check to be able to toggle
-compilation of unit tests on or off:
+We will enhance this a bit: We indent the code and add an option and an if
+check to be able to toggle compilation of unit tests on or off:
 
 ```cmake
 option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
@@ -326,7 +321,7 @@ if(ENABLE_UNIT_TESTS)
     include(CTest)
     enable_testing()
 
-    add_test(unit ${PROJECT_BINARY_DIR}/unit_tests)
+    add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
 endif()
 ```
 
@@ -335,7 +330,17 @@ Now try:
 ```shell
 $ make
 $ make test
-$ ./unit_tests
+$ ./bin/unit_tests
+```
+
+What is the difference between `make test` and `./bin/unit_tests`?
+
+Having the option we could now toggle the unit testing off:
+
+```shell
+$ cd build
+$ cmake -DENABLE_UNIT_TESTS=OFF ..
+$ make
 ```
 
 ---
