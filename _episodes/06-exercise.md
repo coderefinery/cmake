@@ -280,6 +280,26 @@ enable_testing()
 add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
 ```
 
+```cmake
+# ... rest of CMakeLists.txt
+
+include(arch)
+
+add_subdirectory(src)
+
+include(tests)
+```
+
+Now try:
+
+```shell
+$ make
+$ make test
+$ ./bin/unit_tests
+```
+
+What is the difference between `make test` and `./bin/unit_tests`?
+
 We will enhance this a bit: We indent the code and add an option and an if
 check to be able to toggle compilation of unit tests on or off:
 
@@ -324,16 +344,6 @@ if(ENABLE_UNIT_TESTS)
     add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
 endif()
 ```
-
-Now try:
-
-```shell
-$ make
-$ make test
-$ ./bin/unit_tests
-```
-
-What is the difference between `make test` and `./bin/unit_tests`?
 
 Having the option we could now toggle the unit testing off:
 
