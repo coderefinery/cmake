@@ -19,6 +19,7 @@ The list of CMake generators is long and Unix Makefiles is only one of them.
 CMake makes it possible to use the native build environment.
 
 Command-line build tool generators:
+
 - Borland Makefiles
 - MSYS Makefiles
 - MinGW Makefiles
@@ -29,6 +30,7 @@ Command-line build tool generators:
 - Watcom WMake
 
 IDE build tool generators:
+
 - Visual Studio 6
 - Visual Studio 7
 - Visual Studio 7 .NET 2003
@@ -40,6 +42,7 @@ IDE build tool generators:
 - Xcode
 
 Extra generators:
+
 - CodeBlocks
 - CodeLite
 - Eclipse CDT4
