@@ -37,6 +37,6 @@ $ cmake --help-command add_custom_command
 
 ---
 
-## Useful links
+## Useful resource
 
 - [List of CMake variables](https://cmake.org/Wiki/CMake_Useful_Variables)
