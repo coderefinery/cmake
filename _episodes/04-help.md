@@ -40,4 +40,3 @@ $ cmake --help-command add_custom_command
 ## Useful links
 
 - [List of CMake variables](https://cmake.org/Wiki/CMake_Useful_Variables)
-

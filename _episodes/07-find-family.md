@@ -28,12 +28,12 @@ questions:
 option(ENABLE_MPI "Enable MPI" OFF)
 
 if(ENABLE_MPI)
-    find_package(MPI) # uses FindMPI.cmake
+    find_package(MPI)  # uses FindMPI.cmake
     if(MPI_FOUND)
         include_directories(${MPI_INCLUDE_PATH})
         add_definitions(-DENABLE_MPI)
     else()
-        message(FATAL_ERROR "-- Could not find any MPI installation, check $PATH")
+        message(FATAL_ERROR "Could not find any MPI installation, check $PATH")
     endif()
 endif()
 ```
