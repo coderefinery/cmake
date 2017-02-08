@@ -122,6 +122,36 @@ LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
 
 ```
 
+These variables should be recognizable. These are often inputs to make as part of a build process. You can see what their defaults are by searching in the 'make -p' output (CXX is set to c++, CXXFLAGS is unset)
+
+Let us say we want to keep our nameing of "whatever".x as the target executable. We can copy the implicit rule to that. In addition we use a variable for our target:
+
+```make
+TARGET = hello.x
+
+%.x: %.cpp
+	$(LINK.cpp) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+hello.x: hello.cpp
+
+.PHONY: clean
+clean:
+	rm $(TARGET)
+
+```
+What are these auteomatic variables? There is six automatic variable which make expand in the following way:
+$@ - expands to the filname representing target, our case hello.x
+$^ - the filenames of all prerequisites separated by white spaces, our case only hello.cpp
+$< - the filename of the  first prerequisite
+$* - The stem of the target filename ( a filename without is suffix)
+$? - The names of all prerequisites that are newer than the target, separated by spaces
+$% - The finale element of an archive member specification
+$+ - Similar to $^, except that $+ includes duplicates
+
+What is next? We are building our 
+
+
+
 
 
 
@@ -129,7 +159,7 @@ LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
 Now we create a build directory (out of source compilation), change to it,
 and configure the project:
 
-```shell
+```
 $ mkdir build
 $ cd build/
 $ cmake ..
