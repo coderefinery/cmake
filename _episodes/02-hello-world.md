@@ -32,16 +32,16 @@ int main()
 Create a fresh directory and save the C++ code to a file called
 `hello.cpp`.
 
-We wish to compile this code to `hello.x`.
+We wish to compile this code to `hello`.
 
 We start out with a very simple Makefile contains:
 
 ```make
-hello.x: hello.cpp
-	g++ hello.cpp -o hello.x
+hello: hello.cpp
+	g++ hello.cpp -o hello
 ```
 
-The Makefile states that the targe "hello.x" depends on the file "hello.cpp". The statment 'g++ hello.cpp -o hello.x' is the (shell)-command that produce (we often say 'build') the target from the dependents(or prerequisites).
+The Makefile states that the targe "hello" depends on the file "hello.cpp". The statment 'g++ hello.cpp -o hello' is the (shell)-command that produce (we often say 'build') the target from the dependents(or prerequisites).
 
 A Makefile contains a set of rules on the form:
 
@@ -55,6 +55,7 @@ target2: prereq21 prereq22
 
 target3: prereq31 target1
 	 commands
+	 commands
 
 # Important: 'commands' is preceded by a <tab>, not white spaces.
 
@@ -62,12 +63,64 @@ target3: prereq31 target1
 The first rule is the default rule and the one executed when just write 'make'.
 
 
-Let us develope our simple example further. We should be able to remove the targets withou to much fuzz. 'rm hello.x' seems efficient enough in the example, but as our code base, and the accordingly dependency graph for the code as well, things will be more complicated. 
+Let us develope our simple example further. We should be able to remove the targets withou to much fuzz. 'rm hello' seems efficient enough in the example, but as our code base, and the accordingly dependency graph for the code as well, things will be more complicated. 
 
 The establish practice is to use the target 'clean' for removing targets. Here:
 ```make
+hello: hello.cpp
+	g++ hello.cpp -o hello
 
- 
+clean:
+	rm hello
+```
+
+'clean' is a phony target (phoney = not real or true, trying to trick people :-). We see that 'clean' have no prerequisites. Consequently it will always be executed, unless.... try this:
+```shell
+make 
+touch clean
+make clean
+make
+```
+ If the targets exists, like here where made an empty file named 'clean', the command will be never run because it is always up to date. To remedy this, we state the target 'clean' as phony:
+```make
+hello: hello.cpp
+	g++ hello.cpp -o hello
+
+.PHONY: clean           # make is case-sensitive, .phony will not to the trick
+clean:
+	rm hello
+```
+
+When we do 'make clean', our target 'hello', is removed despite that there is a file named 'clean' in the directory. By stating targets as phoney, we can get shell commands executed, either as mean in it self, or as part of a prerequisite to other targets.
+
+There is a range of implicit rules in make. In fact is our simple Makefile overspecified, we can make use of make's implicit rule about C++ files:
+```make
+hello: hello.cpp
+
+.PHONY: clean
+clean:
+	rm hello
+```
+
+The magic going on here is shown by 'make -p' or 'make --print-data-base'. If you redirect this to a file 'make -p > make-dbase.txt', you can take a look at the implicit rules governing the build process. Open the file 'make-dbase.txt' in a editor and search for %.cpp
+
+You should find something like:
+```make
+%.cpp:
+
+%: %.cpp
+#  commands to execute (built-in):
+	$(LINK.cpp) $^ $(LOADLIBES) $(LDLIBS) -o $@
+```
+
+This implicit rule show how a target which is the stem of a .cpp file, our case the target 'hello', will be built. The build process expand the three variables $(LINK).cpp, $(LOADLIBES) $(LDLIBS) as well as the two automatic variables $^, $@. For now, let us look at $(LINK.cpp), by searching for LINK.cc  ( Searching for LINK.cpp, will show that it is equal LINK.cc).
+
+```make
+
+LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
+
+
+```
 
 
 
