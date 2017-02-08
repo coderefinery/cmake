@@ -4,16 +4,14 @@ title: "Hello-world example"
 teaching: 10
 exercises: 0
 questions:
-  - "How do make work?"
-  - "What is implicit rules, suffixes, different types of variables?"
+  - "How are CMake projects configured and built?"
   - "What is an out of source compilation?"
 objectives:
-  - "Learn how to configure and build simple Make files."
+  - "Learn how to configure and build CMake projects."
 keypoints:
-  - "We start by compiling in source directory, 
-  - "The object files can be built in a separate subdirectory."
-  - "Source can reside in a separate src directory"
-  - "Make dependencies can be regenerated"
+  - "We always compile out of source."
+  - "The name and path of the build directory can be changed."
+  - "When configuring we point CMake at the location of the CMakeLists.txt file."
 ---
 
 ## Hello-world example
@@ -29,50 +27,27 @@ int main()
 }
 ```
 
-Create a fresh directory and save the C++ code to a file called
+Create a fresh directory and save the Fortran code to a file called
 `hello.cpp`.
 
 We wish to compile this code to `hello.x`.
 
-We start out with a very simple Makefile contains:
+For this we create a file called `CMakeLists.txt` which contains:
 
-```make
-hello.x: hello.cpp
-	g++ hello.cpp -o hello.x
+```cmake
+# stop if cmake version is below 2.8
+cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+
+# project name
+project(hello)
+
+# we enable Fortran support
+enable_language(CXX)
+
+# we define the executable and its dependencies
+add_executable(hello.x hello.cpp)
 ```
 
-The Makefile states that the targe "hello.x" depends on the file "hello.cpp". The statment 'g++ hello.cpp -o hello.x' is the (shell)-command that produce (we often say 'build') the target from the dependents(or prerequisites).
-
-A Makefile contains a set of rules on the form:
-
-```make
-#rule 1
-target1: prereq1 prereq2
-	 commands
-
-target2: prereq21 prereq22
-	 commands
-
-target3: prereq31 target1
-	 commands
-
-# Important: 'commands' is preceded by a <tab>, not white spaces.
-
-```
-The first rule is the default rule and the one executed when just write 'make'.
-
-
-Let us develope our simple example further. We should be able to remove the targets withou to much fuzz. 'rm hello.x' seems efficient enough in the example, but as our code base, and the accordingly dependency graph for the code as well, things will be more complicated. 
-
-The establish practice is to use the target 'clean' for removing targets. Here:
-```make
-
- 
-
-
-
-
-.
 Now we create a build directory (out of source compilation), change to it,
 and configure the project:
 
