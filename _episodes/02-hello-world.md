@@ -37,11 +37,11 @@ We wish to compile this code to `hello`.
 We start out with a very simple Makefile contains:
 
 ```make
-hello: hello.cpp
+hello.x: hello.cpp
 	g++ hello.cpp -o hello
 ```
 
-The Makefile states that the targe "hello" depends on the file "hello.cpp". The statment 'g++ hello.cpp -o hello' is the (shell)-command that produce (we often say 'build') the target from the dependents(or prerequisites).
+The Makefile states that the targe "hello.x" depends on the file "hello.cpp". The statment 'g++ hello.cpp -o hello' is the (shell)-command that produce (we often say 'build') the target from the dependents(or prerequisites).
 
 A Makefile contains a set of rules on the form:
 
@@ -67,14 +67,14 @@ Let us develope our simple example further. We should be able to remove the targ
 
 The establish practice is to use the target 'clean' for removing targets. Here:
 ```make
-hello: hello.cpp
+hello.x: hello.cpp
 	g++ hello.cpp -o hello
 
 clean:
-	rm hello
+	rm hello.x
 ```
 
-'clean' is a phony target (phoney = not real or true, trying to trick people :-). We see that 'clean' have no prerequisites. Consequently it will always be executed, unless.... try this:
+'clean' is a phony target (phony = not real or true, trying to trick people :-). We see that 'clean' have no prerequisites. Consequently it will always be executed, unless.... try this:
 ```shell
 make 
 touch clean
@@ -83,15 +83,15 @@ make
 ```
  If the targets exists, like here where made an empty file named 'clean', the command will be never run because it is always up to date. To remedy this, we state the target 'clean' as phony:
 ```make
-hello: hello.cpp
+hello.x: hello.cpp
 	g++ hello.cpp -o hello
 
-.PHONY: clean           # make is case-sensitive, .phony will not to the trick
+.PHONY: clean           # make is case-sensitive, .phony will not do the trick
 clean:
-	rm hello
+	rm hello.x
 ```
 
-When we do 'make clean', our target 'hello', is removed despite that there is a file named 'clean' in the directory. By stating targets as phoney, we can get shell commands executed, either as mean in it self, or as part of a prerequisite to other targets.
+When we do 'make clean', our target 'hello.x', is removed despite that there is a file named 'clean' in the directory. By stating targets as phoney, we can get shell commands executed, either as mean in it self, or as part of a prerequisite to other targets.
 
 There is a range of implicit rules in make. In fact is our simple Makefile overspecified, we can make use of make's implicit rule about C++ files:
 ```make
@@ -124,7 +124,7 @@ LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
 
 These variables should be recognizable. These are often inputs to make as part of a build process. You can see what their defaults are by searching in the 'make -p' output (CXX is set to c++, CXXFLAGS is unset)
 
-Let us say we want to keep our nameing of "whatever".x as the target executable. We can copy the implicit rule to that. In addition we use a variable for our target:
+Let us say we want to keep our nameing of "whatever".x as the target executable. We can copy the implicit rule to making new rule for this naming convention. In addition we use a variable for our target:
 
 ```make
 TARGET = hello.x
@@ -132,14 +132,14 @@ TARGET = hello.x
 %.x: %.cpp
 	$(LINK.cpp) $^ $(LOADLIBES) $(LDLIBS) -o $@
 
-hello.x: hello.cpp
+$(TARGET): hello.cpp
 
 .PHONY: clean
 clean:
 	rm $(TARGET)
 
 ```
-What are these auteomatic variables? There is six automatic variable which make expand in the following way:
+What are these automatic variables? There is six automatic variable which make expand in the following way:
 $@ - expands to the filname representing target, our case hello.x
 $^ - the filenames of all prerequisites separated by white spaces, our case only hello.cpp
 $< - the filename of the  first prerequisite
@@ -148,7 +148,7 @@ $? - The names of all prerequisites that are newer than the target, separated by
 $% - The finale element of an archive member specification
 $+ - Similar to $^, except that $+ includes duplicates
 
-What is next? We are building our 
+We are building our executable in the source directory, in the directory where hello.cpp resides. It is better to separate the source from the executables and the object files. How do we accomplish that? 
 
 
 
