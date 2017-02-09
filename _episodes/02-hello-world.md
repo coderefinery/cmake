@@ -170,15 +170,98 @@ clean:
 ```
  To accomplish the separation of executables/object files from source file, we introduce a two-phase compilation. First we produce the object files, or object file in our case, and then we link to an executable. The target './build/hello.x' depends on './build/hello.o'. We change the prerequisite for '%.x' from '%.cpp' to '%.o'. We add a commands for how to produce './build/*.o'. The build command is copied from the 'make -p' output and is equal to the build command for '%.o : %.cpp'.
 
-Was this really an improvement? For build a target only depending on one source file, probably not. If our target depends on several source files, this is a step in the right direction, but we can do further improvements.
+Was this really an improvement? For build a target only depending on one source file, probably not. If our target depends on several source files, this is a step in the right direction, but we can do further improvements. 
 
 ```make
+TARGET = hello.x
 
+SRC = src
+BUILD_DIR = build
+
+SRCS= $(wildcard *.cpp)
+OBJ = $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
+DEPS = $(OBJ:%.o=%.d)
+
+$(TARGET) : $(BUILD_DIR)/$(TARGET)
+
+$(BUILD_DIR)/$(TARGET): $(OBJ)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
+
+$(BUILD_DIR)/%.o : %.cpp
+	mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@ $(INC)
+
+.PHONY: clean
+clean:
+	rm -rf $(BUILD_DIR)
 
 
 
 ```
 
+Now is the build statements general, and we can keep all changes in the upper part of the Makefile
+```make
+# -- variable part in the start
+CXX = clang++
+
+GTEST_HOME = $(HOME)/local/googletest
+INC = -I $(GTEST_HOME) -I $(GTEST_HOME)/include -I . -I ../src -I$(HOME)/src/c++/include
+LDLIBS = $(GTEST_HOME)/lib/libgtest.a
+LDFLAGS = 
+CXXFLAGS = -std=c++11 -pthread
+
+TARGET = vnorm_p_test
+
+
+# ---- static part below here ---
+BUILD_DIR = ./build
+SRCS = $(wildcard *.cpp)
+OBJ = $(SRCS:%.cpp=$(BUILD_DIR)/%.o)
+DEPS = $(OBJ:%.o=%.d)
+
+$(TARGET) : $(BUILD_DIR)/$(TARGET)
+
+$(BUILD_DIR)/$(TARGET) : $(OBJ)
+	mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
+
+$(BUILD_DIR)/%.o : %.cpp
+	mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) -c $< -o $@ $(INC)
+```
+
+
+Here is an example from the 'trenches':
+'''make
+CXX = `libmesh-config --cxx`
+
+CXXFLAGS = `libmesh-config --cxxflags` -fpermissive `python2.7-config --cflags`
+
+LIBS = -L/sw/sdev/Modules/intelcomp/psxe_2015/composer_xe_2015.1.133/compiler/lib/intel64/ -L/sw/sdev/Modules/gcc/gcc-4.8.2/lib64 -larmadillo `python2.7-config --ldflags`  `libmesh-config --libs`
+#LIBS = -L/sw/sdev/Modules/gcc/gcc-6.2.0/lib64 -larmadillo `python2.7-config --ldflags`  `libmesh-config --libs`
+
+#INC = `libmesh-config --include` -I/home/ntnu/gordona/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.12/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.12/lib/python2.7/site-packages/numpy-1.11.1-py2.7-linux-x86_64.egg/numpy/core/include/numpy/
+INC = `libmesh-config --include` -I/home/ntnu/gordona/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.9/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.9/lib/python2.7/site-packages/numpy/core/include/numpy/
+
+SRCS = main.cpp nonlinearsolver.cpp jacobian2.cpp MVConverter.cpp BCS.cpp spincurrent.cpp BChandler.cpp externalflux.cpp residual.cpp compute_RJ.cpp wrap.cpp Connection.cpp compute_output.cpp Exchange.cpp
+OBJS = $(SRCS:.cpp=.o)
+NAME = Executables/Usadel_0512
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+		$(CXX) -o $@ $(CXXFLAGS) $(LIBS) $(INC) $(OBJS)
+
+.cpp.o: $(SRCS)
+		$(CXX) -c $< $(CXXFLAGS) $(LIBS) $(INC)
+
+build: $(SRCS)
+		$(CXX) -o $(NAME) $(FILES) $(CXXFLAGS) $(LIBS) $(INC)
+
+```
+## Task
+1 Restructure this makefile according to the template or your own preferences.
+2 Discuss the problems with this Makefile. Identify the two most severe problems here.
 
 
 

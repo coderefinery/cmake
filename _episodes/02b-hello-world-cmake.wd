@@ -13,7 +13,8 @@ keypoints:
   - "The name and path of the build directory can be changed."
   - "When configuring we point CMake at the location of the CMakeLists.txt file."
 ---
-
+## CMake Motivation
+When you move your application or code base to another platform, you will need to modify your Makefiles. If your software is used on several platforms, you easily end up doing almost identical modifications in several places. On Microsoft Windows you may have to use a separate build systems. Your changes in the Makefiles do not necessary apply to Microsoft Windows
 ## Hello-world example
 
 We start with a C++ program:
@@ -27,7 +28,7 @@ int main()
 }
 ```
 
-Create a fresh directory and save the Fortran code to a file called
+Create a fresh directory and save the C++ code to a file called
 `hello.cpp`.
 
 We wish to compile this code to `hello.x`.
@@ -41,7 +42,7 @@ cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 # project name
 project(hello)
 
-# we enable Fortran support
+# we enable C++ support
 enable_language(CXX)
 
 # we define the executable and its dependencies
