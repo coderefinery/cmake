@@ -12,7 +12,6 @@ objectives:
 keypoints:
   - "We start by compiling in source directory, 
   - "The object files can be built in a separate subdirectory."
-  - "Source can reside in a separate src directory"
   - "Make dependencies can be regenerated"
 ---
 
@@ -260,8 +259,8 @@ build: $(SRCS)
 
 ```
 ## Task
-1 Restructure this makefile according to the template or your own preferences.
-2 Discuss the problems with this Makefile. Identify the two most severe problems here.
+#one Restructure this makefile according to the template or your own preferences.
+#twoDiscuss the problems with this Makefile. Identify the two most severe problems here.
 
 
 
