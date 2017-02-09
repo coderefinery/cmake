@@ -232,7 +232,7 @@ $(BUILD_DIR)/%.o : %.cpp
 
 
 Here is an example from the 'trenches':
-'''make
+```make
 CXX = `libmesh-config --cxx`
 
 CXXFLAGS = `libmesh-config --cxxflags` -fpermissive `python2.7-config --cflags`
@@ -267,72 +267,3 @@ build: $(SRCS)
 
 
 
-.
-Now we create a build directory (out of source compilation), change to it,
-and configure the project:
-
-```
-$ mkdir build
-$ cd build/
-$ cmake ..
-
--- The C compiler identification is GNU 6.2.1
--- The CXX compiler identification is GNU 6.2.1
--- Check for working C compiler: /usr/bin/cc
--- Check for working C compiler: /usr/bin/cc -- works
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Detecting C compile features
--- Detecting C compile features - done
--- Check for working CXX compiler: /usr/bin/c++
--- Check for working CXX compiler: /usr/bin/c++ -- works
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Detecting CXX compile features
--- Detecting CXX compile features - done
--- Configuring done
--- Generating done
--- Build files have been written to: /home/user/example/build
-```
-
-Now we are ready to compile the code:
-
-```shell
-$ make
-
-Scanning dependencies of target hello.x
-[ 50%] Building CXX object CMakeFiles/hello.x.dir/hello.cpp.o
-[100%] Linking CXX executable hello.x
-[100%] Built target hello.x
-```
-
-Done. In the following we will learn what happened here behind the scenes.
-
----
-
-## Name and location of the build directory
-
-We have configured and compiled the code like this:
-
-```shell
-$ mkdir build
-$ cd build/
-$ cmake ..
-$ make
-```
-
-But there is nothing special about `build/` - we could have done this instead:
-
-```shell
-$ mkdir -p /tmp/debug
-$ cd /tmp/debug
-$ cmake /path/to/source
-$ make
-```
-
-- CMake looks for `CMakeLists.txt` and processes this file
-- CMake puts everything into `${PROJECT_BINARY_DIR}` and does not pollute `${PROJECT_SOURCE_DIR}`
-- We can build different binaries with the same source:
-  - Sequential and parallel builds
-  - Debug build or optimized build
-  - Production and debugging compilations
