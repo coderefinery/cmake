@@ -148,7 +148,36 @@ $? - The names of all prerequisites that are newer than the target, separated by
 $% - The finale element of an archive member specification
 $+ - Similar to $^, except that $+ includes duplicates
 
-We are building our executable in the source directory, in the directory where hello.cpp resides. It is better to separate the source from the executables and the object files. How do we accomplish that? 
+We are building our executable in the source directory, in the directory where hello.cpp resides. It is better to separate the source from the executables and the object files. How do we accomplish that?
+
+```make
+TARGET = hello.x
+BUILD_DIR = ./build
+
+%.x: %.o
+	$(LINK.cpp) $^ $(LOADLIBES) $(LDLIBS) -o $@
+
+$(BUILD_DIR)/$(TARGET): $(BUILD_DIR)/hello.o
+
+
+$(BUILD_DIR)/%.o : %.cpp
+	mkdir -p $(@D)
+	$(COMPILE.cc) $(OUTPUT_OPTION) $<
+
+.PHONY: clean
+clean:
+	rm -rf $(BUILD_DIR)
+```
+ To accomplish the separation of executables/object files from source file, we introduce a two-phase compilation. First we produce the object files, or object file in our case, and then we link to an executable. The target './build/hello.x' depends on './build/hello.o'. We change the prerequisite for '%.x' from '%.cpp' to '%.o'. We add a commands for how to produce './build/*.o'. The build command is copied from the 'make -p' output and is equal to the build command for '%.o : %.cpp'.
+
+Was this really an improvement? For build a target only depending on one source file, probably not. If our target depends on several source files, this is a step in the right direction, but we can do further improvements.
+
+```make
+
+
+
+
+```
 
 
 
