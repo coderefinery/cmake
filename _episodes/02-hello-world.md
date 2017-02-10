@@ -10,7 +10,7 @@ questions:
 objectives:
   - "Learn how to configure and build simple Make files."
 keypoints:
-  - "We start by compiling in source directory, 
+  - "We start by compiling in source directory" 
   - "The object files can be built in a separate subdirectory."
   - "Make dependencies can be regenerated"
 ---
