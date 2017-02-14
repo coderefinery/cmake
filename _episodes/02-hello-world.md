@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Hello-world example"
-teaching: 10
+teaching: 30
 exercises: 0
 questions:
   - "How do make work?"
@@ -13,6 +13,7 @@ keypoints:
   - "We start by compiling in source directory" 
   - "The object files can be built in a separate subdirectory."
   - "Make dependencies can be regenerated"
+  - "A simple but useable Makefile which can be used for smaller projects"
 ---
 
 ## Hello-world example
