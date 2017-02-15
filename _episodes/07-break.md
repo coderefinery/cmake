@@ -7,4 +7,6 @@ questions:
 
 ---
 
-## *BREAK*
+## Break
++ Grab a coffee or tea
++ Get some fresh air

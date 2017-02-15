@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Variables, lists, loops, and branching"
-teaching: 10
+teaching: 20
 exercises: 0
 questions:
   - "Is CMake a full-fledged programming language?"
@@ -65,7 +65,40 @@ else()
     message("Better stay inside the house.")
 endif()
 ```
+Write this to a CMakeLists.txt and execute cmake in a subdirectory, like this:
+```shell
+$ mkdir build
+$ cd build
+$ cmake ..
+-- The C compiler identification is AppleClang 7.3.0.7030031
+-- The CXX compiler identification is AppleClang 7.3.0.7030031
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+Better stay inside the house.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/bjornlin/tmp/cmake/build
 
+```
+Let us take the other branch by setting the variable ${CURRENT_WEATHER}. Here from the commmand line:
+```shell
+$ cmake -DCURRENT_WEATHER="sunny day" ..
+Today is a sunny day. Let us go for a walk.
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/bjornlin/tmp/cmake/build
+
+```
 ---
 
 ## Functions and macros

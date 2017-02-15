@@ -140,13 +140,13 @@ clean:
 
 ```
 What are these automatic variables? There is six automatic variable which make expand in the following way:
-$@ - expands to the filname representing target, our case hello.x
-$^ - the filenames of all prerequisites separated by white spaces, our case only hello.cpp
-$< - the filename of the  first prerequisite
-$* - The stem of the target filename ( a filename without is suffix)
-$? - The names of all prerequisites that are newer than the target, separated by spaces
-$% - The finale element of an archive member specification
-$+ - Similar to $^, except that $+ includes duplicates
++ $@ - expands to the filname representing target, our case hello.x
++ $^ - the filenames of all prerequisites separated by white spaces, our case only hello.cpp
++ $< - the filename of the  first prerequisite
++ $* - The stem of the target filename ( a filename without is suffix)
++ $? - The names of all prerequisites that are newer than the target, separated by spaces
++ $% - The finale element of an archive member specification
++ $+ - Similar to $^, except that $+ includes duplicates
 
 We are building our executable in the source directory, in the directory where hello.cpp resides. It is better to separate the source from the executables and the object files. How do we accomplish that?
 
