@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Variables, lists, loops, and branching"
+title: "Branching, variables, lists and loops"
 teaching: 20
 exercises: 0
 questions:
@@ -11,49 +11,6 @@ objectives:
 keypoints:
   - "CMake allows you to structure your code as you are used from other languages."
 ---
-
-## Messages to the user (or to you)
-
-Useful for debugging CMake files:
-
-```cmake
-# display message
-message("We are right here.")
-
-# display STATUS message with a -- in the command line
-message(STATUS "Still everything under control ...")
-
-# display message and halt configuration
-message(FATAL_ERROR "Something unexpected happened!")
-```
-
----
-
-## Variables, lists, and loops
-
-```cmake
-set(CURRENT_WEATHER "sunny day")
-
-message("We'll meet again some ${CURRENT_WEATHER} ...")
-
-set(FRUITS apple banana orange kiwi mango)
-
-foreach(fruit ${FRUITS})
-    message("${fruit} is a tasty fruit")
-endforeach()
-```
-
-You can append to sets like this:
-
-```cmake
-set(FRUITS apple banana orange kiwi mango)
-
-# we add grapes to the list of fruits
-set(FRUITS ${FRUITS} grapes)
-```
-
----
-
 ## Branching
 
 Note the unusual parentheses in `else()` and `endif()`:
@@ -99,6 +56,47 @@ Today is a sunny day. Let us go for a walk.
 -- Build files have been written to: /Users/bjornlin/tmp/cmake/build
 
 ```
+
+## Messages to the user (or to you)
+
+Useful for debugging CMake files:
+
+```cmake
+# display message
+message("We are right here.")
+
+# display STATUS message with a -- in the command line
+message(STATUS "Still everything under control ...")
+
+# display message and halt configuration
+message(FATAL_ERROR "Something unexpected happened!")
+```
+
+---
+
+## Variables, lists, and loops
+
+```cmake
+set(CURRENT_WEATHER "sunny day")
+
+message("We'll meet again some ${CURRENT_WEATHER} ...")
+
+set(FRUITS apple banana orange kiwi mango)
+
+foreach(fruit ${FRUITS})
+    message("${fruit} is a tasty fruit")
+endforeach()
+```
+
+You can append to sets like this:
+
+```cmake
+set(FRUITS apple banana orange kiwi mango)
+
+# we add grapes to the list of fruits
+set(FRUITS ${FRUITS} grapes)
+```
+
 ---
 
 ## Functions and macros
