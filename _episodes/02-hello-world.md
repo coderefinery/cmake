@@ -13,7 +13,7 @@ keypoints:
   - "We start by compiling in source directory" 
   - "The object files can be built in a separate subdirectory."
   - "Make dependencies can be regenerated"
-  - "A simple but useable Makefile which can be used for smaller projects"
+  - "A simple but usable Makefile which can be used for smaller projects"
 ---
 
 ## Hello-world example
@@ -40,6 +40,11 @@ We start out with a very simple Makefile contains:
 hello.x: hello.cpp
 	g++ hello.cpp -o hello
 ```
+The contains of your newly created subdirectory should look like this:
+```shell
+$ ls
+Makefile	hello.cpp
+```
 
 The Makefile states that the targe "hello.x" depends on the file "hello.cpp". The statment 'g++ hello.cpp -o hello' is the (shell)-command that produce (we often say 'build') the target from the dependents(or prerequisites).
 
@@ -63,7 +68,7 @@ target3: prereq31 target1
 The first rule is the default rule and the one executed when just write 'make'.
 
 
-Let us develope our simple example further. We should be able to remove the targets withou to much fuzz. 'rm hello' seems efficient enough in the example, but as our code base, and the accordingly dependency graph for the code as well, things will be more complicated. 
+Let us develope our simple example further. We should be able to remove the targets withou to much fuzz. 'rm hello' seems efficient enough in the example, but as our code base grow things will be more complicated. 
 
 The establish practice is to use the target 'clean' for removing targets. Here:
 ```make
@@ -91,11 +96,12 @@ clean:
 	rm hello.x
 ```
 
-When we do 'make clean', our target 'hello.x', is removed despite that there is a file named 'clean' in the directory. By stating targets as phoney, we can get shell commands executed, either as mean in it self, or as part of a prerequisite to other targets.
-
+When we do 'make clean', our target 'hello.x', is removed despite that there is a file named 'clean' in the directory. By stating targets as phony, we can get shell commands executed, either as mean in it self, or as part of a prerequisite to other targets.
+---
+## Implicit rules
 There is a range of implicit rules in make. In fact is our simple Makefile overspecified, we can make use of make's implicit rule about C++ files:
 ```make
-hello: hello.cpp
+hello: hello.cpp  #note that we changed the name of the target from hello.x to hello
 
 .PHONY: clean
 clean:
@@ -140,15 +146,15 @@ clean:
 
 ```
 What are these automatic variables? There is six automatic variable which make expand in the following way:
-$@ - expands to the filname representing target, our case hello.x
-$^ - the filenames of all prerequisites separated by white spaces, our case only hello.cpp
-$< - the filename of the  first prerequisite
-$* - The stem of the target filename ( a filename without is suffix)
-$? - The names of all prerequisites that are newer than the target, separated by spaces
-$% - The finale element of an archive member specification
-$+ - Similar to $^, except that $+ includes duplicates
++ $@ - expands to the filname representing target, our case hello.x
++ $^ - the filenames of all prerequisites separated by white spaces, our case only hello.cpp
++ $< - the filename of the  first prerequisite
++ $* - The stem of the target filename ( a filename without is suffix)
++ $? - The names of all prerequisites that are newer than the target, separated by spaces
++ $% - The finale element of an archive member specification
++ $+ - Similar to $^, except that $+ includes duplicates
 
-We are building our executable in the source directory, in the directory where hello.cpp resides. It is better to separate the source from the executables and the object files. How do we accomplish that?
+We are building our executable in the source directory, in the directory where hello.cpp resides. It is better to separate the source files from the executables and the object files, and to a out of source compilation . How do we accomplish that?
 
 ```make
 TARGET = hello.x
@@ -168,7 +174,7 @@ $(BUILD_DIR)/%.o : %.cpp
 clean:
 	rm -rf $(BUILD_DIR)
 ```
- To accomplish the separation of executables/object files from source file, we introduce a two-phase compilation. First we produce the object files, or object file in our case, and then we link to an executable. The target './build/hello.x' depends on './build/hello.o'. We change the prerequisite for '%.x' from '%.cpp' to '%.o'. We add a commands for how to produce './build/*.o'. The build command is copied from the 'make -p' output and is equal to the build command for '%.o : %.cpp'.
+ To achieve a separation of executables/object files from source file, we introduce a two-phase compilation. First we produce the object files, or object file in our case, and then we link to an executable. The target './build/hello.x' depends on './build/hello.o'. We change the prerequisite for '%.x' from '%.cpp' to '%.o'. We add a commands for how to produce './build/*.o'. The build command is copied from the 'make -p' output and is equal to the build command for '%.o : %.cpp'.
 
 Was this really an improvement? For build a target only depending on one source file, probably not. If our target depends on several source files, this is a step in the right direction, but we can do further improvements. 
 
