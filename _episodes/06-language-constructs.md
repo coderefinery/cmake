@@ -47,7 +47,7 @@ Better stay inside the house.
 -- Build files have been written to: /Users/bjornlin/tmp/cmake/build
 
 ```
-Let us take the other branch by setting the variable ${CURRENT_WEATHER}. Here from the commmand line:
+Let us take the other branch by setting the variable ${CURRENT_WEATHER}. Here from the command line:
 ```shell
 $ cmake -DCURRENT_WEATHER="sunny day" ..
 Today is a sunny day. Let us go for a walk.
@@ -100,11 +100,13 @@ set(FRUITS ${FRUITS} grapes)
 ---
 
 ## Functions and macros
-
+Functions are like C/C++ functions, and arguments are available by their argument names or from their argument position, like ARGV0, ARGV1 etc.
 ```cmake
 function(my_function foo bar)
     message("called my_function with the arguments: '${foo}' and '${bar}'")
     set(MY_VARIABLE "${bar}")
+    message("ARGV0 is: ${ARGV0} ARGV1 is ${ARGV1}")
+    message("The number of arguments are ${ARGC}")
 endfunction()
 
 macro(my_macro foo bar)
@@ -122,8 +124,14 @@ message("MY_VARIABLE set to: '${MY_VARIABLE}'")
 Function variables have function scope:
 
 ```shell
-called my_function with the arguments: 'this' and 'that'
+called my_function with the arguments: 'this_one' and 'that_two'
+ ARGV0 is: this_one ARGV1 is that_two
+The number of arguments are 2
 MY_VARIABLE set to: ''
 called my_macro with the arguments: 'this' and 'that'
 MY_VARIABLE set to: 'that'
+
+called my_macro with the arguments: 'this' and 'that'
+MY_VARIABLE set to: 'that'
+
 ```
