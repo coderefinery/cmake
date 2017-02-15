@@ -260,8 +260,7 @@ build: $(SRCS)
 
 ```
 ## Task
-#one Restructure this makefile according to the template or your own preferences.
-#twoDiscuss the problems with this Makefile. Identify the two most severe problems here.
++ Discuss the problems with this Makefile. Identify the two most severe problems here.
 
 
 
