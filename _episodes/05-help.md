@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Help"
-teaching: 5
+teaching: 10
 exercises: 0
 questions:
   - "Where can I find help?"
