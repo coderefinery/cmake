@@ -233,8 +233,8 @@ If we are depende upon specific constructs, we can check that these exists:
 ```cmake
 cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
 
-include (CheckFunctionExists)
-include (CheckStructHasMember)
+include (CheckFunctionExists)   # Load and execute the module CheckFunctionExits.cmake
+include (CheckStructHasMember)  # # Load and execute the module CheckStructHasMemeber.cmake
 
 CHECK_FUNCTION_EXISTS(vsnprintf VSNPRINTF_EXISTS)
 if (NOT VSNPRINTF_EXISTS)
