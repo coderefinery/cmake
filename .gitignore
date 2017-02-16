@@ -1,3 +1,6 @@
+_drafts
+_site/
+_.sass-cache
 # emacs backup file
 *~
 # emacs recovery file
