@@ -40,3 +40,76 @@ $ cmake --help-command add_custom_command
 ## Useful resource
 
 - [List of CMake variables](https://cmake.org/Wiki/CMake_Useful_Variables)
+- [Documentation from CMake.org, version 3.8](https://cmake.org/cmake/help/v3.8/)
+---
+Here is a list of commands that we have use in our examples. The quick search function on the CMake Documentation web page will give you an explanation of these commands:
+```cmake
+cmake_minimum_required
+project
+enable_language
+add_executable
+add_custom_command
+```
+
+---
+A simple trick to get an overview of available variables is to make use of CMakes GUI (Mac & Windows) or CMake's curses Interface (Unix). Change directory to the build subdirectory and start cmake curses Interface:
+```shell
+$ cd build
+$ ccmake ..
+```
+You will get a interface like this. Press to (t) for the toggling on the advanced mode:
+```cmake
+                                                     Page 1 of 3
+ CMAKE_AR                         /Applications/Xcode.app/Contents/Developer/Toolch
+ CMAKE_BACKWARDS_COMPATIBILITY    2.4                                              
+ CMAKE_BUILD_TYPE                                                                  
+ CMAKE_COLOR_MAKEFILE             ON                                               
+ CMAKE_CXX_COMPILER               /Applications/Xcode.app/Contents/Developer/Toolch
+ CMAKE_CXX_FLAGS                                                                   
+ CMAKE_CXX_FLAGS_DEBUG            -g                                               
+ CMAKE_CXX_FLAGS_MINSIZEREL       -Os -DNDEBUG                                     
+ CMAKE_CXX_FLAGS_RELEASE          -O3 -DNDEBUG                                     
+ CMAKE_CXX_FLAGS_RELWITHDEBINFO   -O2 -g -DNDEBUG                                  
+ CMAKE_C_COMPILER                 /Applications/Xcode.app/Contents/Developer/Toolch
+ CMAKE_C_FLAGS                                                                     
+ CMAKE_C_FLAGS_DEBUG              -g                                               
+ CMAKE_C_FLAGS_MINSIZEREL         -Os -DNDEBUG                                     
+ CMAKE_C_FLAGS_RELEASE            -O3 -DNDEBUG                                     
+ CMAKE_C_FLAGS_RELWITHDEBINFO     -O2 -g -DNDEBUG                                  
+ CMAKE_EXE_LINKER_FLAGS                                                            
+ CMAKE_EXE_LINKER_FLAGS_DEBUG                                                      
+
+CMAKE_AR: Path to a program.                                                        
+Press [enter] to edit option Press [d] to delete an entry        CMake Version 3.7.1
+Press [c] to configure
+Press [h] for help           Press [q] to quit without generating
+Press [t] to toggle advanced mode (Currently On)
+```
+If you need to build a package which uses CMake as the configuration tool, this is a way to get a quick overview of what is needed for building the package. Here is an example for Armadillo 7.5.002:
+```cmake
+                                                    Page 1 of 3
+ ARPACK_LIBRARY                  *ARPACK_LIBRARY-NOTFOUND                          
+ BUILD_SHARED_LIBS               *ON                                               
+ CMAKE_AR                        */Applications/Xcode.app/Contents/Developer/Toolch
+ CMAKE_BUILD_TYPE                *                                                 
+ CMAKE_COLOR_MAKEFILE            *ON                                               
+ CMAKE_CXX_COMPILER              */Applications/Xcode.app/Contents/Developer/Toolch
+ CMAKE_CXX_FLAGS                 *                                                 
+ CMAKE_CXX_FLAGS_DEBUG           *-g                                               
+ CMAKE_CXX_FLAGS_MINSIZEREL      *-Os -DNDEBUG                                     
+ CMAKE_CXX_FLAGS_RELEASE         *-O3 -DNDEBUG                                     
+ CMAKE_CXX_FLAGS_RELWITHDEBINFO  *-O2 -g -DNDEBUG                                  
+ CMAKE_EXE_LINKER_FLAGS          *                                                 
+ CMAKE_EXE_LINKER_FLAGS_DEBUG    *                                                 
+ CMAKE_EXE_LINKER_FLAGS_MINSIZE  *                                                 
+ CMAKE_EXE_LINKER_FLAGS_RELEASE  *                                                 
+ CMAKE_EXE_LINKER_FLAGS_RELWITH  *                                                 
+ CMAKE_EXPORT_COMPILE_COMMANDS   *OFF                                              
+ CMAKE_INSTALL_NAME_TOOL         */opt/local/bin/install_name_tool                 
+
+ARPACK_LIBRARY: Path to a library.                                                  
+Press [enter] to edit option Press [d] to delete an entry        CMake Version 3.7.1
+Press [c] to configure
+Press [h] for help           Press [q] to quit without generating
+
+```
