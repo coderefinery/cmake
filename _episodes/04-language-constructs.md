@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Branching, variables, lists and loops"
-teaching: 20
+teaching: 10
 exercises: 0
 questions:
   - "Is CMake a full-fledged programming language?"

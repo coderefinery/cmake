@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Hello-world by CMake example"
-teaching: 10
+teaching: 20
 exercises: 0
 questions:
   - "How are CMake projects configured and built?"

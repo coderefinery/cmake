@@ -97,7 +97,9 @@ clean:
 ```
 
 When we do 'make clean', our target 'hello.x', is removed despite that there is a file named 'clean' in the directory. By stating targets as phony, we can get shell commands executed, either as mean in it self, or as part of a prerequisite to other targets.
+
 ---
+
 ## Implicit rules
 There is a range of implicit rules in make. In fact is our simple Makefile overspecified, we can make use of make's implicit rule about C++ files:
 ```make
