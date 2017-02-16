@@ -103,8 +103,65 @@ $ make VERBOSE=1
 The link line is saved in `CMakeFiles/<target>.dir/link.txt`.
 
 ---
-## CMake can find packages
-Here is an example where we search for the package Armadillo. If you do not have Armadillo installed, you will get that "Armadillo not found!":
+## CMake find functions
+As you develop code and your code base grow, you will most certainly depend upon external packages or libraries. When you are going to share your code, which you will because you do research which is repeatable, verifyable and there is other coming after you who will depend upon your work, you can not assume where these packages or libraries are installed.
+
+CMake provides several find functions, which you can use to search for files or libraries:
+```cmake
+find_file()
+find_library()
+find_path()
+find_program()
+```
+---
+## Example with find_library and find_path
+```cmake
+# find libtiff, looking in some standard places
+cmake_minimum_required(VERSION 2.8)
+
+find_library (TIFF_LIBRARY
+             NAMES tiff tiff2
+	     PATHS /opt/local/lib /opt/local/Library usr/local/lib /usr/lib
+	     )
+
+# find tiff.h looking in some standard places
+find_path(TIFF_INCLUDES tiff.h
+  /opt/local/include
+  /usr/local/include
+  /usr/include
+  )
+
+#Typically you would like to use the library or header file as part of the
+# linking or compilation, as shown in the commented region below
+#include_directories(${TIFF_INCLUDE}
+#add_executable(mytiff mytiff.c)
+#target_link_libraries(myprogram ${TIFF_LIBRARY})
+
+if (TIFF_LIBRARY_NOTFOUND)
+  message("Tiff library not found")
+else()
+  message("Tiff library: ${TIFF_LIBRARY}")
+endif()
+
+if (TIFF_INCLUDES_NOTFOUND)
+  message("Tiff header file not found")
+else()
+  message("Tiff include PATH: ${TIFF_INCLUDES}")
+endif()
+```
+If you have tiff available in any of the paths searche your output will be like this:
+```shell
+$ cmake ..
+Tiff library: /opt/local/lib/libtiff.dylib
+Tiff include PATH: /opt/local/include
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/bjornlin/src/cmake/find_library/build
+
+```
+
+## Example with find packages()
+Here is an example where we search for the package Armadillo. If you do not have Armadillo installed, you will get "Armadillo not found!":
 ```cmake
 cmake_minimum_required(VERSION 2.8)
 
@@ -155,7 +212,7 @@ Armadillo version: 7 600 2
 -- Generating done
 -- Build files have been written to: /Users/bjornlin/src/cmake/find_packages/build
 ```
-When enable the MPI_ENABLE variable, I get a error message:
+When enable the MPI_ENABLE variable, I get a error message. Since the message:
 ```shell
 $ cmake -DENABLE_MPI=ON ..
 Armadillo version: 7 600 2
@@ -170,3 +227,82 @@ See also "/Users/bjornlin/src/cmake/find_packages/build/CMakeFiles/CMakeOutput.l
 $
 
 ```
+---
+## Cheking for system specific constructs
+If we are depende upon specific constructs, we can check that these exists:
+```cmake
+cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
+
+include (CheckFunctionExists)
+include (CheckStructHasMember)
+
+CHECK_FUNCTION_EXISTS(vsnprintf VSNPRINTF_EXISTS)
+if (NOT VSNPRINTF_EXISTS)
+   message (SEND_ERROR "vsnprintf not available on this build machine")
+endif ()
+
+
+CHECK_STRUCT_HAS_MEMBER("struct __sFILE" _lbfsize stdio.h HAS_SxBUF)
+if (NOT HAS_SBUF)
+   message (SEND_ERROR "__sbuf field not available in stdio.h")
+   endif()
+   
+CHECK_STRUCT_HAS_MEMBER("struct rusage" ru_stime wait.h HAS_STIME)
+if (NOT HAS_STIME)
+   message (SEND_ERROR " ru_stime field not available in struct rusage")
+endif()
+```
+Very little success on my laptop:
+```shell
+$ cmake ..
+-- The C compiler identification is AppleClang 7.3.0.7030031
+-- The CXX compiler identification is AppleClang 7.3.0.7030031
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Looking for vsnprintf
+-- Looking for vsnprintf - found
+-- Performing Test HAS_SBUF
+-- Performing Test HAS_SBUF - Success
+-- Performing Test HAS_STIME
+-- Performing Test HAS_STIME - Failed
+CMake Error at CMakeLists.txt:20 (message):
+   ru_stime field not available in struct rusage
+
+
+-- Configuring incomplete, errors occurred!
+```
+Here is about from Linux system I have access to:
+```shell
+-- The C compiler identification is GNU 4.3.4
+-- The CXX compiler identification is GNU 4.3.4
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Looking for vsnprintf
+-- Looking for vsnprintf - found
+-- Performing Test HAS_SBUF
+-- Performing Test HAS_SBUF - Failed
+CMake Error at CMakeLists.txt:15 (message):
+  __sbuf field not available in stdio.h
+
+
+-- Performing Test HAS_STIME
+-- Performing Test HAS_STIME - Success
+-- Configuring incomplete, errors occurred!
+```
+Since message() use SEND_ERROR, the processing of the CMakeLists.txt continues despite an error.
