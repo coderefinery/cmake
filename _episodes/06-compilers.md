@@ -104,7 +104,7 @@ The link line is saved in `CMakeFiles/<target>.dir/link.txt`.
 
 ---
 ## CMake find functions
-As you develop code and your code base grow, you will most certainly depend upon external packages or libraries. When you are going to share your code, which you will because you do research which is repeatable, verifyable and there is other coming after you who will depend upon your work, you can not assume where these packages or libraries are installed.
+As you develop code and your code base grow, you will most certainly depend upon external packages or libraries. When you share your code, which you will because you do research which is repeatable && verifiable (in addition there is other coming after you who will depend upon your work), you can not assume where these packages or libraries are installed.
 
 CMake provides several find functions, which you can use to search for files or libraries:
 ```cmake
@@ -112,9 +112,10 @@ find_file()
 find_library()
 find_path()
 find_program()
+find_package()
 ```
 ---
-## Example with find_library and find_path
+## Example with find_library() and find_path()
 ```cmake
 # find libtiff, looking in some standard places
 cmake_minimum_required(VERSION 2.8)
@@ -160,7 +161,7 @@ Tiff include PATH: /opt/local/include
 
 ```
 
-## Example with find packages()
+## Example with find package()
 Here is an example where we search for the package Armadillo. If you do not have Armadillo installed, you will get "Armadillo not found!":
 ```cmake
 cmake_minimum_required(VERSION 2.8)
@@ -179,7 +180,7 @@ if (ENABLE_MPI)
    find_package(MPI)
    if (MPI_FOUND)
       include_directories(${MPI_INCLUDE_PATH})
-      add_definititions(-DENABLE_MPI)
+      add_definitions(-DENABLE_MPI)
    else()
 	message(FATAL_ERROR "Could not find any MPI installation, check $PATH")  # CMake Error, stop processing and generation
    endif()
@@ -212,7 +213,7 @@ Armadillo version: 7 600 2
 -- Generating done
 -- Build files have been written to: /Users/bjornlin/src/cmake/find_packages/build
 ```
-When enable the MPI_ENABLE variable, I get a error message. Since the message:
+When enable the MPI_ENABLE variable, I get a error message since I do not have MPI-library installed:
 ```shell
 $ cmake -DENABLE_MPI=ON ..
 Armadillo version: 7 600 2
@@ -229,12 +230,12 @@ $
 ```
 ---
 ## Cheking for system specific constructs
-If we are depende upon specific constructs, we can check that these exists:
+If we are depending upon specific constructs, we can check that these exists:
 ```cmake
 cmake_minimum_required (VERSION 2.8 FATAL_ERROR)
 
 include (CheckFunctionExists)   # Load and execute the module CheckFunctionExits.cmake
-include (CheckStructHasMember)  # # Load and execute the module CheckStructHasMemeber.cmake
+include (CheckStructHasMember)  # # Load and execute the module CheckStructHasMember.cmake
 
 CHECK_FUNCTION_EXISTS(vsnprintf VSNPRINTF_EXISTS)
 if (NOT VSNPRINTF_EXISTS)
@@ -252,7 +253,7 @@ if (NOT HAS_STIME)
    message (SEND_ERROR " ru_stime field not available in struct rusage")
 endif()
 ```
-Very little success on my laptop:
+The Check for HAS_STIME fails on my laptop:
 ```shell
 $ cmake ..
 -- The C compiler identification is AppleClang 7.3.0.7030031
@@ -281,7 +282,7 @@ CMake Error at CMakeLists.txt:20 (message):
 
 -- Configuring incomplete, errors occurred!
 ```
-Here is about from Linux system I have access to:
+Here is from a Linux system:
 ```shell
 -- The C compiler identification is GNU 4.3.4
 -- The CXX compiler identification is GNU 4.3.4
