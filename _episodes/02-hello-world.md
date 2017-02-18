@@ -10,7 +10,7 @@ questions:
 objectives:
   - "Learn how to configure and build simple Make files."
 keypoints:
-  - "We start by compiling in source directory" 
+  - "We start by compiling in source directory"
   - "The object files can be built in a separate subdirectory."
   - "Make dependencies can be regenerated"
   - "A simple but usable Makefile which can be used for smaller projects"
@@ -71,7 +71,7 @@ The first rule is the default rule and the one executed when just write 'make'.
 
 Let us develop our simple example further. We should be able to remove the
 targets without to much fuzz. 'rm hello' seems efficient enough in the example,
-but as our code base grow things will be more complicated. 
+but as our code base grow things will be more complicated.
 
 The establish practice is to use the target 'clean' for removing targets. Here:
 ```make
@@ -86,7 +86,7 @@ clean:
 :-). We see that 'clean' have no prerequisites. Consequently it will always be
 executed, unless.... try this:
 ```shell
-make 
+make
 touch clean
 make clean
 make
@@ -210,7 +210,7 @@ equal to the build command for '%.o : %.cpp'.
 
 Was this really an improvement? For build a target only depending on one source
 file, probably not. If our target depends on several source files, this is a
-step in the right direction, but we can do further improvements. 
+step in the right direction, but we can do further improvements.
 
 ```make
 TARGET = hello.x
@@ -247,7 +247,7 @@ CXX = clang++
 GTEST_HOME = $(HOME)/local/googletest
 INC = -I $(GTEST_HOME) -I $(GTEST_HOME)/include -I . -I ../src -I$(HOME)/src/c++/include
 LDLIBS = $(GTEST_HOME)/lib/libgtest.a
-LDFLAGS = 
+LDFLAGS =
 CXXFLAGS = -std=c++11 -pthread
 
 TARGET = vnorm_p_test

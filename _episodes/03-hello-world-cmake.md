@@ -58,7 +58,7 @@ add_executable(hello.x hello.cpp)
 
 Your subdirectory should like this:
 ```shell
-$ ls         
+$ ls
 CMakeLists.txt	hello.cpp
 
 ```
@@ -169,7 +169,7 @@ projectfoo/
 		osx
 		solaris
 	        hpux
-		
+
 # Should be AVOIDED with CMake
 ```
 ---

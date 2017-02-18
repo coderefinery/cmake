@@ -177,8 +177,8 @@ if (ARMADILLO_FOUND)
 else()
 	message("Armadillo not found!!")
 endif()
-	
-	
+
+
 option(ENABLE_MPI "Enable MPI" OFF)
 
 if (ENABLE_MPI)
@@ -212,7 +212,7 @@ $ cmake ..
 -- Detecting CXX compiler ABI info - done
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Found Armadillo: /opt/local/lib/libarmadillo.dylib (found version "7.600.2") 
+-- Found Armadillo: /opt/local/lib/libarmadillo.dylib (found version "7.600.2")
 Armadillo version: 7 600 2
 -- Configuring done
 -- Generating done
@@ -222,8 +222,8 @@ When enable the MPI_ENABLE variable, I get a error message since I do not have M
 ```shell
 $ cmake -DENABLE_MPI=ON ..
 Armadillo version: 7 600 2
--- Could NOT find MPI_C (missing:  MPI_C_LIBRARIES MPI_C_INCLUDE_PATH) 
--- Could NOT find MPI_CXX (missing:  MPI_CXX_LIBRARIES MPI_CXX_INCLUDE_PATH) 
+-- Could NOT find MPI_C (missing:  MPI_C_LIBRARIES MPI_C_INCLUDE_PATH)
+-- Could NOT find MPI_CXX (missing:  MPI_CXX_LIBRARIES MPI_CXX_INCLUDE_PATH)
 CMake Error at CMakeLists.txt:19 (message):
   Could not find any MPI installation, check $PATH
 
@@ -252,7 +252,7 @@ CHECK_STRUCT_HAS_MEMBER("struct __sFILE" _lbfsize stdio.h HAS_SxBUF)
 if (NOT HAS_SBUF)
    message (SEND_ERROR "__sbuf field not available in stdio.h")
    endif()
-   
+
 CHECK_STRUCT_HAS_MEMBER("struct rusage" ru_stime wait.h HAS_STIME)
 if (NOT HAS_STIME)
    message (SEND_ERROR " ru_stime field not available in struct rusage")
