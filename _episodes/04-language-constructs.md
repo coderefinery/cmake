@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Branching, variables, lists and loops"
+title: "Branching, variables, lists, and loops"
 teaching: 10
 exercises: 0
 questions:
@@ -9,7 +9,7 @@ objectives:
   - "Learn how to set and print variables."
   - "Learn how to avoid code repetition."
 keypoints:
-  - "CMake allows you to structure your code as you are used from other languages."
+  - "CMake allows you to structure your code to avoid code repetition."
 ---
 ## Branching
 
