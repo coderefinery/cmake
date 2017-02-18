@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Branching, variables, lists and loops"
+title: "Branching, variables, lists, and loops"
 teaching: 10
 exercises: 0
 questions:
@@ -9,7 +9,7 @@ objectives:
   - "Learn how to set and print variables."
   - "Learn how to avoid code repetition."
 keypoints:
-  - "CMake allows you to structure your code as you are used from other languages."
+  - "CMake allows you to structure your code to avoid code repetition."
 ---
 ## Branching
 
@@ -100,38 +100,40 @@ set(FRUITS ${FRUITS} grapes)
 ---
 
 ## Functions and macros
-Functions are like C/C++ functions, and arguments are available by their argument names or from their argument position, like ARGV0, ARGV1 etc.
+
+Functions are like C/C++ functions, and arguments are available by their
+argument names or from their argument position (ARGV0, ARGV1, ...):
+
 ```cmake
-function(my_function foo bar)
-    message("called my_function with the arguments: '${foo}' and '${bar}'")
-    set(MY_VARIABLE "${bar}")
-    message("ARGV0 is: ${ARGV0} ARGV1 is ${ARGV1}")
-    message("The number of arguments are ${ARGC}")
+function(my_function firstname lastname)
+    message("called my_function with the arguments: '${firstname}' and '${lastname}'")
+    message("The number of arguments is ${ARGC}")
+    message("ARGV0: ${ARGV0} ARGV1: ${ARGV1}")
+    set(MY_VARIABLE "${lastname} ${firstname}")  # this will not be visible outside
 endfunction()
 
-macro(my_macro foo bar)
-    message("called my_macro with the arguments: '${foo}' and '${bar}'")
-    set(MY_VARIABLE "${bar}")
+macro(my_macro firstname lastname)
+    message("called my_macro with the arguments: '${firstname}' and '${lastname}'")
+    set(MY_VARIABLE "${lastname} ${firstname}")  # this will be visible outside
 endmacro()
 
-my_function(this that)
+my_function(James Bond)
 message("MY_VARIABLE set to: '${MY_VARIABLE}'")
 
-my_macro(this that)
+my_macro(James Bond)
 message("MY_VARIABLE set to: '${MY_VARIABLE}'")
 ```
 
 Function variables have function scope:
 
 ```shell
-called my_function with the arguments: 'this_one' and 'that_two'
- ARGV0 is: this_one ARGV1 is that_two
-The number of arguments are 2
+called my_function with the arguments: 'James' and 'Bond'
+The number of arguments is 2
+ARGV0: James ARGV1: Bond
 MY_VARIABLE set to: ''
-called my_macro with the arguments: 'this' and 'that'
-MY_VARIABLE set to: 'that'
 
-called my_macro with the arguments: 'this' and 'that'
-MY_VARIABLE set to: 'that'
-
+called my_macro with the arguments: 'James' and 'Bond'
+MY_VARIABLE set to: 'Bond James'
 ```
+
+Question: should you rather use named arguments or numbered arguments?
