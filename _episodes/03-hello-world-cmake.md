@@ -23,7 +23,7 @@ keypoints:
 
 ## Hello-world example
 
-We start with a C++ program:
+We start with our now familiar C++ program:
 
 ```cpp
 #include <iostream>
@@ -59,7 +59,6 @@ Your subdirectory should like this:
 ```shell
 $ ls
 CMakeLists.txt	hello.cpp
-
 ```
 
 Now we create a build directory (out of source compilation), change to it,
@@ -180,11 +179,11 @@ visit the source directory and generate the build files accordingly:
 $ mkdir src
 $ mv hello.cpp src
 $ rm -rf build
-
 ```
+
 In our file CMakeLists.txt the add_executable is changed to:
 ```CMake
-add_executable(hello.x src/hello.cpp
+add_executable(hello.x src/hello.cpp)
 ```
 
 In addition we copy the produced binary to its own subdirectory. Add the following to the end of the CMakeLists.txt:
@@ -210,8 +209,18 @@ language like Python or Perl (find_package(perl), find_package(python)). Of
 course then your application installation get depending upon other packages.
 
 ---
-## Benefits by using CMake
-*(from the book "Mastering CMake",K. Martin, B.Hoffman, Kitware)*
+
+## Benefits of using CMake
+
+- CMake looks for `CMakeLists.txt` and processes this file
+- CMake puts everything into `${PROJECT_BINARY_DIR}` and does not pollute `${PROJECT_SOURCE_DIR}`
+- We can build different binaries with the same source:
+  - Sequential and parallel builds
+  - Debug build or optimized build
+  - Production and debugging compilations
+
+*(following points taken from the book "Mastering CMake", K. Martin, B. Hoffman, Kitware)*
+
 * The ability to search for programs, libraries and header files required by the software being built
 * The ability to build in a directory tree outside the source code directory tree
 * The ability to build complex custom commands for automatically generated files such as  SWIG wrapper generators
@@ -223,11 +232,3 @@ course then your application installation get depending upon other packages.
 * A single set of build configuration files that work on all platforms
 * Ability to build shared libraries on all platforms that support it
 * Ability to configure files with system-dependent information, such as the location of data files and other information
-
-
-- CMake looks for `CMakeLists.txt` and processes this file
-- CMake puts everything into `${PROJECT_BINARY_DIR}` and does not pollute `${PROJECT_SOURCE_DIR}`
-- We can build different binaries with the same source:
-  - Sequential and parallel builds
-  - Debug build or optimized build
-  - Production and debugging compilations
