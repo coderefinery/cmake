@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Compiler,compiler flags and find-functions "
+title: "Compilers, compiler flags and find-functions "
 teaching: 10
 exercises: 0
 questions:
@@ -12,7 +12,7 @@ objectives:
 
 ## How to specify the compiler
 
-We can speciy the compilers like this:
+We can specify the compilers like this:
 
 ```shell
 $ cd build
@@ -92,8 +92,8 @@ endif()
 
 ## See actual compiler flags and link line
 
-The default compilation output is nice and compact.
-But sometimes we want to see the current compiler flags and the gory compiler output:
+The default compilation output is nice and compact.  But sometimes we want to
+see the current compiler flags and the gory compiler output:
 
 ```shell
 $ make clean
@@ -104,7 +104,12 @@ The link line is saved in `CMakeFiles/<target>.dir/link.txt`.
 
 ---
 ## CMake find functions
-As you develop code and your code base grow, you will most certainly depend upon external packages or libraries. When you share your code, which you will because you do research which is repeatable && verifiable (in addition there is other coming after you who will depend upon your work), you can not assume where these packages or libraries are installed.
+
+As you develop code and your code base grow, you will most certainly depend
+upon external packages or libraries. When you share your code, which you will
+because you do research which is repeatable && verifiable (in addition there is
+other coming after you who will depend upon your work), you can not assume
+where these packages or libraries are installed.
 
 CMake provides several find functions, which you can use to search for files or libraries:
 ```cmake
@@ -172,8 +177,8 @@ if (ARMADILLO_FOUND)
 else()
 	message("Armadillo not found!!")
 endif()
-	
-	
+
+
 option(ENABLE_MPI "Enable MPI" OFF)
 
 if (ENABLE_MPI)
@@ -207,7 +212,7 @@ $ cmake ..
 -- Detecting CXX compiler ABI info - done
 -- Detecting CXX compile features
 -- Detecting CXX compile features - done
--- Found Armadillo: /opt/local/lib/libarmadillo.dylib (found version "7.600.2") 
+-- Found Armadillo: /opt/local/lib/libarmadillo.dylib (found version "7.600.2")
 Armadillo version: 7 600 2
 -- Configuring done
 -- Generating done
@@ -217,8 +222,8 @@ When enable the MPI_ENABLE variable, I get a error message since I do not have M
 ```shell
 $ cmake -DENABLE_MPI=ON ..
 Armadillo version: 7 600 2
--- Could NOT find MPI_C (missing:  MPI_C_LIBRARIES MPI_C_INCLUDE_PATH) 
--- Could NOT find MPI_CXX (missing:  MPI_CXX_LIBRARIES MPI_CXX_INCLUDE_PATH) 
+-- Could NOT find MPI_C (missing:  MPI_C_LIBRARIES MPI_C_INCLUDE_PATH)
+-- Could NOT find MPI_CXX (missing:  MPI_CXX_LIBRARIES MPI_CXX_INCLUDE_PATH)
 CMake Error at CMakeLists.txt:19 (message):
   Could not find any MPI installation, check $PATH
 
@@ -247,7 +252,7 @@ CHECK_STRUCT_HAS_MEMBER("struct __sFILE" _lbfsize stdio.h HAS_SxBUF)
 if (NOT HAS_SBUF)
    message (SEND_ERROR "__sbuf field not available in stdio.h")
    endif()
-   
+
 CHECK_STRUCT_HAS_MEMBER("struct rusage" ru_stime wait.h HAS_STIME)
 if (NOT HAS_STIME)
    message (SEND_ERROR " ru_stime field not available in struct rusage")

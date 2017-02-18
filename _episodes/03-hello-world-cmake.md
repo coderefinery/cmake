@@ -13,9 +13,14 @@ keypoints:
   - "The name and path of the build directory can be changed."
   - "When configuring we point CMake at the location of the CMakeLists.txt file."
 ---
-## CMake Motivation
-When you move your application or code base to another platform, you will need to modify your Makefiles. If your software is used on several platforms, you easily end up doing almost identical modifications in several places. On Microsoft Windows you may have to use a separate build systems. Your changes in the Makefiles do rarely applies to Microsoft Windows
 
+## CMake Motivation
+
+When you move your application or code base to another platform, you will need
+to modify your Makefiles. If your software is used on several platforms, you
+easily end up doing almost identical modifications in several places. On
+Microsoft Windows you may have to use a separate build systems. Your changes in
+the Makefiles do rarely applies to Microsoft Windows
 
 ## Hello-world example
 
@@ -53,7 +58,7 @@ add_executable(hello.x hello.cpp)
 
 Your subdirectory should like this:
 ```shell
-$ ls         
+$ ls
 CMakeLists.txt	hello.cpp
 
 ```
@@ -149,7 +154,7 @@ projectfoo/
 		subdir1
 		subdir2
 ```
-According to the CMAKE writers, the following structure will not work well with CMake. Consequentialy, it should be avoided:
+According to the CMAKE writers, the following structure will not work well with CMake and it should be avoided:
 ```shell
 #The JAM configuring and building system generates binaries directory structure like this
 # Should be AVOIDED with CMake
@@ -164,11 +169,13 @@ projectfoo/
 		osx
 		solaris
 	        hpux
-		
+
 # Should be AVOIDED with CMake
 ```
 ---
-Let us develop our hello world example a little bit more. We move the source code to a subdirectory and remove the previous build subdirectory. CMake will visit the source directory and generate the build files accordingly:
+Let us develop our hello world example a little bit more. We move the source
+code to a subdirectory and remove the previous build subdirectory. CMake will
+visit the source directory and generate the build files accordingly:
 
 ```shell
 $ mkdir src
@@ -191,7 +198,7 @@ add_custom_command ( TARGET hello.x
 )
 ```
 
-This copy operation is a bit articifial. It is most for illustrating the point with commands which can be used on any platfrom . CMake provides a few platform inpendent custom commands:
+This copy operation is a bit artificial. It is most for illustrating the point with commands which can be used on any platform. CMake provides a few platform independent custom commands:
 + **chdir dir commands args**
 + **copy file destination**
 + **copy_if_different in-file out-file**
@@ -199,7 +206,9 @@ This copy operation is a bit articifial. It is most for illustrating the point w
 + **echo string**
 + **time commands**
 
-For more advanced platform independent processing, search for a scripting language like Python or Perl (find_package(perl), find_package(python)). Of course then your application installation get depending upon other packages.
+For more advanced platform independent processing, search for a scripting
+language like Python or Perl (find_package(perl), find_package(python)). Of
+course then your application installation get depending upon other packages.
 
 ---
 ## Benefits by using CMake
@@ -223,4 +232,3 @@ For more advanced platform independent processing, search for a scripting langua
   - Sequential and parallel builds
   - Debug build or optimized build
   - Production and debugging compilations
-
