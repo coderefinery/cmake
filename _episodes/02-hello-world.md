@@ -273,8 +273,8 @@ CXXFLAGS = `libmesh-config --cxxflags` -fpermissive `python2.7-config --cflags`
 LIBS = -L/sw/sdev/Modules/intelcomp/psxe_2015/composer_xe_2015.1.133/compiler/lib/intel64/ -L/sw/sdev/Modules/gcc/gcc-4.8.2/lib64 -larmadillo `python2.7-config --ldflags`  `libmesh-config --libs`
 #LIBS = -L/sw/sdev/Modules/gcc/gcc-6.2.0/lib64 -larmadillo `python2.7-config --ldflags`  `libmesh-config --libs`
 
-#INC = `libmesh-config --include` -I/home/ntnu/gordona/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.12/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.12/lib/python2.7/site-packages/numpy-1.11.1-py2.7-linux-x86_64.egg/numpy/core/include/numpy/
-INC = `libmesh-config --include` -I/home/ntnu/gordona/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.9/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.9/lib/python2.7/site-packages/numpy/core/include/numpy/
+#INC = `libmesh-config --include` -I/home/user/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.12/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.12/lib/python2.7/site-packages/numpy-1.11.1-py2.7-linux-x86_64.egg/numpy/core/include/numpy/
+INC = `libmesh-config --include` -I/home/user/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.9/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.9/lib/python2.7/site-packages/numpy/core/include/numpy/
 
 SRCS = main.cpp nonlinearsolver.cpp jacobian2.cpp MVConverter.cpp BCS.cpp spincurrent.cpp BChandler.cpp externalflux.cpp residual.cpp compute_RJ.cpp wrap.cpp Connection.cpp compute_output.cpp Exchange.cpp
 OBJS = $(SRCS:.cpp=.o)
