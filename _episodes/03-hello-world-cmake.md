@@ -13,9 +13,14 @@ keypoints:
   - "The name and path of the build directory can be changed."
   - "When configuring we point CMake at the location of the CMakeLists.txt file."
 ---
-## CMake Motivation
-When you move your application or code base to another platform, you will need to modify your Makefiles. If your software is used on several platforms, you easily end up doing almost identical modifications in several places. On Microsoft Windows you may have to use a separate build systems. Your changes in the Makefiles do rarely applies to Microsoft Windows
 
+## CMake Motivation
+
+When you move your application or code base to another platform, you will need
+to modify your Makefiles. If your software is used on several platforms, you
+easily end up doing almost identical modifications in several places. On
+Microsoft Windows you may have to use a separate build systems. Your changes in
+the Makefiles do rarely applies to Microsoft Windows
 
 ## Hello-world example
 
@@ -168,7 +173,9 @@ projectfoo/
 # Should be AVOIDED with CMake
 ```
 ---
-Let us develop our hello world example a little bit more. We move the source code to a subdirectory and remove the previous build subdirectory. CMake will visit the source directory and generate the build files accordingly:
+Let us develop our hello world example a little bit more. We move the source
+code to a subdirectory and remove the previous build subdirectory. CMake will
+visit the source directory and generate the build files accordingly:
 
 ```shell
 $ mkdir src
@@ -199,7 +206,9 @@ This copy operation is a bit artificial. It is most for illustrating the point w
 + **echo string**
 + **time commands**
 
-For more advanced platform independent processing, search for a scripting language like Python or Perl (find_package(perl), find_package(python)). Of course then your application installation get depending upon other packages.
+For more advanced platform independent processing, search for a scripting
+language like Python or Perl (find_package(perl), find_package(python)). Of
+course then your application installation get depending upon other packages.
 
 ---
 ## Benefits by using CMake
@@ -223,4 +232,3 @@ For more advanced platform independent processing, search for a scripting langua
   - Sequential and parallel builds
   - Debug build or optimized build
   - Production and debugging compilations
-

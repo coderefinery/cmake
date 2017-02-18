@@ -92,8 +92,8 @@ endif()
 
 ## See actual compiler flags and link line
 
-The default compilation output is nice and compact.
-But sometimes we want to see the current compiler flags and the gory compiler output:
+The default compilation output is nice and compact.  But sometimes we want to
+see the current compiler flags and the gory compiler output:
 
 ```shell
 $ make clean
@@ -104,7 +104,12 @@ The link line is saved in `CMakeFiles/<target>.dir/link.txt`.
 
 ---
 ## CMake find functions
-As you develop code and your code base grow, you will most certainly depend upon external packages or libraries. When you share your code, which you will because you do research which is repeatable && verifiable (in addition there is other coming after you who will depend upon your work), you can not assume where these packages or libraries are installed.
+
+As you develop code and your code base grow, you will most certainly depend
+upon external packages or libraries. When you share your code, which you will
+because you do research which is repeatable && verifiable (in addition there is
+other coming after you who will depend upon your work), you can not assume
+where these packages or libraries are installed.
 
 CMake provides several find functions, which you can use to search for files or libraries:
 ```cmake

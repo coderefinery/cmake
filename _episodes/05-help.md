@@ -43,7 +43,9 @@ $ cmake --help-command add_custom_command
 - [Documentation from CMake.org, version 3.8](https://cmake.org/cmake/help/v3.8/)
 
 ---
-Here is a list of commands that we have use in our examples. The quick search function on the CMake Documentation web page will give you an explanation of these commands:
+Here is a list of commands that we have use in our examples. The quick search
+function on the CMake Documentation web page will give you an explanation of
+these commands:
 ```cmake
 cmake_minimum_required
 project
@@ -53,7 +55,9 @@ add_custom_command
 ```
 
 ---
-A simple trick to get an overview of available variables is to make use of CMakes GUI (Mac & Windows) or CMake's curses Interface (Unix). Change directory to the build subdirectory and start cmake curses Interface:
+A simple trick to get an overview of available variables is to make use of
+CMakes GUI (Mac & Windows) or CMake's curses Interface (Unix). Change directory
+to the build subdirectory and start cmake curses Interface:
 ```shell
 $ cd build
 $ ccmake ..
@@ -86,7 +90,9 @@ Press [c] to configure
 Press [h] for help           Press [q] to quit without generating
 Press [t] to toggle advanced mode (Currently On)
 ```
-If you need to build a package which uses CMake as the configuration tool, this is a way to get a quick overview of what is needed for building the package. Here is an example for Armadillo 7.5.002:
+If you need to build a package which uses CMake as the configuration tool, this
+is a way to get a quick overview of what is needed for building the package.
+Here is an example for Armadillo 7.5.002:
 ```cmake
                                                     Page 1 of 3
  ARPACK_LIBRARY                  *ARPACK_LIBRARY-NOTFOUND                          
