@@ -4,16 +4,16 @@ title: "Hello-world example"
 teaching: 30
 exercises: 0
 questions:
-  - "How do make work?"
-  - "What is implicit rules, suffixes, different types of variables?"
+  - "How does the make command work?"
+  - "What are implicit rules, suffixes, different types of variables?"
   - "What is an out of source compilation?"
 objectives:
-  - "Learn how to configure and build simple Make files."
+  - "Learn how to configure and build simple Makefiles."
 keypoints:
-  - "We start by compiling in source directory"
+  - "We start by compiling in source."
   - "The object files can be built in a separate subdirectory."
-  - "Make dependencies can be regenerated"
-  - "A simple but usable Makefile which can be used for smaller projects"
+  - "Make dependencies can be regenerated."
+  - "A simple but usable Makefile which can be used for smaller projects."
 ---
 
 ## Hello-world example
@@ -34,13 +34,13 @@ Create a fresh directory and save the C++ code to a file called
 
 We wish to compile this code to `hello`.
 
-We start out with a very simple Makefile contains:
-
+We start out with a very simple file called `Makefile` which contains (second line starts with a tab):
 ```make
 hello.x: hello.cpp
 	g++ hello.cpp -o hello
 ```
-The contains of your newly created subdirectory should look like this:
+
+Your newly created subdirectory should look like this:
 ```shell
 $ ls
 Makefile	hello.cpp
@@ -48,12 +48,12 @@ Makefile	hello.cpp
 
 The Makefile states that the target "hello.x" depends on the file "hello.cpp".
 The statement 'g++ hello.cpp -o hello' is the (shell)-command that produce (we
-often say 'build') the target from the dependents(or prerequisites).
+often say 'build') the target from the dependents (or prerequisites).
 
 A Makefile contains a set of rules on the form:
 
 ```make
-#rule 1
+# rule 1
 target1: prereq1 prereq2
 	 commands
 
@@ -63,14 +63,12 @@ target2: prereq21 prereq22
 target3: prereq31 target1
 	 commands
 	 commands
-
-# Important: 'commands' is preceded by a <tab>, not white spaces.
-
+# Important: 'commands' are preceded by a <tab>, not white spaces.
 ```
 The first rule is the default rule and the one executed when just write 'make'.
 
 Let us develop our simple example further. We should be able to remove the
-targets without to much fuzz. 'rm hello' seems efficient enough in the example,
+targets without to much fuzz. 'rm hello.x' seems efficient enough in the example,
 but as our code base grow things will be more complicated.
 
 The establish practice is to use the target 'clean' for removing targets. Here:
@@ -83,7 +81,7 @@ clean:
 ```
 
 'clean' is a phony target (phony = not real or true, trying to trick people
-:-). We see that 'clean' have no prerequisites. Consequently it will always be
+:-). We see that 'clean' has no prerequisites. Consequently it will always be
 executed, unless.... try this:
 ```shell
 make
@@ -91,14 +89,15 @@ touch clean
 make clean
 make
 ```
- If the targets exists, like here where made an empty file named 'clean', the
+
+If the targets exists, like here, where we made an empty file named 'clean', the
 command will be never run because it is always up to date. To remedy this, we
 state the target 'clean' as phony:
 ```make
 hello.x: hello.cpp
 	g++ hello.cpp -o hello
 
-.PHONY: clean           # make is case-sensitive, .phony will not do the trick
+.PHONY: clean           # has to be uppercase, .phony will not do the trick
 clean:
 	rm hello.x
 ```
@@ -141,10 +140,7 @@ $@. For now, let us look at $(LINK.cpp), by searching for LINK.cc  ( Searching
 for LINK.cpp, will show that it is equal LINK.cc).
 
 ```make
-
 LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
-
-
 ```
 
 These variables should be recognizable. These are often inputs to make as part
@@ -166,16 +162,16 @@ $(TARGET): hello.cpp
 .PHONY: clean
 clean:
 	rm $(TARGET)
-
 ```
 What are these automatic variables? There is six automatic variable which make expand in the following way:
-+ $@ - expands to the filename representing target, our case hello.x
-+ $^ - the filenames of all prerequisites separated by white spaces, our case only hello.cpp
-+ $< - the filename of the  first prerequisite
-+ $* - The stem of the target filename ( a filename without is suffix)
-+ $? - The names of all prerequisites that are newer than the target, separated by spaces
-+ $% - The finale element of an archive member specification
-+ $+ - Similar to $^, except that $+ includes duplicates
+
+- $@ - expands to the filename representing target, our case hello.x
+- $^ - the filenames of all prerequisites separated by white spaces, our case only hello.cpp
+- $< - the filename of the  first prerequisite
+- $* - The stem of the target filename ( a filename without is suffix)
+- $? - The names of all prerequisites that are newer than the target, separated by spaces
+- $% - The finale element of an archive member specification
+- $+ - Similar to $^, except that $+ includes duplicates
 
 We are building our executable in the source directory, in the directory where
 hello.cpp resides. It is better to separate the source files from the
@@ -234,9 +230,6 @@ $(BUILD_DIR)/%.o : %.cpp
 .PHONY: clean
 clean:
 	rm -rf $(BUILD_DIR)
-
-
-
 ```
 
 Now is the build statements general, and we can keep all changes in the upper part of the Makefile
@@ -280,8 +273,8 @@ CXXFLAGS = `libmesh-config --cxxflags` -fpermissive `python2.7-config --cflags`
 LIBS = -L/sw/sdev/Modules/intelcomp/psxe_2015/composer_xe_2015.1.133/compiler/lib/intel64/ -L/sw/sdev/Modules/gcc/gcc-4.8.2/lib64 -larmadillo `python2.7-config --ldflags`  `libmesh-config --libs`
 #LIBS = -L/sw/sdev/Modules/gcc/gcc-6.2.0/lib64 -larmadillo `python2.7-config --ldflags`  `libmesh-config --libs`
 
-#INC = `libmesh-config --include` -I/home/ntnu/gordona/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.12/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.12/lib/python2.7/site-packages/numpy-1.11.1-py2.7-linux-x86_64.egg/numpy/core/include/numpy/
-INC = `libmesh-config --include` -I/home/ntnu/gordona/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.9/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.9/lib/python2.7/site-packages/numpy/core/include/numpy/
+#INC = `libmesh-config --include` -I/home/user/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.12/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.12/lib/python2.7/site-packages/numpy-1.11.1-py2.7-linux-x86_64.egg/numpy/core/include/numpy/
+INC = `libmesh-config --include` -I/home/user/installdir/armadillo/usr/include -I/sw/sdev/Modules/python/python-2.7.9/include/python2.7 -I/sw/sdev/Modules/python/python-2.7.9/lib/python2.7/site-packages/numpy/core/include/numpy/
 
 SRCS = main.cpp nonlinearsolver.cpp jacobian2.cpp MVConverter.cpp BCS.cpp spincurrent.cpp BChandler.cpp externalflux.cpp residual.cpp compute_RJ.cpp wrap.cpp Connection.cpp compute_output.cpp Exchange.cpp
 OBJS = $(SRCS:.cpp=.o)
@@ -299,5 +292,7 @@ build: $(SRCS)
 		$(CXX) -o $(NAME) $(FILES) $(CXXFLAGS) $(LIBS) $(INC)
 
 ```
+
 ## Task
-+ Discuss the problems with this Makefile. Identify the two most severe problems here.
+
+- Discuss the problems with this Makefile. Identify the two most severe problems here.
