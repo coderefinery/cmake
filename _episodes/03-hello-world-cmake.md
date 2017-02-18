@@ -123,54 +123,8 @@ $ cmake /path/to/source
 $ make
 ```
 
-## Build directories
-If your source code structure is something like:
-```shell
- foo/
-	subdir1
-	subdir2
-```
-CMAKE per default supports an out of source structure which is similar:
-```shell
-foobin/
-	subdir1
-	subdir2
-```
-If you need to support several architectures, the CMAKE writers suggest a structure like:
-```shell
-projectfoo/
-	foo/
-		subdir1
-		subdir2
-	foo-linux/
-		subdir1
-		subdir2
-	foo-osx/
-		subdir1
-		subdir2
-	foo-solaris/
-		subdir1
-		subdir2
-```
-According to the CMAKE writers, the following structure will not work well with CMake and it should be avoided:
-```shell
-#The JAM configuring and building system generates binaries directory structure like this
-# Should be AVOIDED with CMake
-projectfoo/
-	subdir1/
-		linux
-		osx
-		solaris
-		hpux
-	subdir2/
-		linux
-		osx
-		solaris
-	        hpux
-
-# Should be AVOIDED with CMake
-```
 ---
+
 Let us develop our hello world example a little bit more. We move the source
 code to a subdirectory and remove the previous build subdirectory. CMake will
 visit the source directory and generate the build files accordingly:
