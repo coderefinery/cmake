@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Hello-world by CMake example"
+title: "Hello-world example using CMake"
 teaching: 20
 exercises: 0
 questions:
@@ -16,11 +16,10 @@ keypoints:
 
 ## CMake Motivation
 
-When you move your application or code base to another platform, you will need
-to modify your Makefiles. If your software is used on several platforms, you
-easily end up doing almost identical modifications in several places. On
-Microsoft Windows you may have to use a separate build systems. Your changes in
-the Makefiles do rarely applies to Microsoft Windows
+- When you move your application or code base to another platform, you will need to modify your Makefiles or write a configuration script.
+- If your software is used on several platforms, you easily end up doing almost identical modifications in several places.
+- On Microsoft Windows you may have to use a separate build systems.
+- Your changes in the Makefiles do rarely apply to Microsoft Windows.
 
 ## Hello-world example
 
