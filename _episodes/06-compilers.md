@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Compiler,compiler flags and find-functions "
+title: "Compilers, compiler flags and find-functions "
 teaching: 10
 exercises: 0
 questions:
