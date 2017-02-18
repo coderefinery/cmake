@@ -149,7 +149,7 @@ projectfoo/
 		subdir1
 		subdir2
 ```
-According to the CMAKE writers, the following structure will not work well with CMake. Consequentialy, it should be avoided:
+According to the CMAKE writers, the following structure will not work well with CMake and it should be avoided:
 ```shell
 #The JAM configuring and building system generates binaries directory structure like this
 # Should be AVOIDED with CMake
@@ -191,7 +191,7 @@ add_custom_command ( TARGET hello.x
 )
 ```
 
-This copy operation is a bit articifial. It is most for illustrating the point with commands which can be used on any platfrom . CMake provides a few platform inpendent custom commands:
+This copy operation is a bit artificial. It is most for illustrating the point with commands which can be used on any platform. CMake provides a few platform independent custom commands:
 + **chdir dir commands args**
 + **copy file destination**
 + **copy_if_different in-file out-file**

@@ -12,7 +12,7 @@ objectives:
 
 ## How to specify the compiler
 
-We can speciy the compilers like this:
+We can specify the compilers like this:
 
 ```shell
 $ cd build

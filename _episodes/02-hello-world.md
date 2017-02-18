@@ -46,7 +46,7 @@ $ ls
 Makefile	hello.cpp
 ```
 
-The Makefile states that the targe "hello.x" depends on the file "hello.cpp". The statment 'g++ hello.cpp -o hello' is the (shell)-command that produce (we often say 'build') the target from the dependents(or prerequisites).
+The Makefile states that the target "hello.x" depends on the file "hello.cpp". The statement 'g++ hello.cpp -o hello' is the (shell)-command that produce (we often say 'build') the target from the dependents(or prerequisites).
 
 A Makefile contains a set of rules on the form:
 
@@ -68,7 +68,7 @@ target3: prereq31 target1
 The first rule is the default rule and the one executed when just write 'make'.
 
 
-Let us develope our simple example further. We should be able to remove the targets withou to much fuzz. 'rm hello' seems efficient enough in the example, but as our code base grow things will be more complicated. 
+Let us develop our simple example further. We should be able to remove the targets without to much fuzz. 'rm hello' seems efficient enough in the example, but as our code base grow things will be more complicated. 
 
 The establish practice is to use the target 'clean' for removing targets. Here:
 ```make
@@ -101,7 +101,7 @@ When we do 'make clean', our target 'hello.x', is removed despite that there is 
 ---
 
 ## Implicit rules
-There is a range of implicit rules in make. In fact is our simple Makefile overspecified, we can make use of make's implicit rule about C++ files:
+There is a range of implicit rules in make. In fact our simple Makefile is over-specified, we can make use of make's implicit rule about C++ files:
 ```make
 hello: hello.cpp  #note that we changed the name of the target from hello.x to hello
 
@@ -132,7 +132,7 @@ LINK.cc = $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(LDFLAGS) $(TARGET_ARCH)
 
 These variables should be recognizable. These are often inputs to make as part of a build process. You can see what their defaults are by searching in the 'make -p' output (CXX is set to c++, CXXFLAGS is unset)
 
-Let us say we want to keep our nameing of "whatever".x as the target executable. We can copy the implicit rule to making new rule for this naming convention. In addition we use a variable for our target:
+Let us say we want to keep our naming of "whatever".x as the target executable. We can copy the implicit rule to making new rule for this naming convention. In addition we use a variable for our target:
 
 ```make
 TARGET = hello.x
@@ -148,7 +148,7 @@ clean:
 
 ```
 What are these automatic variables? There is six automatic variable which make expand in the following way:
-+ $@ - expands to the filname representing target, our case hello.x
++ $@ - expands to the filename representing target, our case hello.x
 + $^ - the filenames of all prerequisites separated by white spaces, our case only hello.cpp
 + $< - the filename of the  first prerequisite
 + $* - The stem of the target filename ( a filename without is suffix)
