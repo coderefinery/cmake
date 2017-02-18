@@ -41,7 +41,6 @@ Disadvantages:
 - Relatively low-level
 - Portability is a problem (Windows; not sure about Windows 10)
 - Typically needs to be configured (you either have to offer a configure script or offer several Makefiles)
-- Difficult to handle multi-language projects
 - Difficult to manage projects that depend on many libraries
 - Offers no functions to discover OS, processor, libraries, etc.
 - Fortran 90 dependencies need to be explicitly expressed
@@ -91,12 +90,11 @@ Provides tools:
 
 - Generates user interface (command-line or text-UI or GUI)
 - Full-fledged testing and packaging framework with CTest and CPack
-- CTest uses a Makefile (possible to run tests with -jN)
-- Personal opinion: easier than Autotools
+- CTest uses a Makefile (possible to run sequential tests concurrently)
 
 Popular:
 
-- We are in a good company: CMake is used by many prominent projects:
+- CMake is used by many prominent projects:
   MySQL, Boost, VTK, Blender, KDE, LyX, Mendeley, MikTeX, Compiz, Google Test, ParaView, Second Life, Avogadro, and many more ...
 
 General:
