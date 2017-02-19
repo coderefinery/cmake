@@ -446,6 +446,9 @@ configure_file(
 
 Try to now print the configure-time Git hash in `src/main.cpp`.
 
+Homework: The above solution records the configure-time Git hash. How would you
+record the Git hash at build time?
+
 ---
 
 ## Create an installer so the program can be installed properly (GNU standards)
