@@ -9,6 +9,9 @@ questions:
   - "How can we get version information into the binary output for reproducibility?"
   - "How does testing work in CMake?"
   - "How can we create an installer and packager?"
+keypoints:
+  - "Structure your CMake project in a modular way."
+  - "You always want to print version information in your program output for reproducibility."
 ---
 
 ## Creating a CMake framework for an example project
