@@ -98,10 +98,13 @@ You can find a solution on the [solution branch](https://github.com/bast/fizz-bu
 First we create a file called `CMakeLists.txt` containing:
 
 ```cmake
+# stop if CMake version is below 2.8
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
+# project name
 project(fizz-buzz)
 
+# this is a Fortran and C++ project
 enable_language(CXX)
 enable_language(Fortran)
 
@@ -113,6 +116,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
     ${CMAKE_BINARY_DIR}/lib
     )
 
+# process src/CMakeLists.txt
 add_subdirectory(src)
 ```
 
@@ -230,8 +234,10 @@ set(CMAKE_MODULE_PATH
     ${PROJECT_SOURCE_DIR}/cmake
     )
 
+# include cmake/arch.cmake
 include(arch)
 
+# process src/CMakeLists.txt
 add_subdirectory(src)
 ```
 
