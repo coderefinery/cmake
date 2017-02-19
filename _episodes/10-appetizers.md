@@ -11,6 +11,9 @@ objectives:
 
 ## Probing compilation
 
+Sometimes you are not sure whether a platform or compiler supports a certain
+feature that you would like to use if it is available:
+
 ```cmake
 # provides check_fortran_source_compiles
 include(CheckFortranSourceCompiles)
@@ -37,7 +40,7 @@ endif()
 
 ## Source code generation
 
-- Example: we want to use Python to autogenerate C++ code
+In this example we use Python to autogenerate C++ code:
 
 ```cmake
 # find python
@@ -46,17 +49,15 @@ if(NOT PYTHONINTERP_FOUND)
     message(FATAL_ERROR "ERROR: Python interpreter not found.")
 endif()
 
-# generate the file
+# generate the C++ source code
 add_custom_target(
     generate_file
-    COMMAND ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/src/generate.py >
-                                     ${PROJECT_BINARY_DIR}/mylib_generated.cpp
+    COMMAND ${PYTHON_EXECUTABLE} ${PROJECT_SOURCE_DIR}/src/generate.py > ${PROJECT_BINARY_DIR}/mylib_generated.cpp
     )
 
-# mark the file as generated
-set_source_files_properties(
-    ${PROJECT_BINARY_DIR}/mylib_generated.cpp
-    PROPERTIES GENERATED 1)
+# we need to tell CMake that mylib_generated.cpp is a generated file to prevent it from
+# complaining that the file does not exist yet
+set_source_files_properties(${PROJECT_BINARY_DIR}/mylib_generated.cpp PROPERTIES GENERATED 1)
 
 # build library
 add_library(
