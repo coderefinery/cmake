@@ -11,14 +11,11 @@ objectives:
 
 ## CMake generators
 
-A CMake Generator is responsible for writing the input files for a native build
-system.
+- A CMake Generator is responsible for writing the input files for a native build system.
+- The list of CMake generators is long and Unix Makefiles is only one of them.
+- CMake makes it possible to use the native build environment.
 
-The list of CMake generators is long and Unix Makefiles is only one of them.
-
-CMake makes it possible to use the native build environment.
-
-Command-line build tool generators:
+### Command-line build tool generators
 
 - Borland Makefiles
 - MSYS Makefiles
@@ -26,10 +23,10 @@ Command-line build tool generators:
 - NMake Makefiles
 - NMake Makefiles JOM
 - Ninja
-- Unix Makefiles
+- **Unix Makefiles**
 - Watcom WMake
 
-IDE build tool generators:
+### IDE build tool generators
 
 - Visual Studio 6
 - Visual Studio 7
@@ -41,7 +38,7 @@ IDE build tool generators:
 - Visual Studio 12 2013
 - Xcode
 
-Extra generators:
+### Extra generators
 
 - CodeBlocks
 - CodeLite
