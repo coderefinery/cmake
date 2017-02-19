@@ -2,7 +2,7 @@
 layout: episode
 title: "Exercise: Create a CMake framework for an example project"
 teaching: 20
-exercises: 0
+exercises: 35
 questions:
   - "What is a typical layout for a CMake framework?"
   - "How can we build static and shared libraries?"
