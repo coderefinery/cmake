@@ -252,7 +252,7 @@ $ make
 
 ---
 
-## Build the unit tests and link against [Google Test](https://github.com/google/googletest).
+## Build the unit tests and link against [Google Test](https://github.com/google/googletest)
 
 Save this to `cmake/tests.cmake`:
 
@@ -372,7 +372,7 @@ $ make
 
 ---
 
-## Define a version number inside CMake and print it to the output of the executable.
+## Define a version number inside CMake and print it to the output of the executable
 
 Create a file `cmake/config.h.in`:
 
@@ -404,7 +404,7 @@ Include `config.h` in `src/main.cpp` and try to print the code version.
 
 ---
 
-## Print the Git hash to the output of the executable.
+## Print the Git hash to the output of the executable
 
 For this we enhance `cmake/config.h.in`:
 
@@ -445,7 +445,7 @@ Try to now print the configure-time Git hash in `src/main.cpp`.
 
 ---
 
-## Create an installer so the program can be installed properly (GNU standards).
+## Create an installer so the program can be installed properly (GNU standards)
 
 Append the following to `src/CMakeLists.txt`:
 
@@ -475,7 +475,7 @@ $ make install
 
 ---
 
-## Create a DEB or RPM package (if relevant for your distribution).
+## Create a DEB or RPM package (if relevant for your distribution)
 
 Include a `cmake/packager.cmake` containing:
 
