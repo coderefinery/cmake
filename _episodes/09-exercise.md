@@ -68,6 +68,13 @@ The source code and unit tests are there:
 
 You can also browse them [on the web](https://github.com/bast/fizz-buzz).
 
+This is how it looks when we run the binary:
+```shell
+$ ./bin/fb.x
+
+Fizz-buzz sum for integer 10 is 33
+Fizz-buzz sum for integer 100 is 2418
+```
 
 ### Tasks
 
