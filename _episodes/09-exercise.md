@@ -298,8 +298,10 @@ Also include this file in the main `CMakeLists.txt`:
 ```cmake
 # ... rest of CMakeLists.txt
 
+# include cmake/arch.cmake
 include(arch)
 
+# process src/CMakeLists.txt
 add_subdirectory(src)
 
 include(tests)  # we added this line
