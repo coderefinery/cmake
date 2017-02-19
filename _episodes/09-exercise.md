@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Exercise: Create a CMake framework for an example project"
+title: "Exercise: CMake-ify an example project"
 teaching: 20
 exercises: 35
 questions:
@@ -462,9 +462,10 @@ $ make install
 
 ## Create a DEB or RPM package (if relevant for your distribution).
 
-Include a `cmake/packager.cmake`:
+Include a `cmake/packager.cmake` containing:
 
 ```cmake
+# change this later to a real person
 set(CPACK_PACKAGE_CONTACT "Slim Shady")
 
 include(CPack)
