@@ -74,7 +74,7 @@ but as our code base grow things will be more complicated.
 The establish practice is to use the target 'clean' for removing targets. Here:
 ```make
 hello.x: hello.cpp
-	g++ hello.cpp -o hello
+	g++ hello.cpp -o hello.x
 
 clean:
 	rm hello.x
