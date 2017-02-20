@@ -37,7 +37,7 @@ We wish to compile this code to `hello`.
 We start out with a very simple file called `Makefile` which contains (second line starts with a tab):
 ```make
 hello.x: hello.cpp
-	g++ hello.cpp -o hello
+	g++ hello.cpp -o hello.x
 ```
 
 Your newly created subdirectory should look like this:
