@@ -5,11 +5,10 @@ teaching: 5
 exercises: 0
 questions:
   - "I only do compilation on small private projects, do I need Make?"
-  - "Make seems so complex,it is not exactly easy to read Makefils?"
-  - "I am a Python developer, why should I care?"
+  - "Make seems so complex. It is not exactly easy to read Makefils?"
 objectives:
   - "Develop a simple Makefile, which can be used in small projects."
-  - "See what creates Make Magic."
+  - "See what creates the 'magic' in Make."
 keypoints:
   - "Make structure the build process"
   - "Make -p can be very helpful"
