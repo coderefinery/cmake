@@ -5,7 +5,7 @@ teaching: 5
 exercises: 0
 questions:
   - "I only do compilation on small private projects, do I need Make?"
-  - "Make seems so complex. It is not exactly easy to read Makefils?"
+  - "Make seems so complex. It is not exactly easy to read Makefiles?"
 objectives:
   - "Develop a simple Makefile, which can be used in small projects."
   - "See what creates the 'magic' in Make."
