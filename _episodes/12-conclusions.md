@@ -17,6 +17,7 @@ questions:
 - Many projects use CMake in other words you are not alone if you look for a solution
 - [Stack Overflow](http://stackoverflow.com) and GitHub repositories are a good resource for solutions
 
+
 ### Critique
 
 - Absolute paths (you cannot move a configured project to a different path)
