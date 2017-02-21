@@ -262,11 +262,11 @@ $(TARGET) : $(BUILD_DIR)/$(TARGET)
 
 $(BUILD_DIR)/$(TARGET) : $(OBJ)
 	mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS)
+	$(CXX) $(CXXFLAGS) $^ -o $@ $(LDFLAGS) $(LDLIBS) -include $(DEPS)
 
 $(BUILD_DIR)/%.o : %.cpp
 	mkdir -p $(@D)
-	$(CXX) $(CXXFLAGS) -c $< -o $@ $(INC)
+	$(CXX) $(CXXFLAGS) -MMD -c $< -o $@ $(INC)
 ```
 
 
