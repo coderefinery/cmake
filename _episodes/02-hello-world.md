@@ -124,6 +124,12 @@ you redirect this to a file 'make -p > make-dbase.txt', you can take a look at
 the implicit rules governing the build process. Open the file 'make-dbase.txt'
 in a editor and search for %.cpp
 
+```shell
+$ make -p > make-dbase.txt
+$ls 
+Makefile	clean		hello		hello.cpp	make-dbase.txt
+```
+
 You should find something like:
 ```make
 %.cpp:
