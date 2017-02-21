@@ -302,3 +302,8 @@ build: $(SRCS)
 ## Task
 
 - Discuss the problems with this Makefile. Identify the two most severe problems here.
+
+
+## Resources
+
+- [Managing Projects with GNU Make, third edition](http://www.oreilly.com/openbook/make3/book/index.csp)
