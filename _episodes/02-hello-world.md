@@ -124,6 +124,12 @@ you redirect this to a file 'make -p > make-dbase.txt', you can take a look at
 the implicit rules governing the build process. Open the file 'make-dbase.txt'
 in a editor and search for %.cpp
 
+```shell
+$ make -p > make-dbase.txt
+$ls 
+Makefile	clean		hello		hello.cpp	make-dbase.txt
+```
+
 You should find something like:
 ```make
 %.cpp:
@@ -296,3 +302,8 @@ build: $(SRCS)
 ## Task
 
 - Discuss the problems with this Makefile. Identify the two most severe problems here.
+
+
+## Resources
+
+- [Managing Projects with GNU Make, third edition](http://www.oreilly.com/openbook/make3/book/index.csp)
