@@ -5,19 +5,19 @@ teaching: 5
 exercises: 0
 questions:
   - "I only do compilation on small private projects, do I need Make?"
-  - "Make seems so complex. It is not exactly easy to read Makefiles?"
+  - "Make seems so complex. Can reading Makefiles be made easier?"
 objectives:
   - "Develop a simple Makefile, which can be used in small projects."
   - "See what creates the 'magic' in Make."
 keypoints:
-  - "Make structure the build process"
+  - "Make structures the build process"
   - "Make -p can be very helpful"
 
 ---
 
 ## Why are many projects using Makefiles?
 
-Why not just writing a script that will compile and link everything?
+Why not just write a script that compiles and links everything?
 Discuss with the group.
 
 ---
