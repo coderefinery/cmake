@@ -4,9 +4,9 @@ title: "Appetizers for more advanced concepts"
 teaching: 5
 exercises: 0
 questions:
-  - "What else is possible?"
+  - What else is possible?
 objectives:
-  - "Provide a resource for more advanced concepts."
+  - Provide a resource for more advanced concepts.
 ---
 
 ## Probing compilation

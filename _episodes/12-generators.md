@@ -4,9 +4,9 @@ title: "Generators"
 teaching: 5
 exercises: 0
 questions:
-  - "Can CMake be used with tools and frameworks other than Makefiles?"
+  - Can CMake be used with tools and frameworks other than Makefiles?
 objectives:
-  - "Discover that CMake is not only for Unix Makefiles."
+  - Discover that CMake is not only for Unix Makefiles.
 ---
 
 ## CMake generators
@@ -14,6 +14,7 @@ objectives:
 - A CMake Generator is responsible for writing the input files for a native build system.
 - The list of CMake generators is long and Unix Makefiles is only one of them.
 - CMake makes it possible to use the native build environment.
+
 
 ### Command-line build tool generators
 
@@ -26,6 +27,7 @@ objectives:
 - **Unix Makefiles**
 - Watcom WMake
 
+
 ### IDE build tool generators
 
 - Visual Studio 6
@@ -37,6 +39,7 @@ objectives:
 - Visual Studio 11 2012
 - Visual Studio 12 2013
 - Xcode
+
 
 ### Extra generators
 
