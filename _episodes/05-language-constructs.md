@@ -4,13 +4,14 @@ title: "Branching, variables, lists, and loops"
 teaching: 10
 exercises: 0
 questions:
-  - "Is CMake a full-fledged programming language?"
+  - Is CMake a full-fledged programming language?
 objectives:
-  - "Learn how to set and print variables."
-  - "Learn how to avoid code repetition."
+  - Learn how to set and print variables.
+  - Learn how to avoid code repetition.
 keypoints:
-  - "CMake allows you to structure your code to avoid code repetition."
+  - CMake allows you to structure your code to avoid code repetition.
 ---
+
 ## Branching
 
 Note the unusual parentheses in `else()` and `endif()`:
@@ -22,11 +23,14 @@ else()
     message("Better stay inside the house.")
 endif()
 ```
+
 Write this to a CMakeLists.txt and execute cmake in a subdirectory, like this:
+
 ```shell
 $ mkdir build
 $ cd build
 $ cmake ..
+
 -- The C compiler identification is AppleClang 7.3.0.7030031
 -- The CXX compiler identification is AppleClang 7.3.0.7030031
 -- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
@@ -45,9 +49,10 @@ Better stay inside the house.
 -- Configuring done
 -- Generating done
 -- Build files have been written to: /Users/bjornlin/tmp/cmake/build
-
 ```
-Let us take the other branch by setting the variable ${CURRENT_WEATHER}. Here from the command line:
+
+Let us try the other branch by setting the variable ${CURRENT_WEATHER}. Here from the command line:
+
 ```shell
 $ cmake -DCURRENT_WEATHER="sunny day" ..
 Today is a sunny day. Let us go for a walk.
