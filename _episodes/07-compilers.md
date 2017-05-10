@@ -4,10 +4,10 @@ title: "Compilers and compiler flags"
 teaching: 10
 exercises: 0
 questions:
-  - "How can we select the compiler?"
-  - "How can we change compiler flags?"
+  - How can we select the compiler?
+  - How can we change compiler flags?
 objectives:
-  - "Learn how to display and change compilers and compiler flags."
+  - Learn how to display and change compilers and compiler flags.
 ---
 
 ## How to specify the compiler
@@ -90,7 +90,7 @@ endif()
 
 ---
 
-## See actual compiler flags and link line
+## What are the actual compiler flags and link line?
 
 The default compilation output is nice and compact.  But sometimes we want to
 see the current compiler flags and the gory compiler output:
