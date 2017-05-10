@@ -4,20 +4,15 @@ title: "Why Make?"
 teaching: 5
 exercises: 0
 questions:
-  - I only do compilation on small private projects, do I need Make?
-  - Make seems so complex. Can reading Makefiles be made easier?
-objectives:
-  - Develop a simple Makefile, which can be used in small projects.
-  - "See what creates the 'magic' in Make."
-keypoints:
-  - Make structures the build process.
-  - "Make -p can be very helpful."
+  - Why do many projects use Makefiles?
+  - What are typical problems with Makefiles?
 ---
 
-## Why are many projects using Makefiles?
+## Makefiles are over 40 years old!
 
-Why not just write a script that compiles and links everything?
-Discuss with the group.
+- And they are probably here to stay. Why?
+- Why do we divide projects into many files?
+- Why not just write a script that compiles and links all files?
 
 ---
 
@@ -25,27 +20,35 @@ Discuss with the group.
 
 Makefiles express targets and their dependencies and are a popular way to compile software.
 
-Motivation for using Makefiles:
 
-- Express dependencies and let Make rebuild those targets and dependencies which are out of date
+### Motivation
 
-Advantages:
+- Express dependencies and let Make rebuild those targets and dependencies which are out of date.
 
-- Simple and many people are comfortable with it
-- Portable across Unix, Linux, and Mac OS X
-- Has been around for a very long time and is very well tested
 
-Disadvantages:
+### Advantages
 
-- Relatively low-level
-- Portability is a problem (Windows; not sure about Windows 10)
-- Typically needs to be configured (you either have to offer a configure script or offer several Makefiles)
-- Difficult to manage projects that depend on many libraries
+- Simple and many people are comfortable with it.
+- Portable across Unix, Linux, and Mac OS X.
+- Has been around for a very long time and is very well tested.
+- General: not only for compiling files! We can define what targets mean.
+
+
+### Disadvantages
+
+- Relatively low-level.
+- Portability is a problem (Windows; not sure about Windows 10).
+- Typically needs to be configured (you either have to offer a configure script or offer several Makefiles).
 - Offers no functions to discover OS, processor, libraries, etc.
-- Fortran 90 dependencies need to be explicitly expressed
-- Difficult to do complex tasks and remain portable
+- Fortran 90 dependencies need to be explicitly expressed.
+- Difficult to manage projects that depend on many libraries.
+- Difficult to do complex tasks and remain portable.
 - Typically we need to accommodate multiple languages, complex dependencies, math libraries, MPI, OpenMP, conditional
   builds and testing, external libraries, etc.
-- Typically projects grow out of Makefiles and use GNU Autotools to generate Makefiles
+- Typically projects grow out of Makefiles and use GNU Autotools to generate Makefiles.
 
 ---
+
+## Applications
+
+- What applications of Makefiles can you imagine?

@@ -9,11 +9,15 @@ questions:
   - What is an out-of-source compilation?
 objectives:
   - Learn how to configure and build simple Makefiles.
+  - Develop a simple Makefile, which can be used in small projects.
+  - "See what creates the 'magic' in Make."
 keypoints:
   - We start by compiling in source.
   - The object files can be built in a separate subdirectory.
   - Make dependencies can be regenerated.
   - A simple but usable Makefile which can be used for smaller projects.
+  - Make expresses dependencies.
+  - Make structures the build process.
 ---
 
 ## Hello-world example
