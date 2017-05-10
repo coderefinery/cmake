@@ -126,7 +126,7 @@ in a editor and search for %.cpp
 
 ```shell
 $ make -p > make-dbase.txt
-$ls 
+$ls
 Makefile	clean		hello		hello.cpp	make-dbase.txt
 ```
 
