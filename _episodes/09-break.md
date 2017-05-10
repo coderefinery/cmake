@@ -8,5 +8,6 @@ questions:
 ---
 
 ## Break
-+ Grab a coffee or tea
-+ Get some fresh air
+
+- Grab a coffee or tea.
+- Get some fresh air!
