@@ -4,14 +4,14 @@ title: "Exercise: CMake-ify an example project"
 teaching: 20
 exercises: 35
 questions:
-  - "What is a typical layout for a CMake framework?"
-  - "How can we build static and shared libraries?"
-  - "How can we get version information into the binary output for reproducibility?"
-  - "How does testing work in CMake?"
-  - "How can we create an installer and packager?"
+  - What is a typical layout for a CMake framework?
+  - How can we build static and shared libraries?
+  - How can we get version information into the binary output for reproducibility?
+  - How does testing work in CMake?
+  - How can we create an installer and packager?
 keypoints:
-  - "Structure your CMake project in a modular way."
-  - "You always want to print version information in your program output for reproducibility."
+  - Structure your CMake project in a modular way.
+  - You always want to print version information in your program output for reproducibility.
 ---
 
 ## Creating a CMake framework for an example project
