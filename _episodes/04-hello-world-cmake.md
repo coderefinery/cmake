@@ -4,22 +4,15 @@ title: "Hello-world example using CMake"
 teaching: 20
 exercises: 0
 questions:
-  - "How are CMake projects configured and built?"
-  - "What is an out of source compilation?"
+  - How are CMake projects configured and built?
+  - What is an out of source compilation?
 objectives:
-  - "Learn how to configure and build CMake projects."
+  - Learn how to configure and build CMake projects.
 keypoints:
-  - "We always compile out of source."
-  - "The name and path of the build directory can be changed."
-  - "When configuring we point CMake at the location of the CMakeLists.txt file."
+  - We always compile out of source.
+  - The name and path of the build directory can be changed.
+  - When configuring we point CMake at the location of the CMakeLists.txt file.
 ---
-
-## CMake Motivation
-
-- When you move your application or code base to another platform, you will need to modify your Makefiles or write a configuration script.
-- If your software is used on several platforms, you easily end up doing almost identical modifications in several places.
-- On Microsoft Windows you may have to use a separate build systems.
-- Your changes in the Makefiles do rarely apply to Microsoft Windows.
 
 ## Hello-world example
 
@@ -55,9 +48,11 @@ enable_language(CXX)
 add_executable(hello.x hello.cpp)
 ```
 
-Your subdirectory should like this:
+Your directory should look like this:
+
 ```shell
 $ ls
+
 CMakeLists.txt	hello.cpp
 ```
 
@@ -101,6 +96,8 @@ Scanning dependencies of target hello.x
 
 Done. In the following we will learn what happened here behind the scenes.
 
+Have you used `git init`? Good! You probably want to ignore the `build/` directory.
+
 ---
 
 ## Name and location of the build directory
@@ -125,46 +122,7 @@ $ make
 
 ---
 
-Let us develop our hello world example a little bit more. We move the source
-code to a subdirectory and remove the previous build subdirectory. CMake will
-visit the source directory and generate the build files accordingly:
-
-```shell
-$ mkdir src
-$ mv hello.cpp src
-$ rm -rf build
-```
-
-In our file CMakeLists.txt the add_executable is changed to:
-```CMake
-add_executable(hello.x src/hello.cpp)
-```
-
-In addition we copy the produced binary to its own subdirectory. Add the following to the end of the CMakeLists.txt:
-```cmake
-# add the custom command to copy it
-add_custom_command ( TARGET hello.x
-	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} ARGS -E chdir .. mkdir bin
-	COMMAND ${CMAKE_COMMAND} ARGS -E copy $<TARGET_FILE:hello.x> ${PROJECT_BINARY_DIR}/../bin
-)
-```
-
-This copy operation is a bit artificial. It is most for illustrating the point with commands which can be used on any platform. CMake provides a few platform independent custom commands:
-+ **chdir dir commands args**
-+ **copy file destination**
-+ **copy_if_different in-file out-file**
-+ **remove file1 file2 ...**
-+ **echo string**
-+ **time commands**
-
-For more advanced platform independent processing, search for a scripting
-language like Python or Perl (find_package(perl), find_package(python)). Of
-course then your application installation get depending upon other packages.
-
----
-
-## Benefits of using CMake
+## Benefits of out-of-source compilation
 
 - CMake looks for `CMakeLists.txt` and processes this file
 - CMake puts everything into `${PROJECT_BINARY_DIR}` and does not pollute `${PROJECT_SOURCE_DIR}`
@@ -172,17 +130,3 @@ course then your application installation get depending upon other packages.
   - Sequential and parallel builds
   - Debug build or optimized build
   - Production and debugging compilations
-
-*(following points taken from the book "Mastering CMake", K. Martin, B. Hoffman, Kitware)*
-
-* The ability to search for programs, libraries and header files required by the software being built
-* The ability to build in a directory tree outside the source code directory tree
-* The ability to build complex custom commands for automatically generated files such as  SWIG wrapper generators
-* The ability to select optional components at configuration time
-* The ability to automatically generate workspaces and projects from a simple text file
-* The ability to switch between static and shared builds
-* Automatic generation of file dependencies and support for parallel builds on most platforms
-* The ability to test for byte-order and other hardware-specific characteristics
-* A single set of build configuration files that work on all platforms
-* Ability to build shared libraries on all platforms that support it
-* Ability to configure files with system-dependent information, such as the location of data files and other information

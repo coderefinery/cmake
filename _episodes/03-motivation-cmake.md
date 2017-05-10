@@ -71,3 +71,25 @@ General:
 
 One day you might need to implement low-level operations to your Python library
 in Fortran or C or C++ and then CMake can come in handy.
+
+
+## CMake Motivation
+
+- When you move your application or code base to another platform, you will need to modify your Makefiles or write a configuration script.
+- If your software is used on several platforms, you easily end up doing almost identical modifications in several places.
+- On Microsoft Windows you may have to use a separate build systems.
+- Your changes in the Makefiles do rarely apply to Microsoft Windows.
+
+*(following points taken from the book "Mastering CMake", K. Martin, B. Hoffman, Kitware)*
+
+* The ability to search for programs, libraries and header files required by the software being built
+* The ability to build in a directory tree outside the source code directory tree
+* The ability to build complex custom commands for automatically generated files such as  SWIG wrapper generators
+* The ability to select optional components at configuration time
+* The ability to automatically generate workspaces and projects from a simple text file
+* The ability to switch between static and shared builds
+* Automatic generation of file dependencies and support for parallel builds on most platforms
+* The ability to test for byte-order and other hardware-specific characteristics
+* A single set of build configuration files that work on all platforms
+* Ability to build shared libraries on all platforms that support it
+* Ability to configure files with system-dependent information, such as the location of data files and other information
