@@ -1,18 +1,17 @@
 ---
 layout: episode
-title: "Motivation for Make"
+title: "Why Make?"
 teaching: 5
 exercises: 0
 questions:
-  - "I only do compilation on small private projects, do I need Make?"
-  - "Make seems so complex. Can reading Makefiles be made easier?"
+  - I only do compilation on small private projects, do I need Make?
+  - Make seems so complex. Can reading Makefiles be made easier?
 objectives:
-  - "Develop a simple Makefile, which can be used in small projects."
+  - Develop a simple Makefile, which can be used in small projects.
   - "See what creates the 'magic' in Make."
 keypoints:
-  - "Make structures the build process"
-  - "Make -p can be very helpful"
-
+  - Make structures the build process.
+  - "Make -p can be very helpful."
 ---
 
 ## Why are many projects using Makefiles?

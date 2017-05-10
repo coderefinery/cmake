@@ -1,18 +1,18 @@
 ---
 layout: episode
-title: "Motivation for CMake"
+title: "Why CMake?"
 teaching: 5
 exercises: 0
 questions:
-  - "I am already using Makefiles, do I need CMake?"
-  - "Why CMake and not Autotools?"
-  - "I am a Python developer, why should I care?"
+  - I am already using Makefiles, do I need CMake?
+  - Why CMake and not Autotools?
+  - I am a Python developer, is any of this relevant for me?
 objectives:
-  - "Building software involves many layers of tools. The objective is to be able to place CMake in this stack."
+  - Building software involves many layers of tools. The objective is to be able to place CMake in this stack.
 keypoints:
-  - "CMake is not a replacement for Makefiles."
-  - "CMake can generate Makefiles."
-  - "CMake is an alternative to Autotools."
+  - CMake is not a replacement for Makefiles.
+  - CMake can generate Makefiles.
+  - CMake is an alternative to Autotools.
 ---
 
 ## About [CMake](https://cmake.org)

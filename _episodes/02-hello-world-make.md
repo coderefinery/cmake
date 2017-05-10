@@ -1,19 +1,19 @@
 ---
 layout: episode
-title: "Hello-world example"
+title: "Hello-world example using Make"
 teaching: 30
 exercises: 0
 questions:
-  - "How does the make command work?"
-  - "What are implicit rules, suffixes, different types of variables?"
-  - "What is an out-of-source compilation?"
+  - How does the make command work?
+  - What are implicit rules, suffixes, different types of variables?
+  - What is an out-of-source compilation?
 objectives:
-  - "Learn how to configure and build simple Makefiles."
+  - Learn how to configure and build simple Makefiles.
 keypoints:
-  - "We start by compiling in source."
-  - "The object files can be built in a separate subdirectory."
-  - "Make dependencies can be regenerated."
-  - "A simple but usable Makefile which can be used for smaller projects."
+  - We start by compiling in source.
+  - The object files can be built in a separate subdirectory.
+  - Make dependencies can be regenerated.
+  - A simple but usable Makefile which can be used for smaller projects.
 ---
 
 ## Hello-world example
