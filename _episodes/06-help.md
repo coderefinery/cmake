@@ -4,7 +4,7 @@ title: "Help"
 teaching: 5
 exercises: 0
 questions:
-  - "Where can I find help?"
+  - Where can I find help?
 ---
 
 ## Finding help
@@ -42,17 +42,13 @@ $ cmake --help-command add_custom_command
 - [List of CMake variables](https://cmake.org/Wiki/CMake_Useful_Variables)
 - [Official CMake documentation](https://cmake.org/documentation/)
 
-Here is a list of commands that we have use in our examples. The quick search
-function on the CMake Documentation web page will give you an explanation of
-these commands:
+Here is a list of commands that we have use in our examples:
 
-```cmake
-cmake_minimum_required
-project
-enable_language
-add_executable
-add_custom_command
-```
+- [cmake_minimum_required](https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html)
+- [project](https://cmake.org/cmake/help/latest/command/project.html)
+- [enable_language](https://cmake.org/cmake/help/latest/command/enable_language.html)
+- [add_executable](https://cmake.org/cmake/help/latest/command/add_executable.html)
+- [add_custom_command](https://cmake.org/cmake/help/latest/command/add_custom_command.html)
 
 ---
 
