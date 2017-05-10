@@ -1,7 +1,5 @@
 
 
-# CMake lesson
+# [CMake lesson](https://coderefinery.github.io/cmake/)
 
-## Credit and license
-
-- https://coderefinery.github.io/cmake/license/
+- [Credit and license](https://coderefinery.github.io/cmake/license/)
