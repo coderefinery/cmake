@@ -15,6 +15,13 @@ configuring and building an
 using CMake.
 
 
+## Contributions welcome
+
+The material is not well tested on Windows because the lesson authors are
+Linux/Mac people. Corrections and contributions which make the lesson more
+general and portable are very much welcome.
+
+
 ## Prerequisites
 
 1. You need to install [CMake, as well as Fortran, C, and C++ compilers](https://coderefinery.github.io/installation/).
