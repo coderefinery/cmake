@@ -6,7 +6,7 @@ permalink: /
 # Building portable code with [CMake](https://cmake.org)
 
 CMake is a popular open-source, cross-platform family of tools designed to
-build, test and package software.
+build, test, and package software.
 
 In this lesson we will motivate the use of Make and CMake discover and apply
 various CMake building blocks. We will exercise applying the material by
