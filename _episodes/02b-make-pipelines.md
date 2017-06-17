@@ -7,17 +7,11 @@ questions:
   - How does the make command work?
   - What are Makefiles composed of?
   - Why are Makefiles useful for Python and R developers?
-#objectives:
-#  - Learn how to configure and build simple Makefiles.
-#  - Develop a simple Makefile, which can be used in small projects.
-#  - "See what creates the 'magic' in Make."
-#keypoints:
-#  - We start by compiling in source.
-#  - The object files can be built in a separate subdirectory.
-#  - Make dependencies can be regenerated.
-#  - A simple but usable Makefile which can be used for smaller projects.
-#  - Make expresses dependencies.
-#  - Make structures the build process.
+objectives:
+  - Understand why they exist.
+  - Recipe for reproducible data processing pipelines.
+keypoints:
+  - Makefiles express targets, rules, and dependencies.
 ---
 
 ## Motivation
@@ -36,7 +30,7 @@ We clone an [example repository](https://github.com/bast/make-pipeline).
 This example contains two scripts that should in a very simplified way
 represent a real data processing pipeline.
 
-The script `count.py` counts the 10 most frequent characters in a text
+The script `count.py` counts the 10 most frequent characters in a text,
 read from standard input:
 
 ```shell
@@ -111,7 +105,7 @@ target: dependencies
 
 ## Makefile to process one data file
 
-Create a file called `Makefile` with the following content (**mind the tab**):
+Create a file called `Makefile` with the following content (**mind the tabs**):
 
 ```makefile
 all: data/lorem.tmp data/lorem.out
