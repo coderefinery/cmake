@@ -1,8 +1,8 @@
 ---
 layout: episode
 title: "Data processing pipeline using Make"
-teaching: 0
-exercises: 0
+teaching: 20
+exercises: 10
 questions:
   - Why do many projects use Makefiles?
   - How does the make command work?
@@ -23,7 +23,7 @@ keypoints:
 
 ---
 
-## Motivation
+## Motivation for the following exercise
 
 - Get a feel for Makefiles.
 - Demonstrate that Makefiles are not only for compiling C, C++, and Fortran code.
