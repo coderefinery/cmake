@@ -4,6 +4,7 @@ title: "Data processing pipeline using Make"
 teaching: 0
 exercises: 0
 questions:
+  - Why do many projects use Makefiles?
   - How does the make command work?
   - What are Makefiles composed of?
   - Why are Makefiles useful for Python and R developers?
@@ -12,6 +13,14 @@ objectives:
   - Recipe for reproducible data processing pipelines.
 keypoints:
   - Makefiles express targets, rules, and dependencies.
+---
+
+## Makefiles are over 40 years old!
+
+- And they are probably here to stay. Why?
+- Why do we divide projects into many files?
+- Why not just write a script that compiles and links all files?
+
 ---
 
 ## Motivation

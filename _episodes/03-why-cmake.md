@@ -5,6 +5,7 @@ teaching: 5
 exercises: 0
 questions:
   - I am already using Makefiles, do I need CMake?
+  - What are typical problems with Makefiles?
   - Why CMake and not Autotools?
   - I am a Python developer, is any of this relevant for me?
 objectives:
