@@ -62,6 +62,7 @@ $ ccmake ..
 ```
 
 You will get a interface like this. Press to (t) for the toggling on the advanced mode:
+
 ```cmake
                                                      Page 1 of 3
  CMAKE_AR                         /Applications/Xcode.app/Contents/Developer/Toolch
@@ -93,6 +94,7 @@ Press [t] to toggle advanced mode (Currently On)
 If you need to build a package which uses CMake as the configuration tool, this
 is a way to get a quick overview of what is needed for building the package.
 Here is an example for Armadillo 7.5.002:
+
 ```cmake
                                                     Page 1 of 3
  ARPACK_LIBRARY                  *ARPACK_LIBRARY-NOTFOUND
