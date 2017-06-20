@@ -72,6 +72,7 @@ The source code and unit tests are there:
 You can also browse them [on the web](https://github.com/bast/fizz-buzz).
 
 This is how it looks when we run the binary:
+
 ```shell
 $ ./bin/fb.x
 
