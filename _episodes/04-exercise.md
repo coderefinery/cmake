@@ -13,7 +13,7 @@ keypoints:
 
 - Work in a team (or on your own if you prefer).
 - Clone [this project](https://github.com/Gregwar/ASCII-Tetris).
-- Take `CMakeLists.txt` from [/04-hello-world-cmake/](Hello-world example using CMake) as a starting point.
+- Take the `CMakeLists.txt` from the previous section "Hello-world example using CMake" as a starting point.
 - Try to configure and compile the game with CMake.
 - Play Tetris and try to get a good score.
 
