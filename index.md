@@ -27,4 +27,4 @@ general and portable are very much welcome.
 1. You need to install [CMake, as well as Fortran, C, and C++ compilers](https://coderefinery.github.io/installation/).
 
 2. To appreciate this material it helps to have some prior exposure to
-   Makefiles and compiled languages.
+   Makefiles and compiled languages but we have also something for the Python/R crowd.
