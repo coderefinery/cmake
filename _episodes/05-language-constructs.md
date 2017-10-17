@@ -1,144 +1,120 @@
 ---
 layout: episode
-title: "Branching, variables, lists, and loops"
+title: "Making use of a new package - building an example from Intel Threaded Building Blocks"
 teaching: 10
 exercises: 0
 questions:
-  - Is CMake a full-fledged programming language?
+  - Downloadable source code packages often contain a CMake configuration.
+  - How can can a software library be used with CMake?
 objectives:
-  - Learn how to set and print variables.
+  - Learn how to make use of find_packages()
+  - Learn how to set and print variables
   - Learn how to avoid code repetition.
 keypoints:
-  - CMake allows you to structure your code to avoid code repetition.
+  - CMake ease integration of other software libraries.
 ---
 
-## Branching
+## Downloading Intel Threaded Building Blocks ([TBB](https://github.com/01org/tbb/releases))
+Use wget or curl, following the description below to download TBB or go to the release download page (link in the title) and select the package for your platform.
 
-Note the unusual parentheses in `else()` and `endif()`:
-
-```cmake
-if(CURRENT_WEATHER STREQUAL "sunny day")
-    message("Today is a ${CURRENT_WEATHER}. Let us go for a walk.")
-else()
-    message("Better stay inside the house.")
-endif()
+On a Mac:
+```shell
+$ mkdir tbb
+$ cd tbb
+$ curl -OL https://github.com/01org/tbb/releases/download/2018_U1/tbb2018_20170919oss_mac.tgz
+$ tar xf tbb2018_20170919oss_mac.tgz
 ```
 
-Write this to a CMakeLists.txt and execute cmake in a subdirectory, like this:
+On a Linux:
+```shell
+$ mkdir tbb
+$ cd tbb
+$ wget -O tbb2018.tgz https://github.com/01org/tbb/releases/download/2018_U1/tbb2018_20170919oss_lin.tgz
+$ tar xf tbb2018.tgz
+```
 
+We will build a TBB Getting Started example with the use of CMake. Copy the example C++ file to a
+src subdirectory:
+```
+$ mkdir src
+$ cp tbb2018_20170919oss/examples/GettingStarted/sub_string_finder/sub_string_finder.cpp src
+```
+
+Create two CMakeLists.txt files, one in the current directory and another one in the src sub-directory:
+Here is the CMakeLists.txt for the current directory:
+```cmake
+cmake_minimum_required(VERSION 3.0)
+project(tbb_tutorial)
+
+# HINT to <prefix> for search path for Intel Threaded Building Blocks
+find_package(TBB REQUIRED CONFIG HINTS tbb2018_20170919oss)
+
+add_subdirectory(src bin)   # if output directory is not specified, the output will be placed in a directory OUTPUT_DIR/src
+```
+
+Here is the CMakeLists.txt in the src-subdirecotry:
+```cmake
+add_executable(substring.x sub_string_finder.cpp)
+# TBB::tbb could also be used like: target_link_libraries(substring.x TBB::tbb)
+target_link_libraries(substring.x ${TBB_IMPORTED_TARGETS})
+```
+
+Build the binary with cmake and make:
 ```shell
 $ mkdir build
 $ cd build
 $ cmake ..
-
--- The C compiler identification is AppleClang 7.3.0.7030031
--- The CXX compiler identification is AppleClang 7.3.0.7030031
--- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
--- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -- works
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Detecting C compile features
--- Detecting C compile features - done
--- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
--- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -- works
--- Detecting CXX compiler ABI info
--- Detecting CXX compiler ABI info - done
--- Detecting CXX compile features
--- Detecting CXX compile features - done
-Better stay inside the house.
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/bjornlin/tmp/cmake/build
+$ make
+$ ./bin/substring.x
 ```
 
-Let us try the other branch by setting the variable ${CURRENT_WEATHER}. Here from the command line:
+The crux in this CMake setup is the find_package(). If the TBB is not found CMake stops and return an error.
+It is the 'REQUIRED' argument that stops the CMake processing if TBB is not found.
 
-```shell
-$ cmake -DCURRENT_WEATHER="sunny day" ..
-Today is a sunny day. Let us go for a walk.
--- Configuring done
--- Generating done
--- Build files have been written to: /Users/bjornlin/tmp/cmake/build
+find_package() can be executed in different modes. The Module Mode is the default. Here we request 'CONFIG'.
+Config modes means find_package will look for <Package>Config.CMake, in our case TBBConfig.cmake.
 
-```
+If you look at the download TBB library, you will find a CMake sub-directory which contains TBBConfig.cmake.
+The HINTS statement take a path-prefix as argument, in our case a relative path. We could have used a full path.
+find_package() will search for the config file ing <prefix>, <prefix>/CMake|cmake, share/cmake|CMake. In our
+case it finds it under tbb2018_20170919oss/cmake.
 
-## Messages to the user (or to you)
+If you download software which you want to use, search for a cmake config file in the  download software. 
 
-Useful for debugging CMake files:
+### Bonus
+Build and install the [Armadillo C++ Matrix library](http://arma.sourceforge.net/docs.html) and
+use the steps shown here to build the [example program](http://arma.sourceforge.net/docs.html#example_prog).
 
-```cmake
-# display message
-message("We are right here.")
 
-# display STATUS message with a -- in the command line
-message(STATUS "Still everything under control ...")
-
-# display message and halt configuration
-message(FATAL_ERROR "Something unexpected happened!")
-```
 
 ---
 
-## Variables, lists, and loops
-
+## Variables
+We can make the configuration process more verbose with message(). Here message() shows the values of variables set by project(). We also set our own variable ${HINT_PATH}
+and use it in find_package()
 ```cmake
-set(CURRENT_WEATHER "sunny day")
+cmake_minimum_required(VERSION 3.0)
+project(tbb_tutorial)
+message("PROJECT_SOURCE_DIR: ${PROJECT_SOURCE_DIR} and PRJOECT_BINARY_DIR:${PROJECT_BINARY_DIR}")
+set(HINT_PATH tbb2018_20170919oss)
+# HINT to <prefix> for search path for Intel Threaded Building Blocks
+find_package(TBB REQUIRED CONFIG HINTS ${HINT_PATH})
 
-message("We'll meet again some ${CURRENT_WEATHER} ...")
+add_subdirectory(src bin)   # if output directory is not specified, the output will be placed in a directory OUTPUT_DIR/src
 
-set(FRUITS apple banana orange kiwi mango)
-
-foreach(fruit ${FRUITS})
-    message("${fruit} is a tasty fruit")
-endforeach()
 ```
 
-You can append to sets like this:
+## More find functions
+CMake provides several find functions, which you can use to search for files,
+libraries, paths, header files, or entire packages:
 
-```cmake
-set(FRUITS apple banana orange kiwi mango)
+- [find_file](https://cmake.org/cmake/help/latest/command/find_file.html)
+- [find_library](https://cmake.org/cmake/help/latest/command/find_library.html)
+- [find_path](https://cmake.org/cmake/help/latest/command/find_path.html)
+- [find_program](https://cmake.org/cmake/help/latest/command/find_program.html)
 
-# we add grapes to the list of fruits
-set(FRUITS ${FRUITS} grapes)
-```
+Reading the documentation and doing some experimentation is needed to make use of
+these functions.
 
----
-
-## Functions and macros
-
-Functions are like C/C++ functions, and arguments are available by their
-argument names or from their argument position (ARGV0, ARGV1, ...):
-
-```cmake
-function(my_function firstname lastname)
-    message("called my_function with the arguments: '${firstname}' and '${lastname}'")
-    message("The number of arguments is ${ARGC}")
-    message("ARGV0: ${ARGV0} ARGV1: ${ARGV1}")
-    set(MY_VARIABLE "${lastname} ${firstname}")  # this will not be visible outside
-endfunction()
-
-macro(my_macro firstname lastname)
-    message("called my_macro with the arguments: '${firstname}' and '${lastname}'")
-    set(MY_VARIABLE "${lastname} ${firstname}")  # this will be visible outside
-endmacro()
-
-my_function(James Bond)
-message("MY_VARIABLE set to: '${MY_VARIABLE}'")
-
-my_macro(James Bond)
-message("MY_VARIABLE set to: '${MY_VARIABLE}'")
-```
-
-Function variables have function scope:
-
-```shell
-called my_function with the arguments: 'James' and 'Bond'
-The number of arguments is 2
-ARGV0: James ARGV1: Bond
-MY_VARIABLE set to: ''
-
-called my_macro with the arguments: 'James' and 'Bond'
-MY_VARIABLE set to: 'Bond James'
-```
-
-Question: should you rather use named arguments or numbered arguments?
+### Bonus II
+More on the CMake scripting language: [A 15 minute learning example](http://preshing.com/20170522/learn-cmakes-scripting-language-in-15-minutes/)
