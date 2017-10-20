@@ -67,15 +67,15 @@ $ make
 $ ./bin/substring.x
 ```
 
-The crux in this CMake setup is the find_package(). If the TBB is not found CMake stops and return an error.
-It is the 'REQUIRED' argument that stops the CMake processing if TBB is not found.
+The crux in this CMake setup is the find_package(). If the TBB is not found, CMake stops and return an error.
+It is the 'REQUIRED' argument that halts the processing.
 
 find_package() can be executed in different modes. The Module Mode is the default. Here we request 'CONFIG'.
 Config modes means find_package will look for <Package>Config.CMake, in our case TBBConfig.cmake.
 
-If you look at the download TBB library, you will find a CMake sub-directory which contains TBBConfig.cmake.
+If you look in the directory containing the TBB library, you will find a CMake subdirectory which contains TBBConfig.cmake.
 The HINTS statement take a path-prefix as argument, in our case a relative path. We could have used a full path.
-find_package() will search for the config file ing <prefix>, <prefix>/CMake|cmake, share/cmake|CMake. In our
+find_package() will search for the config file in \<prefix\>, \<prefix\>/CMake|cmake, share/cmake|CMake. In our
 case it finds it under tbb2018_20170919oss/cmake.
 
 If you download software which you want to use, search for a cmake config file in the  download software. 
