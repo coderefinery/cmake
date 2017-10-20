@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Compilers and compiler flags"
-teaching: 10
+teaching:  5
 exercises: 0
 questions:
   - How can we select the compiler?
