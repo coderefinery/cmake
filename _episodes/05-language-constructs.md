@@ -1,7 +1,7 @@
 ---
 layout: episode
 title: "Making use of a new package - building an example from Intel Threaded Building Blocks"
-teaching: 10
+teaching: 15
 exercises: 0
 questions:
   - Downloadable source code packages often contain a CMake configuration.
