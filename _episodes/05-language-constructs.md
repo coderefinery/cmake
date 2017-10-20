@@ -9,7 +9,6 @@ questions:
 objectives:
   - Learn how to make use of find_packages()
   - Learn how to set and print variables
-  - Learn how to avoid code repetition.
 keypoints:
   - CMake ease integration of other software libraries.
 ---
