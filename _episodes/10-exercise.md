@@ -17,67 +17,36 @@ keypoints:
 ## Creating a CMake framework for an example project
 
 In this exercise we will CMake-ify an [example
-project](https://github.com/bast/fizz-buzz).  This exercise can be interesting
+project](https://github.com/bast/calculator).  This exercise can be interesting
 for people who use Makefiles or Autotools.
 
 On the way we will experiment with some CMake features.
 
-
-### Background
-
-Inspired by a [Project Euler exercise](https://projecteuler.net/problem=1) and
-based on the [popular game](https://en.wikipedia.org/wiki/Fizz_buzz) and
-popular programming job interview question where you have to say/print "Fizz" if a
-natural number is divisible by 3 and "Buzz" if it is divisible by 5:
-
-```
-1
-2
-Fizz
-4
-Buzz
-Fizz
-7
-8
-Fizz
-Buzz
-11
-Fizz
-13
-14
-Fizz Buzz
-...
-```
-
-We wish to build a code which computes the "Fizz-buzz sum" for a given natural
-number N, summing all natural numbers <= N which are multiples of 3 or 5. For
-N=10 the sum is 3+5+6+9+10 = 33.
-
 The source code and unit tests are there:
 
-```shell
+```
 .
-|-- LICENSE.md
-|-- README.md
-|-- src
-|   |-- divisible.f90
-|   |-- fizz_buzz.f90
-|   |-- fizz_buzz.h
-|   `-- main.cpp
-`-- test
-    |-- fizz_buzz.cpp
-    `-- main.cpp
+├── LICENSE.md
+├── README.md
+├── src
+│   ├── add.f90
+│   ├── calculator.h
+│   ├── main.cpp
+│   └── subtract.f90
+└── test
+    ├── calculator.cpp
+    └── main.cpp
 ```
 
-You can also browse them [on the web](https://github.com/bast/fizz-buzz).
+You can also browse them [on the web](https://github.com/bast/calculator).
 
-This is how it looks when we run the binary:
+This is how it looks when we run the code:
 
 ```shell
-$ ./bin/fb.x
+$ ./bin/calculator.x                                                                                                                 23:06:46
 
-Fizz-buzz sum for integer 10 is 33
-Fizz-buzz sum for integer 100 is 2418
+2 + 3 = 5
+2 - 3 = -1
 ```
 
 ### Tasks
@@ -93,7 +62,7 @@ Fizz-buzz sum for integer 100 is 2418
 
 ### Solution
 
-You can find a solution on the [solution branch](https://github.com/bast/fizz-buzz/tree/solution).
+You can find a solution on the [solution branch](https://github.com/bast/calculator/tree/solution).
 
 ---
 
@@ -102,15 +71,11 @@ You can find a solution on the [solution branch](https://github.com/bast/fizz-bu
 First we create a file called `CMakeLists.txt` containing:
 
 ```cmake
-# stop if CMake version is below 2.8
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+# stop if CMake version is below 3.0
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
-# project name
-project(fizz-buzz)
-
-# this is a Fortran and C++ project
-enable_language(CXX)
-enable_language(Fortran)
+# project name and supported languages
+project(calculator CXX Fortran)
 
 # specify where to place binaries and libraries
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
@@ -118,6 +83,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
     )
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
     ${CMAKE_BINARY_DIR}/lib
+    )
+
+# tell CMake where to find *.cmake module files
+set(CMAKE_MODULE_PATH
+    ${CMAKE_MODULE_PATH}
+    ${PROJECT_SOURCE_DIR}/cmake
     )
 
 # process src/CMakeLists.txt
@@ -128,11 +99,11 @@ We also create a file `src/CMakeLists.txt` containing:
 
 ```cmake
 add_executable(
-    fb.x
+    calculator.x
+    add.f90
+    subtract.f90
+    calculator.h
     main.cpp
-    fizz_buzz.f90
-    fizz_buzz.h
-    divisible.f90
     )
 ```
 
@@ -142,67 +113,67 @@ $ cd build
 $ cmake ..
 $ make
 
-Scanning dependencies of target fb.x
-[ 25%] Building Fortran object src/CMakeFiles/fb.x.dir/divisible.f90.o
-[ 50%] Building Fortran object src/CMakeFiles/fb.x.dir/fizz_buzz.f90.o
-[ 75%] Building CXX object src/CMakeFiles/fb.x.dir/main.cpp.o
-[100%] Linking CXX executable ../bin/fb.x
-[100%] Built target fb.x
+Scanning dependencies of target calculator.x
+[ 25%] Building Fortran object src/CMakeFiles/calculator.x.dir/add.f90.o
+[ 50%] Building Fortran object src/CMakeFiles/calculator.x.dir/subtract.f90.o
+[ 75%] Building CXX object src/CMakeFiles/calculator.x.dir/main.cpp.o
+[100%] Linking CXX executable ../bin/calculator.x
+[100%] Built target calculator.x
 ```
 
 Let us rewrite the `src/CMakeLists.txt` a bit to isolate the library, we also ask for a shared library:
 
 ```cmake
 add_library(
-    fizz_buzz
+    calculator
     SHARED
-    fizz_buzz.f90
-    fizz_buzz.h
-    divisible.f90
+    add.f90
+    subtract.f90
+    calculator.h
     )
 
 add_executable(
-    fb.x
+    calculator.x
     main.cpp
     )
 
 target_link_libraries(
-    fb.x
-    fizz_buzz
+    calculator.x
+    calculator
     )
 ```
 
 And recompile:
 
 ```shell
-$ make
+$ make                                                                                                                               23:15:42
 
 -- Configuring done
 -- Generating done
--- Build files have been written to: /home/bast/tmp/fizz-buzz/build
-Scanning dependencies of target fizz_buzz
-[ 20%] Building Fortran object src/CMakeFiles/fizz_buzz.dir/divisible.f90.o
-[ 40%] Building Fortran object src/CMakeFiles/fizz_buzz.dir/fizz_buzz.f90.o
-[ 60%] Linking Fortran shared library ../lib/libfizz_buzz.so
-[ 60%] Built target fizz_buzz
-Scanning dependencies of target fb.x
-[ 80%] Building CXX object src/CMakeFiles/fb.x.dir/main.cpp.o
-[100%] Linking CXX executable ../bin/fb.x
-[100%] Built target fb.x
+-- Build files have been written to: /home/bast/tmp/calculator/build
+Scanning dependencies of target calculator
+[ 20%] Building Fortran object src/CMakeFiles/calculator.dir/add.f90.o
+[ 40%] Building Fortran object src/CMakeFiles/calculator.dir/subtract.f90.o
+[ 60%] Linking Fortran shared library ../lib/libcalculator.so
+[ 60%] Built target calculator
+Scanning dependencies of target calculator.x
+[ 80%] Building CXX object src/CMakeFiles/calculator.x.dir/main.cpp.o
+[100%] Linking CXX executable ../bin/calculator.x
+[100%] Built target calculator.x
 ```
 
-We have now managed to compile a binary to `build/bin/fb.x` and a shared
-library to `build/lib/libfizz_buzz.so`.
+We have now managed to compile a binary to `build/bin/calculator.x` and a shared
+library to `build/lib/libcalculator.so`.
 
 ---
 
 ## Introduce a tweak for a specific architecture
 
-It turns out that we will need the following tweak for Mac:
+It turns out that we will need the following tweak for Mac to avoid a warning:
 
 ```cmake
 # workaround for CMP0042 warning on Mac
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
     if(NOT DEFINED CMAKE_MACOSX_RPATH)
         set(CMAKE_MACOSX_RPATH ON)
     endif()
@@ -220,7 +191,7 @@ Save the following code into `cmake/arch.cmake`:
 message(STATUS "My system is ${CMAKE_SYSTEM_NAME} and my processor is ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
 # workaround for CMP0042 warning on Mac
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
     if(NOT DEFINED CMAKE_MACOSX_RPATH)
         set(CMAKE_MACOSX_RPATH ON)
     endif()
@@ -458,12 +429,12 @@ Append the following to `src/CMakeLists.txt`:
 
 ```cmake
 install(
-    TARGETS fb.x
+    TARGETS calculator.x
     RUNTIME DESTINATION bin
     )
 
 install(
-    TARGETS fizz_buzz
+    TARGETS calculator
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     )
