@@ -15,6 +15,7 @@ keypoints:
 - Clone [this project](https://github.com/Gregwar/ASCII-Tetris).
 - Take the `CMakeLists.txt` from the previous section "Hello-world example using CMake" as a starting point.
 - Try to configure and compile the game with CMake.
+- Do not worry about the compile-time warning.
 - Play Tetris and try to get a good score.
 
 
@@ -22,8 +23,10 @@ keypoints:
 
 The language is now C instead of CXX.
 
+The executable is now built from two source files: tetris.c and main.c.
+
 You will need this in your `CMakeLists.txt`:
 
 ```cmake
-include_directories(${CMAKE_SOURCE_DIR})
+target_include_directories(tetris.x PRIVATE ${CMAKE_SOURCE_DIR})
 ```
