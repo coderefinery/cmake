@@ -35,14 +35,11 @@ We wish to compile this code to `hello.x`.
 For this we create a file called `CMakeLists.txt` which contains:
 
 ```cmake
-# stop if cmake version is below 2.8
-cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+# stop if cmake version is below 3.0
+cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
-# project name
-project(hello)
-
-# we enable C++ support
-enable_language(CXX)
+# project name and enable C++ support
+project(hello CXX)
 
 # we define the executable and its dependencies
 add_executable(hello.x hello.cpp)
@@ -64,14 +61,7 @@ $ mkdir build
 $ cd build/
 $ cmake ..
 
--- The C compiler identification is GNU 6.2.1
--- The CXX compiler identification is GNU 6.2.1
--- Check for working C compiler: /usr/bin/cc
--- Check for working C compiler: /usr/bin/cc -- works
--- Detecting C compiler ABI info
--- Detecting C compiler ABI info - done
--- Detecting C compile features
--- Detecting C compile features - done
+-- The CXX compiler identification is GNU 7.2.0
 -- Check for working CXX compiler: /usr/bin/c++
 -- Check for working CXX compiler: /usr/bin/c++ -- works
 -- Detecting CXX compiler ABI info
