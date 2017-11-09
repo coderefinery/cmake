@@ -229,43 +229,45 @@ $ make
 
 ## Build the unit tests and link against [Google Test](https://github.com/google/googletest)
 
-Save this to `cmake/tests.cmake`:
+Save this to `test/CMakeLists.txt`:
 
 ```cmake
-include(ExternalProject)
+    include(ExternalProject)
 
-ExternalProject_Add(
-    gtest
-    PREFIX "${PROJECT_BINARY_DIR}/gtest"
-    GIT_REPOSITORY https://github.com/google/googletest.git
-    GIT_TAG master
-    INSTALL_COMMAND true  # currently no install command
-    )
+    ExternalProject_Add(
+        gtest
+        PREFIX "${PROJECT_BINARY_DIR}/gtest"
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG master
+        INSTALL_COMMAND true  # currently no install command
+        )
 
-include_directories(${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include)
-include_directories(${PROJECT_SOURCE_DIR}/src)
+    add_executable(
+        unit_tests
+        main.cpp
+        calculator.cpp
+        )
 
-link_directories(${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/)
+    target_link_libraries(
+        unit_tests
+        ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
+        calculator
+        pthread
+        )
 
-add_executable(
-    unit_tests
-    test/main.cpp
-    test/fizz_buzz.cpp
-    )
+    target_include_directories(
+        unit_tests
+        PRIVATE
+        ${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include
+        ${PROJECT_SOURCE_DIR}/src
+        )
 
-target_link_libraries(
-    unit_tests
-    libgtest.a
-    fizz_buzz
-    pthread
-    )
+    add_dependencies(unit_tests gtest)
 
-add_dependencies(unit_tests gtest)
+    include(CTest)
+    enable_testing()
 
-include(CTest)
-enable_testing()
-
-add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
+    add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
 ```
 
 Also include this file in the main `CMakeLists.txt`:
@@ -273,13 +275,13 @@ Also include this file in the main `CMakeLists.txt`:
 ```cmake
 # ... rest of CMakeLists.txt
 
-# include cmake/arch.cmake
 include(arch)
 
 # process src/CMakeLists.txt
 add_subdirectory(src)
 
-include(tests)  # we added this line
+# process test/CMakeLists.txt
+add_subdirectory(test)  # we added this line
 ```
 
 Now try:
@@ -292,8 +294,7 @@ $ ./bin/unit_tests
 
 What is the difference between `make test` and `./bin/unit_tests`?
 
-We will enhance this a bit: We indent the code and add an option and an if
-check to be able to toggle compilation of unit tests on or off:
+We will enhance this a bit: We add an option and an if-check to be able to toggle compilation of unit tests on or off:
 
 ```cmake
 option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
@@ -310,22 +311,24 @@ if(ENABLE_UNIT_TESTS)
         INSTALL_COMMAND true  # currently no install command
         )
 
-    include_directories(${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include)
-    include_directories(${PROJECT_SOURCE_DIR}/src)
-
-    link_directories(${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/)
-
     add_executable(
         unit_tests
-        test/main.cpp
-        test/fizz_buzz.cpp
+        main.cpp
+        calculator.cpp
         )
 
     target_link_libraries(
         unit_tests
-        libgtest.a
-        fizz_buzz
+        ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
+        calculator
         pthread
+        )
+
+    target_include_directories(
+        unit_tests
+        PRIVATE
+        ${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include
+        ${PROJECT_SOURCE_DIR}/src
         )
 
     add_dependencies(unit_tests gtest)
