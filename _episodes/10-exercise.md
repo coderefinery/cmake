@@ -229,7 +229,7 @@ $ make
 
 ## Build the unit tests and link against [Google Test](https://github.com/google/googletest)
 
-Save this to `test/CMakeLists.txt`:
+Save this to `cmake/test.cmake`:
 
 ```cmake
     include(ExternalProject)
@@ -244,8 +244,8 @@ Save this to `test/CMakeLists.txt`:
 
     add_executable(
         unit_tests
-        main.cpp
-        calculator.cpp
+        test/main.cpp
+        test/calculator.cpp
         )
 
     target_link_libraries(
@@ -280,8 +280,7 @@ include(arch)
 # process src/CMakeLists.txt
 add_subdirectory(src)
 
-# process test/CMakeLists.txt
-add_subdirectory(test)  # we added this line
+include(test)  # we added this line
 ```
 
 Now try:
@@ -313,8 +312,8 @@ if(ENABLE_UNIT_TESTS)
 
     add_executable(
         unit_tests
-        main.cpp
-        calculator.cpp
+        test/main.cpp
+        test/calculator.cpp
         )
 
     target_link_libraries(
