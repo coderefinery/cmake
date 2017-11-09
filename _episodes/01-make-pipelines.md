@@ -152,7 +152,9 @@ Now we will try a more sophisticated example:
 
 ```makefile
 SRCS = $(wildcard data/*.in)
-OBJS = $(patsubst %.in,%.out,$(SRCS))
+
+OBJS = $(patsubst %.in,%.tmp,$(SRCS))
+OBJS += $(patsubst %.in,%.out,$(SRCS))
 
 all: $(OBJS)
 
@@ -160,10 +162,10 @@ all: $(OBJS)
 .PRECIOUS: %.tmp
 
 %.tmp: %.in
-        cat $< | ./count.py > $@
+	cat $< | ./count.py > $@
 
 %.out: %.tmp
-        cat $< | ./plot.py > $@
+	cat $< | ./plot.py > $@
 ```
 
 Discuss the changes and the motivations behind these changes.
