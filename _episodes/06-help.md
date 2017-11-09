@@ -46,9 +46,7 @@ Here is a list of commands that we have use in our examples:
 
 - [cmake_minimum_required](https://cmake.org/cmake/help/latest/command/cmake_minimum_required.html)
 - [project](https://cmake.org/cmake/help/latest/command/project.html)
-- [enable_language](https://cmake.org/cmake/help/latest/command/enable_language.html)
 - [add_executable](https://cmake.org/cmake/help/latest/command/add_executable.html)
-- [add_custom_command](https://cmake.org/cmake/help/latest/command/add_custom_command.html)
 
 ---
 
