@@ -352,7 +352,7 @@ $ make
 
 ## Define a version number inside CMake and print it to the output of the executable
 
-Create a file `cmake/config.h.in`:
+Create a file `cmake/version.h.in`:
 
 ```shell
 #define VERSION_MAJOR @VERSION_MAJOR@
@@ -360,31 +360,43 @@ Create a file `cmake/config.h.in`:
 #define VERSION_PATCH @VERSION_PATCH@
 ```
 
-Create a file `cmake/version.cmake`:
+Then, create a file `cmake/version.cmake`:
 
 ```cmake
+# version of our project
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 0)
 
+# generate file version.h based on version.h.in
 configure_file(
-    ${PROJECT_SOURCE_DIR}/cmake/config.h.in
-    ${PROJECT_BINARY_DIR}/generated/config.h
+    ${PROJECT_SOURCE_DIR}/cmake/version.h.in
+    ${PROJECT_BINARY_DIR}/generated/version.h
     @ONLY
     )
 ```
 
 Also include it in the main `CMakeLists.txt`.
 
-We also need to add `include_directories(${PROJECT_BINARY_DIR}/generated)` to `src/CMakeLists.txt`.
+We also need to add
 
-Include `config.h` in `src/main.cpp` and try to print the code version.
+```cmake
+target_include_directories(
+    calculator.x
+    PRIVATE
+    ${PROJECT_BINARY_DIR}/generated
+    )
+```
+
+to `src/CMakeLists.txt` (why?).
+
+Include `version.h` in `src/main.cpp` and try to print the code version.
 
 ---
 
 ## Print the Git hash to the output of the executable
 
-For this we enhance `cmake/config.h.in`:
+For this we enhance `cmake/version.h.in`:
 
 ```shell
 #define VERSION_MAJOR @VERSION_MAJOR@
@@ -396,12 +408,15 @@ For this we enhance `cmake/config.h.in`:
 As well as `cmake/version.cmake`:
 
 ```cmake
+# version of our project
 set(VERSION_MAJOR 1)
 set(VERSION_MINOR 0)
 set(VERSION_PATCH 0)
 
+# in case Git is not available, we default to "unknown"
 set(GIT_HASH "unknown")
 
+# find Git and if available set GIT_HASH variable
 find_package(Git)
 if(GIT_FOUND)
     execute_process(
@@ -412,9 +427,10 @@ if(GIT_FOUND)
         )
 endif()
 
+# generate file version.h based on version.h.in
 configure_file(
-    ${PROJECT_SOURCE_DIR}/cmake/config.h.in
-    ${PROJECT_BINARY_DIR}/generated/config.h
+    ${PROJECT_SOURCE_DIR}/cmake/version.h.in
+    ${PROJECT_BINARY_DIR}/generated/version.h
     @ONLY
     )
 ```
