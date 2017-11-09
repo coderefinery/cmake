@@ -43,7 +43,7 @@ You can also browse them [on the web](https://github.com/bast/calculator).
 This is how it looks when we run the code:
 
 ```shell
-$ ./bin/calculator.x                                                                                                                 23:06:46
+$ ./bin/calculator.x
 
 2 + 3 = 5
 2 - 3 = -1
@@ -146,7 +146,7 @@ target_link_libraries(
 And recompile:
 
 ```shell
-$ make                                                                                                                               23:15:42
+$ make
 
 -- Configuring done
 -- Generating done
