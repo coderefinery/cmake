@@ -40,7 +40,7 @@ The source code and unit tests are there:
 
 You can also browse them [on the web](https://github.com/bast/calculator).
 
-This is how it looks when we run the code:
+This is how it will look later when we run the code:
 
 ```shell
 $ ./bin/calculator.x
@@ -78,18 +78,8 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 project(calculator CXX Fortran)
 
 # specify where to place binaries and libraries
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY
-    ${CMAKE_BINARY_DIR}/bin
-    )
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY
-    ${CMAKE_BINARY_DIR}/lib
-    )
-
-# tell CMake where to find *.cmake module files
-set(CMAKE_MODULE_PATH
-    ${CMAKE_MODULE_PATH}
-    ${PROJECT_SOURCE_DIR}/cmake
-    )
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
 # process src/CMakeLists.txt
 add_subdirectory(src)
@@ -139,6 +129,7 @@ add_executable(
 
 target_link_libraries(
     calculator.x
+    PRIVATE
     calculator
     )
 ```
@@ -169,7 +160,7 @@ library to `build/lib/libcalculator.so`.
 
 ## Introduce a tweak for a specific architecture
 
-It turns out that we will need the following tweak for Mac to avoid a warning:
+It turns out that we might need the following tweak for Mac to avoid a warning:
 
 ```cmake
 # workaround for CMP0042 warning on Mac
@@ -203,14 +194,7 @@ Now we need to include this in the main `CMakeLists.txt`:
 ```cmake
 # ... rest of CMakeLists.txt
 
-# tell CMake where to find *.cmake module files
-set(CMAKE_MODULE_PATH
-    ${CMAKE_MODULE_PATH}
-    ${PROJECT_SOURCE_DIR}/cmake
-    )
-
-# include cmake/arch.cmake
-include(arch)
+include(cmake/arch.cmake)
 
 # process src/CMakeLists.txt
 add_subdirectory(src)
@@ -236,10 +220,20 @@ Save this to `cmake/test.cmake`:
 
     ExternalProject_Add(
         gtest
-        PREFIX "${PROJECT_BINARY_DIR}/gtest"
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG master
-        INSTALL_COMMAND true  # currently no install command
+        PREFIX
+          "${PROJECT_BINARY_DIR}/gtest"
+        GIT_REPOSITORY
+          https://github.com/google/googletest.git
+        GIT_TAG
+          release-1.8.0
+        CMAKE_ARGS
+          "-Dgtest_disable_pthreads=ON"
+        INSTALL_COMMAND
+          "" # prevent gtest from installing itself system-wide
+        BUILD_BYPRODUCTS
+          # this is here otherwise Ninja will complain
+          # that there is no rule to build libgtest.a
+          ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
         )
 
     add_executable(
@@ -248,25 +242,24 @@ Save this to `cmake/test.cmake`:
         test/calculator.cpp
         )
 
-    target_link_libraries(
-        unit_tests
-        ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
-        calculator
-        pthread
-        )
-
     target_include_directories(
         unit_tests
         PRIVATE
-        ${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include
         ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include
         )
 
+    target_link_libraries(
+        unit_tests
+        PRIVATE
+        calculator
+        ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
+        )
+
+    # make sure that gtest is built before we build unit_tests
     add_dependencies(unit_tests gtest)
 
-    include(CTest)
     enable_testing()
-
     add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
 ```
 
@@ -275,12 +268,12 @@ Also include this file in the main `CMakeLists.txt`:
 ```cmake
 # ... rest of CMakeLists.txt
 
-include(arch)
+include(cmake/arch.cmake)
 
 # process src/CMakeLists.txt
 add_subdirectory(src)
 
-include(test)  # we added this line
+include(cmake/test.cmake)  # we added this line
 ```
 
 Now try:
@@ -293,7 +286,8 @@ $ ./bin/unit_tests
 
 What is the difference between `make test` and `./bin/unit_tests`?
 
-We will enhance this a bit: We add an option and an if-check to be able to toggle compilation of unit tests on or off:
+We will enhance this a bit.
+We add an option and an if-check to be able to toggle compilation of unit tests on or off:
 
 ```cmake
 option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
@@ -304,10 +298,20 @@ if(ENABLE_UNIT_TESTS)
 
     ExternalProject_Add(
         gtest
-        PREFIX "${PROJECT_BINARY_DIR}/gtest"
-        GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG master
-        INSTALL_COMMAND true  # currently no install command
+        PREFIX
+          "${PROJECT_BINARY_DIR}/gtest"
+        GIT_REPOSITORY
+          https://github.com/google/googletest.git
+        GIT_TAG
+          release-1.8.0
+        CMAKE_ARGS
+          "-Dgtest_disable_pthreads=ON"
+        INSTALL_COMMAND
+          "" # prevent gtest from installing itself system-wide
+        BUILD_BYPRODUCTS
+          # this is here otherwise Ninja will complain
+          # that there is no rule to build libgtest.a
+          ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
         )
 
     add_executable(
@@ -316,25 +320,24 @@ if(ENABLE_UNIT_TESTS)
         test/calculator.cpp
         )
 
-    target_link_libraries(
-        unit_tests
-        ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
-        calculator
-        pthread
-        )
-
     target_include_directories(
         unit_tests
         PRIVATE
-        ${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include
         ${PROJECT_SOURCE_DIR}/src
+        ${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include
         )
 
+    target_link_libraries(
+        unit_tests
+        PRIVATE
+        calculator
+        ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
+        )
+
+    # make sure that gtest is built before we build unit_tests
     add_dependencies(unit_tests gtest)
 
-    include(CTest)
     enable_testing()
-
     add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
 endif()
 ```
@@ -369,8 +372,8 @@ set(VERSION_PATCH 0)
 
 # generate file version.h based on version.h.in
 configure_file(
-    ${PROJECT_SOURCE_DIR}/cmake/version.h.in
-    ${PROJECT_BINARY_DIR}/generated/version.h
+    cmake/version.h.in
+    generated/version.h
     @ONLY
     )
 ```
@@ -401,6 +404,7 @@ For this we enhance `cmake/version.h.in`:
 #define VERSION_MAJOR @VERSION_MAJOR@
 #define VERSION_MINOR @VERSION_MINOR@
 #define VERSION_PATCH @VERSION_PATCH@
+
 #define GIT_HASH "@GIT_HASH@"
 ```
 
@@ -416,7 +420,7 @@ set(VERSION_PATCH 0)
 set(GIT_HASH "unknown")
 
 # find Git and if available set GIT_HASH variable
-find_package(Git)
+find_package(Git QUIET)
 if(GIT_FOUND)
     execute_process(
         COMMAND ${GIT_EXECUTABLE} --no-pager show -s --pretty=format:%h -n 1
@@ -428,8 +432,8 @@ endif()
 
 # generate file version.h based on version.h.in
 configure_file(
-    ${PROJECT_SOURCE_DIR}/cmake/version.h.in
-    ${PROJECT_BINARY_DIR}/generated/version.h
+    cmake/version.h.in
+    generated/version.h
     @ONLY
     )
 ```
@@ -477,7 +481,7 @@ Include a `cmake/packager.cmake` containing:
 
 ```cmake
 # change this later to a real person
-set(CPACK_PACKAGE_CONTACT "Slim Shady")
+set(CPACK_PACKAGE_CONTACT "Bruce Wayne")
 
 include(CPack)
 ```
