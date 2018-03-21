@@ -31,6 +31,12 @@ $ cmake ..
 $ make
 ```
 
+Or by setting CMake variables:
+
+```shell
+$ cmake -D CMAKE_Fortran_COMPILER=gfortran -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ ..
+```
+
 ---
 
 ## Controlling compiler flags
