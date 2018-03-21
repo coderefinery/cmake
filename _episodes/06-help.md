@@ -41,6 +41,7 @@ $ cmake --help-command add_custom_command
 
 - [List of CMake variables](https://cmake.org/Wiki/CMake_Useful_Variables)
 - [Official CMake documentation](https://cmake.org/documentation/)
+- [https://github.com/onqtam/awesome-cmake](https://github.com/onqtam/awesome-cmake)
 
 Here is a list of commands that we have use in our examples:
 
@@ -50,7 +51,7 @@ Here is a list of commands that we have use in our examples:
 
 ---
 
-A useful trick to get an overview of available variables is to make use of
+A useful trick to get an overview of available variables in a project is to make use of
 CMakes GUI (Mac & Windows) or CMake's curses Interface (Unix). Change directory
 to the build subdirectory and start the CMake curses interface:
 
