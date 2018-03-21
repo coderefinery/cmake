@@ -16,7 +16,7 @@ keypoints:
 
 ## Hello-world example
 
-We start with our now familiar C++ program:
+We start with a simple C++ program:
 
 ```cpp
 #include <iostream>
