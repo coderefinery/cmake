@@ -24,3 +24,8 @@ questions:
 - Absolute paths (you cannot move a configured project to a different path).
 - Very few good *and* free CMake tutorials are available.
 - "Mastering CMake" book is not freely available as online version.
+
+
+### Awesome list of resources
+
+- https://github.com/onqtam/awesome-cmake
