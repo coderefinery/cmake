@@ -28,4 +28,4 @@ questions:
 
 ### Awesome list of resources
 
-- https://github.com/onqtam/awesome-cmake
+- [https://github.com/onqtam/awesome-cmake](https://github.com/onqtam/awesome-cmake)
