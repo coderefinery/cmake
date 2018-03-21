@@ -97,6 +97,8 @@ add_executable(
     )
 ```
 
+Create the build directory in the root directory of the project, not below `src/`:
+
 ```shell
 $ mkdir build
 $ cd build
