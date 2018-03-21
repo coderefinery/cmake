@@ -64,7 +64,7 @@ Similarly you can set `CMAKE_C_FLAGS` and `CMAKE_CXX_FLAGS`.
 This is how we set preprocessor definitions:
 
 ```cmake
-add_definitions(-DVAR_SOMETHING -DENABLE_DEBUG -DTHIS_DIMENSION=137)
+target_compile_options(sometarget PUBLIC -DVAR_SOMETHING -DENABLE_DEBUG -DTHIS_DIMENSION=137)
 ```
 
 ---
@@ -81,7 +81,7 @@ We can select the build type on the command line:
 
 ```shell
 $ cd build
-$ cmake -DCMAKE_BUILD_TYPE=Debug ..
+$ cmake -D CMAKE_BUILD_TYPE=Debug ..
 $ make
 ```
 
