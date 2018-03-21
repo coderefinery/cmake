@@ -469,7 +469,7 @@ Then try the following:
 ```shell
 $ mkdir build
 $ cd build
-$ cmake -DCMAKE_INSTALL_PREFIX=/tmp/cmake-example
+$ cmake -D CMAKE_INSTALL_PREFIX=/tmp/cmake-example
 $ make
 $ make test
 $ make install
