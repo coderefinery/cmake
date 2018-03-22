@@ -217,9 +217,13 @@ $ make
 
 ## Build the unit tests and link against [Google Test](https://github.com/google/googletest)
 
-Save this to `cmake/test.cmake`:
+Save this to `test/CMakeLists.txt`:
 
 ```cmake
+option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
+message(STATUS "Enable testing: ${ENABLE_UNIT_TESTS}")
+
+if(ENABLE_UNIT_TESTS)
     include(ExternalProject)
 
     ExternalProject_Add(
@@ -242,8 +246,8 @@ Save this to `cmake/test.cmake`:
 
     add_executable(
         unit_tests
-        test/main.cpp
-        test/calculator.cpp
+        main.cpp
+        calculator.cpp
         )
 
     target_include_directories(
@@ -264,7 +268,8 @@ Save this to `cmake/test.cmake`:
     add_dependencies(unit_tests gtest)
 
     enable_testing()
-    add_test(unit ${PROJECT_BINARY_DIR}/bin/unit_tests)
+    add_test(unit ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/unit_tests)
+endif()
 ```
 
 Also include this file in the main `CMakeLists.txt`:
@@ -277,7 +282,11 @@ include(cmake/arch.cmake)
 # process src/CMakeLists.txt
 add_subdirectory(src)
 
-include(cmake/test.cmake)  # we added this line
+# enable testing
+enable_testing()  # we added this
+
+# process test/CMakeLists.txt
+add_subdirectory(test)  # we added this
 ```
 
 Now try:
