@@ -311,31 +311,39 @@ $ make
 
 ## Define a version number inside CMake and print it to the output of the executable
 
+We have specified the version number as part of the project:
+
+```cmake
+project(calculator VERSION 1.0.0 LANGUAGES CXX Fortran)
+```
+
 Create a file `cmake/version.h.in`:
 
 ```shell
-#define VERSION_MAJOR @VERSION_MAJOR@
-#define VERSION_MINOR @VERSION_MINOR@
-#define VERSION_PATCH @VERSION_PATCH@
+#define VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define VERSION_PATCH @PROJECT_VERSION_PATCH@
 ```
 
 Then, create a file `cmake/version.cmake`:
 
 ```cmake
-# version of our project
-set(VERSION_MAJOR 1)
-set(VERSION_MINOR 0)
-set(VERSION_PATCH 0)
-
-# generate file version.h based on version.h.in
-configure_file(
-    cmake/version.h.in
-    generated/version.h
-    @ONLY
-    )
+macro(generate_version_h)
+    # generate file version.h based on version.h.in
+    configure_file(
+        cmake/version.h.in
+        generated/version.h
+        @ONLY
+        )
+endmacro()
 ```
 
-Also include it in the main `CMakeLists.txt`.
+Also include and call the macro in the main `CMakeLists.txt`:
+
+```cmake
+include(cmake/version.cmake)
+generate_version_h()
+```
 
 We also need to add
 
@@ -358,9 +366,9 @@ Include `version.h` in `src/main.cpp` and try to print the code version.
 For this we enhance `cmake/version.h.in`:
 
 ```shell
-#define VERSION_MAJOR @VERSION_MAJOR@
-#define VERSION_MINOR @VERSION_MINOR@
-#define VERSION_PATCH @VERSION_PATCH@
+#define VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define VERSION_PATCH @PROJECT_VERSION_PATCH@
 
 #define GIT_HASH "@GIT_HASH@"
 ```
@@ -368,31 +376,30 @@ For this we enhance `cmake/version.h.in`:
 As well as `cmake/version.cmake`:
 
 ```cmake
-# version of our project
-set(VERSION_MAJOR 1)
-set(VERSION_MINOR 0)
-set(VERSION_PATCH 0)
+macro(generate_version_h)
+    # in case Git is not available, we default to "unknown"
+    set(GIT_HASH "unknown")
 
-# in case Git is not available, we default to "unknown"
-set(GIT_HASH "unknown")
+    # find Git and if available set GIT_HASH variable
+    find_package(Git QUIET)
+    if(GIT_FOUND)
+        execute_process(
+            COMMAND ${GIT_EXECUTABLE} --no-pager show -s --pretty=format:%h -n 1
+            OUTPUT_VARIABLE GIT_HASH
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+            WORKING_DIRECTORY
+                ${PROJECT_SOURCE_DIR}
+            ERROR_QUIET
+            )
+    endif()
 
-# find Git and if available set GIT_HASH variable
-find_package(Git QUIET)
-if(GIT_FOUND)
-    execute_process(
-        COMMAND ${GIT_EXECUTABLE} --no-pager show -s --pretty=format:%h -n 1
-        OUTPUT_VARIABLE GIT_HASH
-        OUTPUT_STRIP_TRAILING_WHITESPACE
-        ERROR_QUIET
+    # generate file version.h based on version.h.in
+    configure_file(
+        cmake/version.h.in
+        generated/version.h
+        @ONLY
         )
-endif()
-
-# generate file version.h based on version.h.in
-configure_file(
-    cmake/version.h.in
-    generated/version.h
-    @ONLY
-    )
+endmacro()
 ```
 
 Try to now print the configure-time Git hash in `src/main.cpp`.
@@ -409,13 +416,13 @@ Append the following to `src/CMakeLists.txt`:
 ```cmake
 install(
     TARGETS calculator.x
-    RUNTIME DESTINATION bin
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     )
 
 install(
     TARGETS calculator
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
     )
 ```
 
