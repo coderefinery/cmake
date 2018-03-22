@@ -40,7 +40,7 @@ The source code and unit tests are there:
 
 You can also browse them [on the web](https://github.com/bast/calculator).
 
-This is how it will look later when we run the code:
+This is how it will look later when we run the code once we have it compiled:
 
 ```shell
 $ ./bin/calculator.x
@@ -75,11 +75,13 @@ First we create a file called `CMakeLists.txt` containing:
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
 # project name and supported languages
-project(calculator CXX Fortran)
+project(calculator VERSION 1.0.0 LANGUAGES CXX Fortran)
 
 # specify where to place binaries and libraries
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+include(GNUInstallDirs)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
 
 # process src/CMakeLists.txt
 add_subdirectory(src)
