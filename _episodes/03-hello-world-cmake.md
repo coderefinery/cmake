@@ -39,7 +39,7 @@ For this we create a file called `CMakeLists.txt` which contains:
 cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 
 # project name and enable C++ support
-project(hello CXX)
+project(hello LANGUAGES CXX)
 
 # we define the executable and its dependencies
 add_executable(hello.x hello.cpp)
