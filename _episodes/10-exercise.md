@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Exercise: CMake-ify an example project"
+title: "Exercise 2: CMake-ify an example project"
 teaching: 20
 exercises: 35
 questions:

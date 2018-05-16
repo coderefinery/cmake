@@ -1,6 +1,6 @@
 ---
 layout: episode
-title: "Exercise: CMake-ify a Tetris game"
+title: "Exercise 1: CMake-ify a Tetris game"
 teaching: 0
 exercises: 10
 questions:
