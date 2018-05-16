@@ -16,6 +16,13 @@ keypoints:
   - CMake is an alternative to Autotools.
 ---
 
+## Why is Make not enough?
+
+- Make knows about targets and dependencies
+- Make does not know which compiler (options) we want and which environment we are on
+
+---
+
 ## About [CMake](https://cmake.org)
 
 - Cross-platform
