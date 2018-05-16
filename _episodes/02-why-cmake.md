@@ -66,8 +66,9 @@ Provides tools:
 
 Popular:
 
-- CMake is used by many prominent projects:
-  MySQL, Boost, VTK, Blender, KDE, LyX, Mendeley, MikTeX, Compiz, Google Test, ParaView, Second Life, Avogadro, and many more ...
+- CMake is used by **many prominent projects**:
+  MySQL, Boost, VTK, Blender, KDE, LyX, Mendeley, MikTeX, Compiz,
+  Google Test, ParaView, Second Life, Avogadro, and many more ...
 
 General:
 
