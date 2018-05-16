@@ -16,7 +16,7 @@ objectives:
 - CMake makes it possible to use the native build environment.
 
 
-### Command-line build tool generators
+### List of generators
 
 - Borland Makefiles
 - MSYS Makefiles
@@ -24,12 +24,8 @@ objectives:
 - NMake Makefiles
 - NMake Makefiles JOM
 - Ninja
-- **Unix Makefiles**
+- Unix Makefiles
 - Watcom WMake
-
-
-### IDE build tool generators
-
 - Visual Studio 6
 - Visual Studio 7
 - Visual Studio 7 .NET 2003
@@ -38,11 +34,10 @@ objectives:
 - Visual Studio 10 2010
 - Visual Studio 11 2012
 - Visual Studio 12 2013
+- Visual Studio 14 2015
+- Visual Studio 15 2017
+- Green Hills MULTI
 - Xcode
-
-
-### Extra generators
-
 - CodeBlocks
 - CodeLite
 - Eclipse CDT4
