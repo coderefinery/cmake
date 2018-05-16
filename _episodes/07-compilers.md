@@ -16,7 +16,7 @@ We can specify the compilers like this:
 
 ```shell
 $ cd build
-$ FC=gfortran CC=gcc CXX=g++ cmake ..
+$ env FC=gfortran CC=gcc CXX=g++ cmake ..
 $ make
 ```
 
@@ -71,7 +71,7 @@ target_compile_options(sometarget PUBLIC -DVAR_SOMETHING -DENABLE_DEBUG -DTHIS_D
 
 ## Controlling the build type
 
-CMake distinguishes the following build types `${CMAKE_BUILD_TYPE}`:
+CMake distinguishes the following build types:
 - Debug
 - Release
 - RelWithDebInfo
