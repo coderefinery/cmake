@@ -82,6 +82,11 @@ cmake_minimum_required(VERSION 3.0 FATAL_ERROR)
 # project name and supported languages
 project(calculator VERSION 1.0.0 LANGUAGES CXX Fortran)
 
+# require C++11
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_EXTENSIONS OFF)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # specify where to place binaries and libraries
 include(GNUInstallDirs)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
@@ -96,12 +101,12 @@ We also create a file `src/CMakeLists.txt` containing:
 
 ```cmake
 add_executable(
-    calculator.x
-    add.f90
-    subtract.f90
-    calculator.h
-    main.cpp
-    )
+  calculator.x
+  add.f90
+  subtract.f90
+  calculator.h
+  main.cpp
+  )
 ```
 
 Create the build directory in the root directory of the project (**not** below `src/`):
@@ -123,24 +128,36 @@ Scanning dependencies of target calculator.x
 Let us rewrite the `src/CMakeLists.txt` a bit to isolate the library, we also ask for a shared library:
 
 ```cmake
-add_library(
-    calculator
-    SHARED
+add_library(calculator SHARED "")
+
+target_sources(
+  calculator
+  PRIVATE
     add.f90
     subtract.f90
-    calculator.h
-    )
+  PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}/calculator.h
+  )
 
-add_executable(
-    calculator.x
+target_include_directories(
+  calculator
+  PUBLIC
+    ${CMAKE_CURRENT_LIST_DIR}
+  )
+
+add_executable(calculator.x "")
+
+target_sources(
+  calculator.x
+  PRIVATE
     main.cpp
-    )
+  )
 
 target_link_libraries(
-    calculator.x
-    PRIVATE
+  calculator.x
+  PRIVATE
     calculator
-    )
+  )
 ```
 
 And recompile:
@@ -162,8 +179,7 @@ Scanning dependencies of target calculator.x
 [100%] Built target calculator.x
 ```
 
-We have now managed to compile a binary to `build/bin/calculator.x` and a shared
-library to `build/lib/libcalculator.so`.
+We have now managed to compile a binary and a shared library.
 
 ---
 
