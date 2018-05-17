@@ -13,6 +13,7 @@ keypoints:
   - Structure your CMake project in a modular way.
   - Hide CMake code behind functions and macros.
   - Prefer functions over macros.
+  - Use `target_sources()`.
   - You **always** want to print version information in your program output for reproducibility
     (does not matter whether this is a CMake project or not).
 ---
