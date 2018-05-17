@@ -174,9 +174,9 @@ It turns out that we might need the following tweak for Mac to avoid a warning:
 ```cmake
 # workaround for CMP0042 warning on Mac
 if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
-    if(NOT DEFINED CMAKE_MACOSX_RPATH)
-        set(CMAKE_MACOSX_RPATH ON)
-    endif()
+  if(NOT DEFINED CMAKE_MACOSX_RPATH)
+    set(CMAKE_MACOSX_RPATH ON)
+  endif()
 endif()
 ```
 
@@ -189,15 +189,15 @@ Save the following code into `cmake/arch.cmake`:
 
 ```cmake
 function(macos_workaround)
-    message(STATUS "My system is ${CMAKE_SYSTEM_NAME}")
-    message(STATUS "My processor is ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+  message(STATUS "My system is ${CMAKE_SYSTEM_NAME}")
+  message(STATUS "My processor is ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
-    # workaround for CMP0042 warning on Mac
-    if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
-        if(NOT DEFINED CMAKE_MACOSX_RPATH)
-            set(CMAKE_MACOSX_RPATH ON)
-        endif()
+  # workaround for CMP0042 warning on Mac
+  if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+    if(NOT DEFINED CMAKE_MACOSX_RPATH)
+      set(CMAKE_MACOSX_RPATH ON)
     endif()
+  endif()
 endfunction()
 ```
 
