@@ -426,15 +426,15 @@ Append the following to `src/CMakeLists.txt`:
 
 ```cmake
 install(
-    TARGETS calculator.x
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    )
+  TARGETS calculator.x
+  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+  )
 
 install(
-    TARGETS calculator
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    )
+  TARGETS calculator
+  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
 ```
 
 Then try the following:
