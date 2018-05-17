@@ -11,6 +11,8 @@ questions:
   - How can we create an installer and packager?
 keypoints:
   - Structure your CMake project in a modular way.
+  - Hide CMake code behind functions and macros.
+  - Prefer functions over macros.
   - You **always** want to print version information in your program output for reproducibility
     (does not matter whether this is a CMake project or not).
 ---
@@ -185,14 +187,17 @@ structure of the CMake code.
 Save the following code into `cmake/arch.cmake`:
 
 ```cmake
-message(STATUS "My system is ${CMAKE_SYSTEM_NAME} and my processor is ${CMAKE_HOST_SYSTEM_PROCESSOR}")
+function(macos_workaround)
+    message(STATUS "My system is ${CMAKE_SYSTEM_NAME}")
+    message(STATUS "My processor is ${CMAKE_HOST_SYSTEM_PROCESSOR}")
 
-# workaround for CMP0042 warning on Mac
-if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
-    if(NOT DEFINED CMAKE_MACOSX_RPATH)
-        set(CMAKE_MACOSX_RPATH ON)
+    # workaround for CMP0042 warning on Mac
+    if(CMAKE_SYSTEM_NAME MATCHES "Darwin")
+        if(NOT DEFINED CMAKE_MACOSX_RPATH)
+            set(CMAKE_MACOSX_RPATH ON)
+        endif()
     endif()
-endif()
+endfunction()
 ```
 
 Now we need to include this in the main `CMakeLists.txt`:
@@ -200,7 +205,9 @@ Now we need to include this in the main `CMakeLists.txt`:
 ```cmake
 # ... rest of CMakeLists.txt
 
+# contains a workaround for macOS
 include(cmake/arch.cmake)
+macos_workaround()
 
 # process src/CMakeLists.txt
 add_subdirectory(src)
@@ -211,7 +218,8 @@ Then try it out. On Mac, the warning should be gone. On my system I get:
 ```shell
 $ make
 
--- My system is Linux and my processor is x86_64
+-- My system is Linux
+-- My processor is x86_64
 ...
 ```
 
