@@ -19,7 +19,7 @@ keypoints:
 
 In this exercise we will CMake-ify an [example
 project](https://github.com/bast/calculator).  This exercise can be interesting
-for people who use Makefiles or Autotools.
+for those of you who use Makefiles or Autotools.
 
 On the way we will experiment with some CMake features.
 
@@ -63,7 +63,8 @@ $ ./bin/calculator.x
 
 ### Solution
 
-You can find a solution on the [solution branch](https://github.com/bast/calculator/tree/solution).
+You can find a solution to these tasks
+on the [solution branch](https://github.com/bast/calculator/tree/solution).
 
 ---
 
