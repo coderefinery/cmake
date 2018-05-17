@@ -248,55 +248,36 @@ $ make
 Save this to `test/CMakeLists.txt`:
 
 ```cmake
+# we will use the network to fetch Google Test sources
+# make it possible to disable unit tests when not on network
 option(ENABLE_UNIT_TESTS "Enable unit tests" ON)
 message(STATUS "Enable testing: ${ENABLE_UNIT_TESTS}")
 
+include(googletest.cmake)
+
 if(ENABLE_UNIT_TESTS)
-    include(ExternalProject)
+  fetch_googletest(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${CMAKE_CURRENT_BINARY_DIR}/googletest
+    )
 
-    ExternalProject_Add(
-        gtest
-        PREFIX
-          "${PROJECT_BINARY_DIR}/gtest"
-        GIT_REPOSITORY
-          https://github.com/google/googletest.git
-        GIT_TAG
-          release-1.8.0
-        CMAKE_ARGS
-          "-Dgtest_disable_pthreads=ON"
-        INSTALL_COMMAND
-          "" # prevent gtest from installing itself system-wide
-        BUILD_BYPRODUCTS
-          # this is here otherwise Ninja will complain
-          # that there is no rule to build libgtest.a
-          ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
-        )
+  add_executable(unit_tests "")
 
-    add_executable(
-        unit_tests
-        main.cpp
-        calculator.cpp
-        )
+  target_sources(
+    unit_tests
+    PRIVATE
+      calculator.cpp
+      main.cpp
+    )
 
-    target_include_directories(
-        unit_tests
-        PRIVATE
-        ${PROJECT_SOURCE_DIR}/src
-        ${PROJECT_BINARY_DIR}/gtest/src/gtest/googletest/include
-        )
+  target_link_libraries(
+    unit_tests
+    PRIVATE
+      calculator
+      gtest_main
+    )
 
-    target_link_libraries(
-        unit_tests
-        PRIVATE
-        calculator
-        ${PROJECT_BINARY_DIR}/gtest/src/gtest-build/googlemock/gtest/libgtest.a
-        )
-
-    # make sure that gtest is built before we build unit_tests
-    add_dependencies(unit_tests gtest)
-
-    enable_testing()
-    add_test(unit ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/unit_tests)
+  add_test(unit ${PROJECT_BINARY_DIR}/${CMAKE_INSTALL_BINDIR}/unit_tests)
 endif()
 ```
 
@@ -305,19 +286,81 @@ Also include this file in the main `CMakeLists.txt`:
 ```cmake
 # ... rest of CMakeLists.txt
 
-include(cmake/arch.cmake)
-
 # process src/CMakeLists.txt
 add_subdirectory(src)
 
 # enable testing
-enable_testing()  # we added this
+enable_testing()        # <- we added this
 
 # process test/CMakeLists.txt
-add_subdirectory(test)  # we added this
+add_subdirectory(test)  # <- we added this
 ```
 
-Now try:
+Then save this to `test/googletest.cmake`:
+
+```cmake
+# download and unpack googletest at configure time
+
+# the following code to fetch googletest
+# is inspired by and adapted after https://crascit.com/2015/07/25/cmake-gtest/
+
+function(fetch_googletest _download_module_path _download_root)
+  set(GOOGLETEST_DOWNLOAD_ROOT ${_download_root})
+  configure_file(
+    ${_download_module_path}/googletest-download.cmake
+    ${_download_root}/CMakeLists.txt
+    @ONLY
+    )
+  unset(GOOGLETEST_DOWNLOAD_ROOT)
+
+  execute_process(
+    COMMAND
+      "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
+    WORKING_DIRECTORY
+      ${_download_root}
+    )
+  execute_process(
+    COMMAND
+      "${CMAKE_COMMAND}" --build .
+    WORKING_DIRECTORY
+      ${_download_root}
+    )
+
+  # adds the targers: gtest, gtest_main, gmock, gmock_main
+  add_subdirectory(
+    ${_download_root}/googletest-src
+    ${_download_root}/googletest-build
+    )
+endfunction()
+```
+
+Then save this to `test/googletest-download.cmake`:
+
+```cmake
+# code copied from https://crascit.com/2015/07/25/cmake-gtest/
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
+
+project(googletest-download LANGUAGES NONE)
+
+include(ExternalProject)
+
+ExternalProject_Add(
+  googletest
+  SOURCE_DIR "@GOOGLETEST_DOWNLOAD_ROOT@/googletest-src"
+  BINARY_DIR "@GOOGLETEST_DOWNLOAD_ROOT@/googletest-build"
+  GIT_REPOSITORY
+    https://github.com/google/googletest.git
+  GIT_TAG
+    release-1.8.0
+  CONFIGURE_COMMAND ""
+  BUILD_COMMAND ""
+  INSTALL_COMMAND ""
+  TEST_COMMAND ""
+  )
+```
+
+Now try to configure and build the code and observe how it fetches
+Google Test. Then try:
 
 ```shell
 $ make
