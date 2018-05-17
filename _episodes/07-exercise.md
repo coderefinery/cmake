@@ -399,14 +399,14 @@ Create a file `cmake/version.h.in`:
 Then, create a file `cmake/version.cmake`:
 
 ```cmake
-macro(generate_version_h)
-    # generate file version.h based on version.h.in
-    configure_file(
-        cmake/version.h.in
-        generated/version.h
-        @ONLY
-        )
-endmacro()
+function(generate_version_h)
+  # generate file version.h based on version.h.in
+  configure_file(
+    cmake/version.h.in
+    generated/version.h
+    @ONLY
+    )
+endfunction()
 ```
 
 Also include and call the macro in the main `CMakeLists.txt`:
@@ -420,10 +420,10 @@ We also need to add
 
 ```cmake
 target_include_directories(
-    calculator.x
-    PRIVATE
+  calculator.x
+  PRIVATE
     ${PROJECT_BINARY_DIR}/generated
-    )
+  )
 ```
 
 to `src/CMakeLists.txt` (why?).
@@ -447,30 +447,30 @@ For this we enhance `cmake/version.h.in`:
 As well as `cmake/version.cmake`:
 
 ```cmake
-macro(generate_version_h)
-    # in case Git is not available, we default to "unknown"
-    set(GIT_HASH "unknown")
+function(generate_version_h)
+  # in case Git is not available, we default to "unknown"
+  set(GIT_HASH "unknown")
 
-    # find Git and if available set GIT_HASH variable
-    find_package(Git QUIET)
-    if(GIT_FOUND)
-        execute_process(
-            COMMAND ${GIT_EXECUTABLE} --no-pager show -s --pretty=format:%h -n 1
-            OUTPUT_VARIABLE GIT_HASH
-            OUTPUT_STRIP_TRAILING_WHITESPACE
-            WORKING_DIRECTORY
-                ${PROJECT_SOURCE_DIR}
-            ERROR_QUIET
-            )
-    endif()
+  # find Git and if available set GIT_HASH variable
+  find_package(Git QUIET)
+  if(GIT_FOUND)
+    execute_process(
+      COMMAND ${GIT_EXECUTABLE} --no-pager show -s --pretty=format:%h -n 1
+      OUTPUT_VARIABLE GIT_HASH
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      WORKING_DIRECTORY
+          ${PROJECT_SOURCE_DIR}
+      ERROR_QUIET
+      )
+  endif()
 
-    # generate file version.h based on version.h.in
-    configure_file(
-        cmake/version.h.in
-        generated/version.h
-        @ONLY
-        )
-endmacro()
+  # generate file version.h based on version.h.in
+  configure_file(
+    cmake/version.h.in
+    generated/version.h
+    @ONLY
+    )
+endfunction()
 ```
 
 Try to now print the configure-time Git hash in `src/main.cpp`.
