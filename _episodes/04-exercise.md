@@ -27,5 +27,9 @@ The executable is now built from two source files: tetris.c and main.c.
 You will need this in your `CMakeLists.txt`:
 
 ```cmake
-target_include_directories(tetris.x PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(
+  tetris.x
+  PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}
+  )
 ```
